@@ -138,6 +138,10 @@ function ensureAnimations() {
       0%   { opacity: 0; transform: scale(1.04); }
       100% { opacity: 1; transform: scale(1); }
     }
+    @keyframes arrowBounce {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(5px); }
+    }
     .fade-up   { animation: fadeUp  0.5s ease both; }
     .fade-up-2 { animation: fadeUp  0.5s ease 0.15s both; }
     .fade-up-3 { animation: fadeUp  0.5s ease 0.30s both; }
@@ -198,6 +202,7 @@ function Stickman() {
 function CinematicIntro({ onDone }) {
   const [phase, setPhase] = useState(0);
   const [ready, setReady] = useState(false);
+  const [leaving, setLeaving] = useState(false);
   const lines = ["NO EXCUSES.", "NO SHORTCUTS.", "UNBROKEN."];
 
   useEffect(() => {
@@ -210,12 +215,19 @@ function CinematicIntro({ onDone }) {
     return () => timers.forEach(clearTimeout);
   }, []);
 
+  const handleClick = () => {
+    setLeaving(true);
+    setTimeout(() => onDone(), 600);
+  };
+
   return (
     <div style={{
       position: "fixed", inset: 0,
       background: "#0D0F0A",
       display: "flex", alignItems: "center", justifyContent: "center",
       flexDirection: "column", gap: 16, zIndex: 999,
+      transform: leaving ? "translateY(-100vh)" : "translateY(0)",
+      transition: leaving ? "transform 0.6s cubic-bezier(0.7,0,0.3,1)" : "none",
     }}>
       <div style={{
         position: "absolute", top: 0, left: 0, right: 0, height: 3,
@@ -238,9 +250,8 @@ function CinematicIntro({ onDone }) {
         </div>
       ))}
 
-      {/* Pfeil-Button erscheint wenn Intro durch */}
       <button
-        onClick={onDone}
+        onClick={handleClick}
         style={{
           marginTop: 32,
           background: "transparent",
@@ -248,10 +259,11 @@ function CinematicIntro({ onDone }) {
           borderRadius: "50%",
           width: 48, height: 48,
           display: "flex", alignItems: "center", justifyContent: "center",
-          cursor: "pointer",
+          cursor: ready ? "pointer" : "default",
           opacity: ready ? 1 : 0,
           transform: ready ? "translateY(0)" : "translateY(10px)",
           transition: "opacity 0.5s ease, transform 0.5s ease",
+          animation: ready ? "arrowBounce 1s ease-in-out infinite" : "none",
         }}
       >
         <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
