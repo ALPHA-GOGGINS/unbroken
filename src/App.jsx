@@ -97,35 +97,52 @@ function ensureAnimations() {
     @keyframes blink {
       0%, 100% { opacity: 1; } 50% { opacity: 0; }
     }
-    /* Stickman running */
-    @keyframes run {
-      0%   { transform: translateX(0); }
-      100% { transform: translateX(4px); }
+    /* Stickman running - echte Laufbewegung */
+    @keyframes bodyBob {
+      0%,100% { transform: translateY(0px); }
+      50%     { transform: translateY(-3px); }
     }
-    @keyframes legF {
-      0%,100% { transform: rotate(30deg); }
-      50%     { transform: rotate(-30deg); }
+    @keyframes legFront {
+      0%   { transform: rotate(-35deg); }
+      50%  { transform: rotate(35deg); }
+      100% { transform: rotate(-35deg); }
     }
-    @keyframes legB {
-      0%,100% { transform: rotate(-30deg); }
-      50%     { transform: rotate(30deg); }
+    @keyframes legBack {
+      0%   { transform: rotate(35deg); }
+      50%  { transform: rotate(-35deg); }
+      100% { transform: rotate(35deg); }
     }
-    @keyframes armF {
-      0%,100% { transform: rotate(-25deg); }
-      50%     { transform: rotate(25deg); }
+    @keyframes armFront {
+      0%   { transform: rotate(30deg); }
+      50%  { transform: rotate(-30deg); }
+      100% { transform: rotate(30deg); }
     }
-    @keyframes armB {
-      0%,100% { transform: rotate(25deg); }
-      50%     { transform: rotate(-25deg); }
+    @keyframes armBack {
+      0%   { transform: rotate(-30deg); }
+      50%  { transform: rotate(30deg); }
+      100% { transform: rotate(-30deg); }
     }
-    @keyframes bob {
-      0%,100% { transform: translateY(0); }
-      50%     { transform: translateY(-2px); }
+    /* Cinematisches Intro */
+    @keyframes glitch {
+      0%,100% { clip-path: inset(0 0 100% 0); opacity: 0; }
+      10%     { clip-path: inset(30% 0 40% 0); opacity: 1; transform: translateX(-4px); }
+      20%     { clip-path: inset(0 0 0 0);     opacity: 1; transform: translateX(2px); }
+      30%     { clip-path: inset(60% 0 10% 0); opacity: 1; transform: translateX(0); }
+      40%,90% { clip-path: inset(0 0 0 0);     opacity: 1; transform: translateX(0); }
+    }
+    @keyframes scanline {
+      0%   { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    @keyframes introFade {
+      0%   { opacity: 0; transform: scale(1.04); }
+      100% { opacity: 1; transform: scale(1); }
     }
     .fade-up   { animation: fadeUp  0.5s ease both; }
     .fade-up-2 { animation: fadeUp  0.5s ease 0.15s both; }
     .fade-up-3 { animation: fadeUp  0.5s ease 0.30s both; }
     .fade-in   { animation: fadeIn  0.4s ease both; }
+    .survey-enter { animation: fadeUp 0.4s ease both; }
   `;
   document.head.appendChild(style);
 }
@@ -148,33 +165,80 @@ function useTypewriter(text, speed = 60) {
   return { displayed, done };
 }
 
-// ── Stickman SVG ─────────────────────────────────────────────────────────────
+// ── Stickman SVG – echte Laufbewegung ────────────────────────────────────────
 function Stickman() {
+  const stroke = "#C9A227";
+  const sw = 2;
   return (
-    <svg width="28" height="36" viewBox="0 0 28 36" style={{ display: "inline-block", verticalAlign: "middle", marginLeft: 8 }}>
-      {/* body bob */}
-      <g style={{ animation: "bob 0.35s ease-in-out infinite" }}>
-        {/* head */}
-        <circle cx="14" cy="5" r="4" fill="none" stroke="#C9A227" strokeWidth="1.8" />
-        {/* torso */}
-        <line x1="14" y1="9" x2="14" y2="22" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round" />
-        {/* left arm */}
-        <line x1="14" y1="13" x2="7" y2="19" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
-          style={{ transformOrigin: "14px 13px", animation: "armF 0.35s ease-in-out infinite" }} />
-        {/* right arm */}
-        <line x1="14" y1="13" x2="21" y2="19" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
-          style={{ transformOrigin: "14px 13px", animation: "armB 0.35s ease-in-out infinite" }} />
-        {/* left leg */}
-        <line x1="14" y1="22" x2="8" y2="32" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
-          style={{ transformOrigin: "14px 22px", animation: "legF 0.35s ease-in-out infinite" }} />
-        {/* right leg */}
-        <line x1="14" y1="22" x2="20" y2="32" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
-          style={{ transformOrigin: "14px 22px", animation: "legB 0.35s ease-in-out infinite" }} />
+    <svg width="32" height="42" viewBox="0 0 32 42" style={{ display: "inline-block", verticalAlign: "middle", marginLeft: 10 }}>
+      <g style={{ animation: "bodyBob 0.4s ease-in-out infinite" }}>
+        {/* Kopf */}
+        <circle cx="16" cy="6" r="5" fill="none" stroke={stroke} strokeWidth={sw} />
+        {/* Torso */}
+        <line x1="16" y1="11" x2="16" y2="26" stroke={stroke} strokeWidth={sw} strokeLinecap="round" />
+        {/* Linker Arm – schwingt nach vorne */}
+        <line x1="16" y1="15" x2="8" y2="22" stroke={stroke} strokeWidth={sw} strokeLinecap="round"
+          style={{ transformOrigin: "16px 15px", animation: "armFront 0.4s ease-in-out infinite" }} />
+        {/* Rechter Arm – schwingt nach hinten */}
+        <line x1="16" y1="15" x2="24" y2="22" stroke={stroke} strokeWidth={sw} strokeLinecap="round"
+          style={{ transformOrigin: "16px 15px", animation: "armBack 0.4s ease-in-out infinite" }} />
+        {/* Linkes Bein – schwingt nach vorne */}
+        <line x1="16" y1="26" x2="9" y2="38" stroke={stroke} strokeWidth={sw} strokeLinecap="round"
+          style={{ transformOrigin: "16px 26px", animation: "legFront 0.4s ease-in-out infinite" }} />
+        {/* Rechtes Bein – schwingt nach hinten */}
+        <line x1="16" y1="26" x2="23" y2="38" stroke={stroke} strokeWidth={sw} strokeLinecap="round"
+          style={{ transformOrigin: "16px 26px", animation: "legBack 0.4s ease-in-out infinite" }} />
       </g>
     </svg>
   );
 }
 
+
+// ── Cinematisches Intro ───────────────────────────────────────────────────────
+function CinematicIntro({ onDone }) {
+  const [phase, setPhase] = useState(0);
+  const lines = ["NO EXCUSES.", "NO SHORTCUTS.", "UNBROKEN."];
+
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setPhase(1), 400),
+      setTimeout(() => setPhase(2), 1200),
+      setTimeout(() => setPhase(3), 2000),
+      setTimeout(() => onDone(), 2800),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  return (
+    <div style={{
+      position: "fixed", inset: 0,
+      background: "#0D0F0A",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      flexDirection: "column", gap: 16, zIndex: 999,
+    }}>
+      <div style={{
+        position: "absolute", top: 0, left: 0, right: 0, height: 3,
+        background: "rgba(201,162,39,0.25)",
+        animation: "scanline 1.5s linear infinite",
+        pointerEvents: "none",
+      }} />
+      {lines.map((line, i) => (
+        <div key={i} style={{
+          fontFamily: "Oswald, sans-serif",
+          fontSize: i === 2 ? 42 : 22,
+          fontWeight: 700,
+          letterSpacing: "0.12em",
+          color: i === 2 ? "#C9A227" : "#EEEAE0",
+          opacity: phase > i ? 1 : 0,
+          transform: phase > i ? "translateY(0)" : "translateY(12px)",
+          transition: "opacity 0.5s ease, transform 0.5s ease",
+        }}>
+          {line}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 const UI = {
   de: {
@@ -353,6 +417,7 @@ export default function UnbrokenApp() {
 
   const [lang, setLang]   = useState("de");
   const [view, setView]   = useState("start");
+  const [showIntro, setShowIntro] = useState(true);
   const t = UI[lang];
 
   // survey state
@@ -415,6 +480,8 @@ export default function UnbrokenApp() {
   const hindernisData = computePercent(counts, "hindernis:");
 
   return (
+    <>
+      {showIntro && <CinematicIntro onDone={() => setShowIntro(false)} />}
     <div style={{ minHeight: "100vh", width: "100%", background: P.bg, color: P.text, fontFamily: "Inter, system-ui, sans-serif", display: "flex", justifyContent: "center", padding: "32px 16px", boxSizing: "border-box" }}>
       <div style={{ width: "100%", maxWidth: 520 }}>
 
@@ -508,6 +575,7 @@ export default function UnbrokenApp() {
 
         {/* ── Survey ── */}
         {view === "survey" && !done && (
+          <div className="survey-enter">
           <>
             <ProgressTicks step={step} total={6} />
             <Panel style={{ marginTop: 16 }}>
@@ -588,6 +656,7 @@ export default function UnbrokenApp() {
               </div>
             </Panel>
           </>
+          </div>
         )}
 
         {/* ── Thank-you / results ── */}
@@ -617,6 +686,7 @@ export default function UnbrokenApp() {
 
       </div>
     </div>
+    </>
   );
 }
 
