@@ -40,13 +40,15 @@ const P = {
 const SHEET_URL =
   "https://script.google.com/macros/s/AKfycbwjNHBJN0rwqb3mjLvfHEUp58B9vNO0-B7Y1GyFNIImbc8uVeu2PI0tuXT60PhbXJe75Q/exec";
 
-async function recordEvent(key) {
-  try {
-    await fetch(`${SHEET_URL}?key=${encodeURIComponent(key)}`, {
-      method: "GET",
-      mode: "no-cors",
-    });
-  } catch (_) {}
+function recordBatch(keys) {
+  return new Promise((resolve) => {
+    const cb = "unbrokenBatch" + Date.now();
+    const script = document.createElement("script");
+    window[cb] = (data) => { resolve(data || {}); delete window[cb]; script.remove(); };
+    script.onerror = () => { resolve({}); delete window[cb]; script.remove(); };
+    script.src = `${SHEET_URL}?data=${encodeURIComponent(JSON.stringify(keys))}&callback=${cb}`;
+    document.body.appendChild(script);
+  });
 }
 
 function fetchCountsJsonp() {
@@ -292,16 +294,21 @@ export default function UnbrokenApp() {
 
   const handleSubmit = async () => {
     setSubmitting(true);
+
+    const keys = [];
+
     if (q1 === "sonstiges") {
-      await recordEvent(`hindernis:${categorise(q1Other)}`);
+      keys.push(`hindernis:${categorise(q1Other)}`);
     } else {
-      await recordEvent(`hindernis:${Q1.find((o) => o.id === q1)?.sl}`);
+      keys.push(`hindernis:${Q1.find((o) => o.id === q1)?.sl}`);
     }
-    await recordEvent(`konsistenz:${Q2.find((o) => o.id === q2)?.sl}`);
-    await recordEvent(`methode:${Q3.find((o) => o.id === q3)?.sl}`);
-    await recordEvent(`hilfewunsch:${Q4.find((o) => o.id === q4)?.sl}`);
-    await recordEvent(q5None ? "hilft:Nichts bisher" : `hilft:${categorise(q5)}`);
-    await recordEvent(`alter:${Q6.find((o) => o.id === age)?.sl}`);
+    keys.push(`konsistenz:${Q2.find((o) => o.id === q2)?.sl}`);
+    keys.push(`methode:${Q3.find((o) => o.id === q3)?.sl}`);
+    keys.push(`hilfewunsch:${Q4.find((o) => o.id === q4)?.sl}`);
+    keys.push(q5None ? "hilft:Nichts bisher" : `hilft:${categorise(q5)}`);
+    keys.push(`alter:${Q6.find((o) => o.id === age)?.sl}`);
+
+    await recordBatch(keys);
     const updated = await fetchCountsJsonp();
     setCounts(updated);
     setSubmitting(false);
