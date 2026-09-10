@@ -80,7 +80,101 @@ function categorise(text) {
   return hit ? hit.cat : "Sonstiges (unsortiert)";
 }
 
-// ── Translations ──────────────────────────────────────────────────────────────
+function ensureAnimations() {
+  if (typeof document === "undefined") return;
+  if (document.getElementById("unbroken-anim")) return;
+  const style = document.createElement("style");
+  style.id = "unbroken-anim";
+  style.textContent = `
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0; }
+    }
+    /* Stickman running */
+    @keyframes run {
+      0%   { transform: translateX(0); }
+      100% { transform: translateX(4px); }
+    }
+    @keyframes legF {
+      0%,100% { transform: rotate(30deg); }
+      50%     { transform: rotate(-30deg); }
+    }
+    @keyframes legB {
+      0%,100% { transform: rotate(-30deg); }
+      50%     { transform: rotate(30deg); }
+    }
+    @keyframes armF {
+      0%,100% { transform: rotate(-25deg); }
+      50%     { transform: rotate(25deg); }
+    }
+    @keyframes armB {
+      0%,100% { transform: rotate(25deg); }
+      50%     { transform: rotate(-25deg); }
+    }
+    @keyframes bob {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-2px); }
+    }
+    .fade-up   { animation: fadeUp  0.5s ease both; }
+    .fade-up-2 { animation: fadeUp  0.5s ease 0.15s both; }
+    .fade-up-3 { animation: fadeUp  0.5s ease 0.30s both; }
+    .fade-in   { animation: fadeIn  0.4s ease both; }
+  `;
+  document.head.appendChild(style);
+}
+
+// ── Typewriter hook ───────────────────────────────────────────────────────────
+function useTypewriter(text, speed = 60) {
+  const [displayed, setDisplayed] = useState("");
+  const [done, setDone] = useState(false);
+  useEffect(() => {
+    setDisplayed("");
+    setDone(false);
+    let i = 0;
+    const id = setInterval(() => {
+      i++;
+      setDisplayed(text.slice(0, i));
+      if (i >= text.length) { clearInterval(id); setDone(true); }
+    }, speed);
+    return () => clearInterval(id);
+  }, [text, speed]);
+  return { displayed, done };
+}
+
+// ── Stickman SVG ─────────────────────────────────────────────────────────────
+function Stickman() {
+  return (
+    <svg width="28" height="36" viewBox="0 0 28 36" style={{ display: "inline-block", verticalAlign: "middle", marginLeft: 8 }}>
+      {/* body bob */}
+      <g style={{ animation: "bob 0.35s ease-in-out infinite" }}>
+        {/* head */}
+        <circle cx="14" cy="5" r="4" fill="none" stroke="#C9A227" strokeWidth="1.8" />
+        {/* torso */}
+        <line x1="14" y1="9" x2="14" y2="22" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round" />
+        {/* left arm */}
+        <line x1="14" y1="13" x2="7" y2="19" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
+          style={{ transformOrigin: "14px 13px", animation: "armF 0.35s ease-in-out infinite" }} />
+        {/* right arm */}
+        <line x1="14" y1="13" x2="21" y2="19" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
+          style={{ transformOrigin: "14px 13px", animation: "armB 0.35s ease-in-out infinite" }} />
+        {/* left leg */}
+        <line x1="14" y1="22" x2="8" y2="32" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
+          style={{ transformOrigin: "14px 22px", animation: "legF 0.35s ease-in-out infinite" }} />
+        {/* right leg */}
+        <line x1="14" y1="22" x2="20" y2="32" stroke="#C9A227" strokeWidth="1.8" strokeLinecap="round"
+          style={{ transformOrigin: "14px 22px", animation: "legB 0.35s ease-in-out infinite" }} />
+      </g>
+    </svg>
+  );
+}
+
 
 const UI = {
   de: {
@@ -253,6 +347,9 @@ function computePercent(counts, prefix) {
 export default function UnbrokenApp() {
   useEffect(ensureFonts, []);
   useEffect(ensurePageStyle, []);
+  useEffect(ensureAnimations, []);
+
+  const { displayed: typedTitle, done: typeDone } = useTypewriter("UNBROKEN", 80);
 
   const [lang, setLang]   = useState("de");
   const [view, setView]   = useState("start");
@@ -324,10 +421,17 @@ export default function UnbrokenApp() {
         {/* ── Header ── */}
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
           <div>
-            <div style={{ fontFamily: "Oswald, sans-serif", fontWeight: 700, fontSize: 30, letterSpacing: "0.04em", cursor: "pointer" }} onClick={() => setView("start")}>
-              UNBROKEN
+            <div
+              style={{ fontFamily: "Oswald, sans-serif", fontWeight: 700, fontSize: 30, letterSpacing: "0.04em", cursor: "pointer", display: "flex", alignItems: "center" }}
+              onClick={() => setView("start")}
+            >
+              <span>{typedTitle}</span>
+              {!typeDone && (
+                <span style={{ display: "inline-block", width: 2, height: 28, background: P.accent, marginLeft: 3, animation: "blink 0.8s step-end infinite" }} />
+              )}
+              {typeDone && <Stickman />}
             </div>
-            <div style={{ color: P.dim, fontSize: 13, marginTop: 2 }}>{t.tagline}</div>
+            <div style={{ color: P.dim, fontSize: 13, marginTop: 2 }} className="fade-in">{t.tagline}</div>
           </div>
           <LangSwitch lang={lang} setLang={setLang} />
         </div>
@@ -338,16 +442,17 @@ export default function UnbrokenApp() {
         {/* ── Start ── */}
         {view === "start" && (
           <div>
-            <div style={{ fontSize: 15, lineHeight: 1.6, color: P.text, marginBottom: 24 }}>{t.startSub}</div>
+            <div style={{ fontSize: 15, lineHeight: 1.6, color: P.text, marginBottom: 24 }} className="fade-up">{t.startSub}</div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              <ChoiceCard title={t.exploreBtn} sub={t.exploreSub} onClick={() => setView("about")} />
-              <ChoiceCard title={t.directBtn} sub={t.directSub} primary onClick={() => setView("survey")} />
+              <div className="fade-up-2"><ChoiceCard title={t.exploreBtn} sub={t.exploreSub} onClick={() => setView("about")} /></div>
+              <div className="fade-up-3"><ChoiceCard title={t.directBtn} sub={t.directSub} primary onClick={() => setView("survey")} /></div>
             </div>
           </div>
         )}
 
         {/* ── Concept / About ── */}
         {view === "about" && (
+          <div className="fade-in">
           <Panel>
             <Heading>{t.aboutTitle}</Heading>
             <Body>{t.aboutP1}</Body>
@@ -359,10 +464,12 @@ export default function UnbrokenApp() {
             </div>
             <button onClick={() => setView("survey")} style={btnPrimary}>{t.aboutCta}</button>
           </Panel>
+          </div>
         )}
 
         {/* ── Results ── */}
         {view === "results" && (
+          <div className="fade-in">
           <Panel>
             <Heading>{t.resultsTitle}</Heading>
             <Body dim>{t.resultsIntro}</Body>
@@ -377,10 +484,12 @@ export default function UnbrokenApp() {
               </>
             )}
           </Panel>
+          </div>
         )}
 
         {/* ── Manifesto ── */}
         {view === "manifesto" && (
+          <div className="fade-in">
           <Panel>
             <Heading>{t.manifestoTitle}</Heading>
             <div style={{ display: "flex", flexDirection: "column", gap: 16, marginTop: 8 }}>
@@ -394,6 +503,7 @@ export default function UnbrokenApp() {
               ))}
             </div>
           </Panel>
+          </div>
         )}
 
         {/* ── Survey ── */}
