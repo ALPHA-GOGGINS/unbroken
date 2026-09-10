@@ -197,6 +197,7 @@ function Stickman() {
 // ── Cinematisches Intro ───────────────────────────────────────────────────────
 function CinematicIntro({ onDone }) {
   const [phase, setPhase] = useState(0);
+  const [ready, setReady] = useState(false);
   const lines = ["NO EXCUSES.", "NO SHORTCUTS.", "UNBROKEN."];
 
   useEffect(() => {
@@ -204,7 +205,7 @@ function CinematicIntro({ onDone }) {
       setTimeout(() => setPhase(1), 400),
       setTimeout(() => setPhase(2), 1200),
       setTimeout(() => setPhase(3), 2000),
-      setTimeout(() => onDone(), 2800),
+      setTimeout(() => setReady(true), 2600),
     ];
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -236,6 +237,27 @@ function CinematicIntro({ onDone }) {
           {line}
         </div>
       ))}
+
+      {/* Pfeil-Button erscheint wenn Intro durch */}
+      <button
+        onClick={onDone}
+        style={{
+          marginTop: 32,
+          background: "transparent",
+          border: `1px solid #C9A227`,
+          borderRadius: "50%",
+          width: 48, height: 48,
+          display: "flex", alignItems: "center", justifyContent: "center",
+          cursor: "pointer",
+          opacity: ready ? 1 : 0,
+          transform: ready ? "translateY(0)" : "translateY(10px)",
+          transition: "opacity 0.5s ease, transform 0.5s ease",
+        }}
+      >
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M10 3 L10 17 M4 11 L10 17 L16 11" stroke="#C9A227" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
     </div>
   );
 }
@@ -496,7 +518,6 @@ export default function UnbrokenApp() {
               {!typeDone && (
                 <span style={{ display: "inline-block", width: 2, height: 28, background: P.accent, marginLeft: 3, animation: "blink 0.8s step-end infinite" }} />
               )}
-              {typeDone && <Stickman />}
             </div>
             <div style={{ color: P.dim, fontSize: 13, marginTop: 2 }} className="fade-in">{t.tagline}</div>
           </div>
@@ -754,11 +775,12 @@ function ChoiceCard({ title, sub, onClick, primary }) {
       onClick={onClick}
       style={{
         textAlign: "left",
-        padding: "18px 16px",
+        padding: "20px 16px",
         borderRadius: 6,
         border:     `1px solid ${primary ? P.accent : P.border}`,
         background:  primary ? "rgba(201,162,39,0.12)" : P.panel,
         cursor: "pointer",
+        width: "100%",
       }}
     >
       <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 16, color: P.text, marginBottom: 2 }}>{title}</div>
