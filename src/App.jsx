@@ -427,12 +427,46 @@ const Q6 = [
   { id: "ueber_30",sl: "Über 30",  de: "Über 30",  en: "Over 30" },
 ];
 
+// ── Kategorie-Übersetzungen DE → EN ──────────────────────────────────────────
+const CAT_TRANSLATIONS = {
+  "Motivation fehlt":                              "Lack of motivation",
+  "Zu wenig Zeit":                                 "Not enough time",
+  "Umfeld / Freunde bremsen mich":                 "Environment / friends hold me back",
+  "Rückschläge nach guten Phasen":                 "Setbacks after good phases",
+  "Impulskontrolle / schädliche Gewohnheiten":     "Impulse control / harmful habits",
+  "Ich weiß nicht, wo ich anfangen soll":          "I don't know where to start",
+  "Sonstiges (unsortiert)":                        "Other (unsorted)",
+  "Fast nie":                                      "Almost never",
+  "Gelegentlich":                                  "Occasionally",
+  "Meistens":                                      "Mostly",
+  "Fast immer":                                    "Almost always",
+  "Gar nicht":                                     "Not at all",
+  "Eigene Notizen-App":                            "My own notes app",
+  "Fitness-App":                                   "Fitness app",
+  "Freunde als Kontrolle":                         "Friends keeping me accountable",
+  "Hab schon einen Coach":                         "Already have a coach",
+  "Etwas anderes":                                 "Something else",
+  "Tägliche Erinnerung":                           "Daily reminder",
+  "Austausch mit Leuten, die dasselbe durchmachen":"Connecting with people going through the same",
+  "Persönliches Feedback zu meiner Situation":     "Personal feedback on my situation",
+  "Ein klarer Wochenplan":                         "A clear weekly plan",
+  "Nichts bisher":                                 "Nothing so far",
+  "Struktur / kein fester Plan":                   "No structure / fixed plan",
+  "Schlaf / Energielevel":                         "Sleep / energy levels",
+  "Selbstzweifel":                                 "Self-doubt",
+};
+
+function translateCat(name, lang) {
+  if (lang === "de") return name;
+  return CAT_TRANSLATIONS[name] || name;
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-function computePercent(counts, prefix) {
+function computePercent(counts, prefix, lang = "de") {
   const entries = Object.entries(counts)
     .filter(([k]) => k.startsWith(prefix))
-    .map(([k, v]) => ({ name: k.slice(prefix.length), value: v }));
+    .map(([k, v]) => ({ name: translateCat(k.slice(prefix.length), lang), value: v }));
   const total = entries.reduce((s, e) => s + e.value, 0);
   if (!total) return [];
   return entries
@@ -511,7 +545,7 @@ export default function UnbrokenApp() {
     setDone(true);
   };
 
-  const hindernisData = computePercent(counts, "hindernis:");
+  const hindernisData = computePercent(counts, "hindernis:", lang);
 
   return (
     <>
@@ -577,10 +611,10 @@ export default function UnbrokenApp() {
               <div style={{ color: P.dim, fontSize: 13, marginTop: 12 }}>…</div>
             ) : (
               <>
-                <ResultBlock title={t.catHindernis}    rows={computePercent(counts, "hindernis:")}   empty={t.resultsEmpty} />
-                <ResultBlock title={t.catKonsistenz}   rows={computePercent(counts, "konsistenz:")}  empty={t.resultsEmpty} />
-                <ResultBlock title={t.catMethode}      rows={computePercent(counts, "methode:")}     empty={t.resultsEmpty} />
-                <ResultBlock title={t.catHilfewunsch}  rows={computePercent(counts, "hilfewunsch:")} empty={t.resultsEmpty} />
+                <ResultBlock title={t.catHindernis}    rows={computePercent(counts, "hindernis:",   lang)} empty={t.resultsEmpty} />
+                <ResultBlock title={t.catKonsistenz}   rows={computePercent(counts, "konsistenz:",  lang)} empty={t.resultsEmpty} />
+                <ResultBlock title={t.catMethode}      rows={computePercent(counts, "methode:",     lang)} empty={t.resultsEmpty} />
+                <ResultBlock title={t.catHilfewunsch}  rows={computePercent(counts, "hilfewunsch:", lang)} empty={t.resultsEmpty} />
               </>
             )}
           </Panel>
