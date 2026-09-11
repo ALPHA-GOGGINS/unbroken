@@ -537,15 +537,20 @@ function AuthInline({ lang, onBack }) {
 }
 
 // ── Main App ──────────────────────────────────────────────────────────────────
-export default function UnbrokenApp({ session }) {
+export default function UnbrokenApp({ session, profile, justConfirmed }) {
   useEffect(ensureFonts, []);
   useEffect(ensurePageStyle, []);
   useEffect(ensureAnimations, []);
 
   const { displayed: typedTitle, done: typeDone } = useTypewriter("UNBROKEN", 80);
   const [lang, setLang] = useState("de");
-  const [view, setView] = useState("start");
-  const [showIntro, setShowIntro] = useState(true);
+  // Intro nur einmal pro Browser-Session zeigen
+  const [showIntro, setShowIntro] = useState(() => {
+    if (justConfirmed) return false;
+    if (typeof sessionStorage !== "undefined" && sessionStorage.getItem("introSeen")) return false;
+    return true;
+  });
+  const [view, setView] = useState(justConfirmed ? "myplan" : "start");
   const t = UI[lang];
 
   // Survey state
@@ -599,7 +604,10 @@ export default function UnbrokenApp({ session }) {
 
   return (
     <>
-      {showIntro && <CinematicIntro onDone={() => setShowIntro(false)} />}
+      {showIntro && <CinematicIntro onDone={() => {
+        setShowIntro(false);
+        if (typeof sessionStorage !== "undefined") sessionStorage.setItem("introSeen", "1");
+      }} />}
       <div style={{ minHeight: "100vh", width: "100%", background: P.bg, color: P.text, fontFamily: "Inter, system-ui, sans-serif", display: "flex", justifyContent: "center", padding: "32px 16px", boxSizing: "border-box" }}>
         <div style={{ width: "100%", maxWidth: 480 }}>
 
