@@ -639,7 +639,14 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
               </div>
               <div style={{ color: P.dim, fontSize: 13, marginTop: 2 }} className="fade-in">{t.tagline}</div>
             </div>
-            <LangSwitch lang={lang} setLang={setLang} />
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 8 }}>
+              <LangSwitch lang={lang} setLang={setLang} />
+              {session && (
+                <button onClick={() => supabase.auth.signOut()} style={{ background: "transparent", border: `1px solid ${P.border}`, color: P.dim, padding: "4px 10px", borderRadius: 4, fontSize: 11, fontFamily: "Inter, sans-serif", cursor: "pointer" }}>
+                  {lang === "de" ? "Abmelden" : "Sign out"}
+                </button>
+              )}
+            </div>
           </div>
 
           <NavBar view={view} setView={setView} t={t} hidden={view === "survey"} />
