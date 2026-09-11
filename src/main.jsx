@@ -1,7 +1,7 @@
 import { StrictMode, useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
 import { supabase } from "./supabase";
-import App from "./App";
+import UnbrokenApp from "./App";
 
 function Root() {
   const [session, setSession] = useState(undefined);
@@ -12,7 +12,6 @@ function Root() {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Kurzes Laden bis Auth-Status bekannt
   if (session === undefined) {
     return (
       <div style={{ minHeight: "100vh", background: "#20241C", display: "flex", alignItems: "center", justifyContent: "center" }}>
@@ -21,8 +20,7 @@ function Root() {
     );
   }
 
-  // Immer App rendern, session wird durchgegeben
-  return <App session={session} />;
+  return <UnbrokenApp session={session} />;
 }
 
 createRoot(document.getElementById("root")).render(
