@@ -1,5 +1,6 @@
 import { StrictMode, useState, useEffect } from "react";
 import { createRoot } from "react-dom/client";
+import { Analytics } from "@vercel/analytics/react";
 import { supabase } from "./supabase";
 import UnbrokenApp from "./App";
 import Onboarding from "./Onboarding";
@@ -53,5 +54,8 @@ function Root() {
 }
 
 createRoot(document.getElementById("root")).render(
-  <StrictMode><Root /></StrictMode>
+  <StrictMode>
+    <Root />
+    <Analytics />
+  </StrictMode>
 );
