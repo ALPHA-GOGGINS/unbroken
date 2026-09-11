@@ -455,7 +455,8 @@ function ResultBlock({ title, rows, empty }) {
   );
 }
 
-function NavBar({ view, setView, t }) {
+function NavBar({ view, setView, t, hidden }) {
+  if (hidden) return null;
   const items = [
     { id: "start", label: t.navStart },
     { id: "about", label: t.navConcept },
@@ -467,12 +468,12 @@ function NavBar({ view, setView, t }) {
     <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
       {items.map((item) => (
         <button key={item.id} onClick={() => setView(item.id)} style={{
-          background: view === item.id ? "rgba(201,162,39,0.15)" : "transparent",
-          color: item.id === "myplan" || view === item.id ? P.accent : P.dim,
+          background: item.id === "myplan" ? (view === item.id ? P.accent : "rgba(201,162,39,0.15)") : view === item.id ? "rgba(201,162,39,0.15)" : "transparent",
+          color: item.id === "myplan" ? (view === item.id ? "#1B1E15" : P.accent) : view === item.id ? P.accent : P.dim,
           border: `1px solid ${item.id === "myplan" || view === item.id ? P.accent : P.border}`,
           borderRadius: 4, padding: "6px 12px", fontSize: 12,
           fontFamily: "Inter, sans-serif", cursor: "pointer",
-          fontWeight: item.id === "myplan" ? 600 : 400,
+          fontWeight: item.id === "myplan" ? 700 : 400,
         }}>{item.label}</button>
       ))}
     </div>
@@ -588,11 +589,10 @@ export default function UnbrokenApp({ session }) {
     keys.push(`hilfewunsch:${Q4.find(o => o.id === q4)?.sl}`);
     keys.push(q5None ? "hilft:Nichts bisher" : `hilft:${categorise(q5)}`);
     keys.push(`alter:${Q6.find(o => o.id === age)?.sl}`);
-    await recordBatch(keys);
-    const updated = await fetchCountsJsonp();
-    setCounts(updated);
+    // Optimistisch: sofort done zeigen, Sheets im Hintergrund senden
     setSubmitting(false);
     setDone(true);
+    recordBatch(keys).then(() => fetchCountsJsonp()).then(setCounts);
   };
 
   const hindernisData = computePercent(counts, "hindernis:", lang);
@@ -615,7 +615,7 @@ export default function UnbrokenApp({ session }) {
             <LangSwitch lang={lang} setLang={setLang} />
           </div>
 
-          <NavBar view={view} setView={setView} t={t} />
+          <NavBar view={view} setView={setView} t={t} hidden={view === "survey"} />
 
           {/* Start */}
           {view === "start" && (
@@ -685,19 +685,43 @@ export default function UnbrokenApp({ session }) {
           {/* My Plan */}
           {view === "myplan" && (
             <div className="fade-in">
-              <Panel>
-                <Heading>{t.navMyPlan}</Heading>
-                {session ? (
-                  <Body dim>{lang === "de" ? "Dein persönlicher Plan wird hier erscheinen, sobald wir ihn für dich zusammengestellt haben." : "Your personal plan will appear here once we've put it together for you."}</Body>
-                ) : (
-                  <>
-                    <Body dim>{lang === "de" ? "Erstelle ein kostenloses Konto, um deinen persönlichen Trainingsplan zu erhalten." : "Create a free account to get your personal training plan."}</Body>
-                    <button onClick={() => setView("login")} style={{ ...btnPrimary, width: "100%", marginTop: 8 }}>
-                      {lang === "de" ? "Konto erstellen / Einloggen" : "Create account / Log in"}
-                    </button>
-                  </>
-                )}
-              </Panel>
+              {session ? (
+                <div style={{ textAlign: "center", padding: "40px 0" }}>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>
+                    COMING
+                  </div>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.text, marginBottom: 24 }}>
+                    SOON.
+                  </div>
+                  <div style={{ width: 60, height: 2, background: P.accent, margin: "0 auto 24px" }} />
+                  <div style={{ fontSize: 14, color: P.dim, maxWidth: 320, margin: "0 auto", lineHeight: 1.7 }}>
+                    {lang === "de"
+                      ? "Dein persönlicher Trainingsplan wird auf Basis der Umfrage-Ergebnisse entwickelt. Du wirst einer der ersten sein, der ihn erhält."
+                      : "Your personal training plan is being developed based on the survey results. You'll be one of the first to receive it."}
+                  </div>
+                  <div style={{ marginTop: 32, display: "inline-block", padding: "8px 20px", border: `1px solid ${P.border}`, borderRadius: 4, fontSize: 12, color: P.dim, fontFamily: "Oswald, sans-serif", letterSpacing: "0.08em" }}>
+                    EARLY ALPHA
+                  </div>
+                </div>
+              ) : (
+                <div style={{ textAlign: "center", padding: "40px 0" }}>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>
+                    COMING
+                  </div>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.text, marginBottom: 24 }}>
+                    SOON.
+                  </div>
+                  <div style={{ width: 60, height: 2, background: P.accent, margin: "0 auto 24px" }} />
+                  <div style={{ fontSize: 14, color: P.dim, maxWidth: 320, margin: "0 auto 24px", lineHeight: 1.7 }}>
+                    {lang === "de"
+                      ? "Erstelle jetzt ein kostenloses Konto und sei einer der ersten, der Zugriff auf seinen persönlichen Plan erhält."
+                      : "Create a free account now and be one of the first to get access to your personal plan."}
+                  </div>
+                  <button onClick={() => setView("login")} style={{ ...btnPrimary, padding: "14px 32px", fontSize: 15, letterSpacing: "0.04em" }}>
+                    {lang === "de" ? "KONTO ERSTELLEN" : "CREATE ACCOUNT"}
+                  </button>
+                </div>
+              )}
             </div>
           )}
 
