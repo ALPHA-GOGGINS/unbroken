@@ -720,40 +720,34 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
           {/* My Plan */}
           {view === "myplan" && (
             <div className="fade-in">
-              {session ? (
+              {session && profile?.is_admin ? (
+                <Panel>
+                  <Heading>ADMIN – Plan Preview</Heading>
+                  <Body dim>Du siehst das als Admin. Normale Nutzer sehen noch "Coming Soon".</Body>
+                  <div style={{ marginTop: 16, padding: "12px 14px", border: `1px solid ${P.accent}`, borderRadius: 4, fontSize: 13, color: P.accent, fontFamily: "Oswald, sans-serif", letterSpacing: "0.04em" }}>
+                    PLAN KOMMT HIER – BAUKASTEN WIRD GLEICH GEBAUT
+                  </div>
+                </Panel>
+              ) : session ? (
                 <div style={{ textAlign: "center", padding: "40px 0" }}>
-                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>
-                    COMING
-                  </div>
-                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.text, marginBottom: 24 }}>
-                    SOON.
-                  </div>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>COMING</div>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.text, marginBottom: 24 }}>SOON.</div>
                   <div style={{ width: 60, height: 2, background: P.accent, margin: "0 auto 24px" }} />
                   <div style={{ fontSize: 14, color: P.dim, maxWidth: 320, margin: "0 auto", lineHeight: 1.7 }}>
-                    {lang === "de"
-                      ? "Dein persönlicher Trainingsplan wird auf Basis der Umfrage-Ergebnisse entwickelt. Du wirst einer der ersten sein, der ihn erhält."
-                      : "Your personal training plan is being developed based on the survey results. You'll be one of the first to receive it."}
+                    {lang === "de" ? "Dein persönlicher Trainingsplan wird auf Basis der Umfrage-Ergebnisse entwickelt. Du wirst einer der ersten sein, der ihn erhält." : "Your personal training plan is being developed based on the survey results. You'll be one of the first to receive it."}
                   </div>
-                  <div style={{ marginTop: 32, display: "inline-block", padding: "8px 20px", border: `1px solid ${P.border}`, borderRadius: 4, fontSize: 12, color: P.dim, fontFamily: "Oswald, sans-serif", letterSpacing: "0.08em" }}>
-                    EARLY ALPHA
-                  </div>
+                  <div style={{ marginTop: 32, display: "inline-block", padding: "8px 20px", border: `1px solid ${P.border}`, borderRadius: 4, fontSize: 12, color: P.dim, fontFamily: "Oswald, sans-serif", letterSpacing: "0.08em" }}>EARLY ALPHA</div>
                 </div>
               ) : (
                 <div style={{ textAlign: "center", padding: "40px 0" }}>
-                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>
-                    COMING
-                  </div>
-                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.text, marginBottom: 24 }}>
-                    SOON.
-                  </div>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>COMING</div>
+                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.text, marginBottom: 24 }}>SOON.</div>
                   <div style={{ width: 60, height: 2, background: P.accent, margin: "0 auto 24px" }} />
                   <div style={{ fontSize: 14, color: P.dim, maxWidth: 320, margin: "0 auto 24px", lineHeight: 1.7 }}>
-                    {lang === "de"
-                      ? "Erstelle jetzt ein kostenloses Konto und sei einer der ersten, der Zugriff auf seinen persönlichen Plan erhält."
-                      : "Create a free account now and be one of the first to get access to your personal plan."}
+                    {lang === "de" ? "Erstelle jetzt ein kostenloses Konto und sei einer der ersten, der Zugriff auf seinen persönlichen Plan erhält." : "Create a free account now and be one of the first to get access to your personal plan."}
                   </div>
                   <button onClick={() => setView("login")} style={{ ...btnPrimary, padding: "14px 32px", fontSize: 15, letterSpacing: "0.04em" }}>
-                    {lang === "de" ? "KONTO ERSTELLEN" : "CREATE ACCOUNT"}
+                    {lang === "de" ? "KONTO ERSTELLEN / ANMELDEN" : "CREATE ACCOUNT / SIGN IN"}
                   </button>
                 </div>
               )}
