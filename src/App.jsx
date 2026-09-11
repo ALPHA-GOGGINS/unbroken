@@ -237,7 +237,7 @@ function categorise(text) {
 // ── Translations ──────────────────────────────────────────────────────────────
 const UI = {
   de: {
-    tagline: "Anonyme Kurzumfrage · Early Alpha",
+    tagline: "Early Alpha · Disziplin. Kein Puder.",
     navStart: "Start", navConcept: "Konzept", navResults: "Ergebnisse",
     navManifesto: "Manifest", navMyPlan: "Mein Plan",
     startSub: "Gebaut für Leute, die es leid sind, auf Motivation zu warten.",
@@ -279,7 +279,7 @@ const UI = {
     q6: "Wie alt bist du ungefähr?",
   },
   en: {
-    tagline: "Anonymous short survey · Early Alpha",
+    tagline: "Early Alpha · Discipline. No Sugarcoat.",
     navStart: "Start", navConcept: "Concept", navResults: "Results",
     navManifesto: "Manifesto", navMyPlan: "My Plan",
     startSub: "Built for people done waiting on motivation.",
@@ -553,7 +553,14 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
   const [view, setView] = useState(justConfirmed ? "myplan" : "start");
   const t = UI[lang];
 
-  // Survey state
+  const [surveyDone, setSurveyDone] = useState(false);
+
+  // Prüfe ob dieser Account die Umfrage schon gemacht hat
+  useEffect(() => {
+    if (!session) return;
+    supabase.from("profiles").select("survey_done").eq("id", session.user.id).single()
+      .then(({ data }) => { if (data?.survey_done) setSurveyDone(true); });
+  }, [session]);
   const [step, setStep] = useState(0);
   const [q1, setQ1] = useState(null);
   const [q1Other, setQ1Other] = useState("");
@@ -597,6 +604,9 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
     // Optimistisch: sofort done zeigen, Sheets im Hintergrund senden
     setSubmitting(false);
     setDone(true);
+    if (session) {
+      supabase.from("profiles").update({ survey_done: true }).eq("id", session.user.id);
+    }
     recordBatch(keys).then(() => fetchCountsJsonp()).then(setCounts);
   };
 
@@ -631,7 +641,12 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
               <div style={{ fontSize: 15, lineHeight: 1.6, color: P.text, marginBottom: 24 }} className="fade-up">{t.startSub}</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
                 <div className="fade-up-2"><ChoiceCard title={t.exploreBtn} sub={t.exploreSub} onClick={() => setView("about")} /></div>
-                <div className="fade-up-3"><ChoiceCard title={t.directBtn} sub={t.directSub} primary onClick={() => setView("survey")} /></div>
+                {!session && !surveyDone && (
+                  <div className="fade-up-3"><ChoiceCard title={t.directBtn} sub={t.directSub} primary onClick={() => setView("survey")} /></div>
+                )}
+                {session && (
+                  <div className="fade-up-3"><ChoiceCard title={t.navMyPlan} sub={lang === "de" ? "Dein persönlicher Bereich" : "Your personal area"} primary onClick={() => setView("myplan")} /></div>
+                )}
               </div>
             </div>
           )}
@@ -644,10 +659,6 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
                 <Body>{t.aboutP1}</Body>
                 <Body>{t.aboutP2}</Body>
                 <Body dim>{t.aboutP3}</Body>
-                <div style={{ borderTop: `1px solid ${P.border}`, paddingTop: 16, marginBottom: 20, marginTop: 8 }}>
-                  <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 15, marginBottom: 6 }}>{t.aboutPersonTitle}</div>
-                  <p style={{ fontSize: 13, lineHeight: 1.6, color: P.dim, margin: 0 }}>{t.aboutPersonBody}</p>
-                </div>
                 <button onClick={() => setView("survey")} style={{ ...btnPrimary, width: "100%" }}>{t.aboutCta}</button>
               </Panel>
             </div>
