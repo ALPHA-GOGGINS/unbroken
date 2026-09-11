@@ -524,7 +524,16 @@ function AuthInline({ lang, onBack }) {
         <input style={inputStyle} type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="Email" />
         <input style={inputStyle} type="password" value={password} onChange={e => setPassword(e.target.value)} placeholder="Password" />
         {error && <div style={{ fontSize: 13, color: "#E05252", padding: "8px 10px", background: "rgba(224,82,82,0.1)", borderRadius: 4 }}>{error}</div>}
-        {message && <div style={{ fontSize: 13, color: P.accent, padding: "8px 10px", background: "rgba(201,162,39,0.1)", borderRadius: 4 }}>{message}</div>}
+        {message && (
+          <div style={{ fontSize: 13, color: P.accent, padding: "12px 14px", background: "rgba(201,162,39,0.1)", borderRadius: 4, lineHeight: 1.6 }}>
+            {message}
+            <div style={{ marginTop: 8, color: P.dim, fontSize: 12 }}>
+              {lang === "de"
+                ? "Die Mail kommt von noreply@mail.app.supabase.io – schau auch im Spam-Ordner nach."
+                : "The email comes from noreply@mail.app.supabase.io — check your spam folder too."}
+            </div>
+          </div>
+        )}
         <button onClick={handle} disabled={loading} style={{ ...btnPrimary, width: "100%", opacity: loading ? 0.6 : 1 }}>
           {loading ? "..." : mode === "login" ? (lang === "de" ? "Einloggen" : "Log in") : (lang === "de" ? "Konto erstellen" : "Create account")}
         </button>
