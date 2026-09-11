@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { supabase } from "./supabase";
 
 // ── Fonts & page style ────────────────────────────────────────────────────────
 
@@ -281,7 +282,7 @@ const UI = {
     navConcept:     "Konzept",
     navResults:     "Ergebnisse",
     navManifesto:   "Manifest",
-    startSub:       "Gebaut für Leute, die es leid sind, auf Motivation zu warten.",
+    navMyPlan:      "Mein Plan",
     exploreBtn:     "Explorer-Modus",
     exploreSub:     "Erst verstehen, worum es geht",
     directBtn:      "Direkt zur Umfrage",
@@ -330,7 +331,7 @@ const UI = {
     navConcept:     "Concept",
     navResults:     "Results",
     navManifesto:   "Manifesto",
-    startSub:       "Built for people done waiting on motivation.",
+    navMyPlan:      "My Plan",
     exploreBtn:     "Explorer mode",
     exploreSub:     "Understand what this is first",
     directBtn:      "Go straight to the survey",
@@ -476,7 +477,7 @@ function computePercent(counts, prefix, lang = "de") {
 
 // ── App ───────────────────────────────────────────────────────────────────────
 
-export default function UnbrokenApp() {
+export default function UnbrokenApp({ session }) {
   useEffect(ensureFonts, []);
   useEffect(ensurePageStyle, []);
   useEffect(ensureAnimations, []);
@@ -571,7 +572,7 @@ export default function UnbrokenApp() {
         </div>
 
         {/* ── Nav ── */}
-        <NavBar view={view} setView={setView} t={t} />
+        <NavBar view={view} setView={setView} t={t} session={session} />
 
         {/* ── Start ── */}
         {view === "start" && (
@@ -731,7 +732,13 @@ export default function UnbrokenApp() {
           <Panel>
             <Heading>{t.thanksTitle}</Heading>
             <Body dim>{t.thanksBody}</Body>
-            <div style={{ fontSize: 13, color: P.dim, marginTop: 16, marginBottom: 10 }}>{t.thanksResults}</div>
+            <button
+              onClick={() => setView("myplan")}
+              style={{ ...btnPrimary, marginTop: 16, marginBottom: 16 }}
+            >
+              {lang === "de" ? "→ Mein Plan ansehen" : "→ See my plan"}
+            </button>
+            <div style={{ fontSize: 13, color: P.dim, marginTop: 8, marginBottom: 10 }}>{t.thanksResults}</div>
             {hindernisData.length === 0 ? (
               <div style={{ fontSize: 12, color: P.dim }}>{t.resultsEmpty}</div>
             ) : (
@@ -751,6 +758,32 @@ export default function UnbrokenApp() {
           </Panel>
         )}
 
+        {/* ── My Plan ── */}
+        {view === "myplan" && (
+          <div className="fade-in">
+          <Panel>
+            <Heading>{lang === "de" ? "Mein Plan" : "My Plan"}</Heading>
+            {session ? (
+              <Body dim>{lang === "de" ? "Dein persönlicher Plan wird hier erscheinen, sobald wir ihn für dich zusammengestellt haben." : "Your personal plan will appear here once we've put it together for you."}</Body>
+            ) : (
+              <>
+                <Body dim>{lang === "de" ? "Erstelle ein kostenloses Konto, um deinen persönlichen Trainingsplan zu erhalten – zugeschnitten auf deine Ziele und dein Level." : "Create a free account to get your personal training plan — tailored to your goals and level."}</Body>
+                <button onClick={() => setView("login")} style={{ ...btnPrimary, marginTop: 16 }}>
+                  {lang === "de" ? "Konto erstellen / Einloggen" : "Create account / Log in"}
+                </button>
+              </>
+            )}
+          </Panel>
+          </div>
+        )}
+
+        {/* ── Login ── */}
+        {view === "login" && (
+          <div className="fade-in">
+            <AuthInline lang={lang} onBack={() => setView("myplan")} />
+          </div>
+        )}
+
       </div>
     </div>
     </>
@@ -759,12 +792,13 @@ export default function UnbrokenApp() {
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
-function NavBar({ view, setView, t }) {
+function NavBar({ view, setView, t, session }) {
   const items = [
     { id: "start",     label: t.navStart },
     { id: "about",     label: t.navConcept },
     { id: "results",   label: t.navResults },
     { id: "manifesto", label: t.navManifesto },
+    { id: "myplan",    label: t.navMyPlan },
   ];
   return (
     <div style={{ display: "flex", gap: 6, marginBottom: 20, flexWrap: "wrap" }}>
@@ -774,13 +808,14 @@ function NavBar({ view, setView, t }) {
           onClick={() => setView(item.id)}
           style={{
             background: view === item.id ? "rgba(201,162,39,0.15)" : "transparent",
-            color:      view === item.id ? P.accent : P.dim,
-            border:     `1px solid ${view === item.id ? P.accent : P.border}`,
+            color:      item.id === "myplan" ? P.accent : view === item.id ? P.accent : P.dim,
+            border:     `1px solid ${view === item.id || item.id === "myplan" ? P.accent : P.border}`,
             borderRadius: 4,
             padding: "6px 12px",
             fontSize: 12,
             fontFamily: "Inter, sans-serif",
             cursor: "pointer",
+            fontWeight: item.id === "myplan" ? 600 : 400,
           }}
         >
           {item.label}
@@ -790,7 +825,66 @@ function NavBar({ view, setView, t }) {
   );
 }
 
-function LangSwitch({ lang, setLang }) {
+function AuthInline({ lang, onBack }) {
+  const [mode, setMode] = useState("login");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
+
+  const handle = async () => {
+    setLoading(true);
+    setError(null);
+    setMessage(null);
+    if (mode === "login") {
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) setError(error.message);
+    } else {
+      const { error } = await supabase.auth.signUp({ email, password });
+      if (error) setError(error.message);
+      else setMessage(lang === "de" ? "Bestätigungs-E-Mail gesendet – bitte prüfe dein Postfach." : "Confirmation email sent — please check your inbox.");
+    }
+    setLoading(false);
+  };
+
+  return (
+    <Panel>
+      <button onClick={onBack} style={{ ...btnNav, marginBottom: 16, fontSize: 12 }}>← {lang === "de" ? "Zurück" : "Back"}</button>
+      <Heading>{mode === "login" ? (lang === "de" ? "Einloggen" : "Log in") : (lang === "de" ? "Konto erstellen" : "Create account")}</Heading>
+      <div style={{ display: "flex", flexDirection: "column", gap: 12, marginTop: 16 }}>
+        <input
+          style={inputStyle}
+          type="email"
+          value={email}
+          onChange={e => setEmail(e.target.value)}
+          placeholder="Email"
+        />
+        <input
+          style={inputStyle}
+          type="password"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+          placeholder="Password"
+        />
+        {error && <div style={{ fontSize: 13, color: "#E05252", padding: "8px 10px", background: "rgba(224,82,82,0.1)", borderRadius: 4 }}>{error}</div>}
+        {message && <div style={{ fontSize: 13, color: P.accent, padding: "8px 10px", background: "rgba(201,162,39,0.1)", borderRadius: 4 }}>{message}</div>}
+        <button onClick={handle} disabled={loading} style={{ ...btnPrimary, opacity: loading ? 0.6 : 1 }}>
+          {loading ? "..." : mode === "login" ? (lang === "de" ? "Einloggen" : "Log in") : (lang === "de" ? "Konto erstellen" : "Create account")}
+        </button>
+        <button onClick={() => setMode(mode === "login" ? "register" : "login")} style={btnNav}>
+          {mode === "login" ? (lang === "de" ? "Noch kein Konto? Registrieren" : "No account? Register") : (lang === "de" ? "Bereits ein Konto? Einloggen" : "Already have an account? Log in")}
+        </button>
+      </div>
+    </Panel>
+  );
+}
+
+const inputStyle = {
+  width: "100%", background: "#1B1E15", border: `1px solid ${P.border}`,
+  borderRadius: 4, padding: "10px 12px", color: P.text,
+  fontFamily: "Inter, sans-serif", fontSize: 14, boxSizing: "border-box",
+};
   return (
     <div style={{ display: "flex", gap: 4 }}>
       {["de", "en"].map((l) => (
