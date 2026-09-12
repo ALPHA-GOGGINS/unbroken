@@ -2,6 +2,26 @@ import { useState, useEffect } from "react";
 import { supabase } from "./supabase";
 import CalendarView from "./CalendarView";
 
+function getLocalDate() {
+  const now = new Date();
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
+function getWeekStart() {
+  const now = new Date();
+  const local = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const day = local.getDay();
+  const diff = day === 0 ? -6 : 1 - day;
+  local.setDate(local.getDate() + diff);
+  const y = local.getFullYear();
+  const m = String(local.getMonth() + 1).padStart(2, "0");
+  const d = String(local.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
+}
+
 const P = {
   bg: "#20241C", panel: "#2A2F22", border: "#3D4530",
   text: "#EEEAE0", dim: "#A9AD9C", accent: "#C9A227", bar: "#8FA06B",
@@ -9,44 +29,44 @@ const P = {
 
 // ── Übungspool (v2) ───────────────────────────────────────────────────────────
 const EXERCISES = {
-  P1:  { name: "Bankdrücken (Langhantel)",         sets: 3, reps: "8-10",     category: "push" },
-  P2:  { name: "Schrägbankdrücken (Kurzhantel)",   sets: 3, reps: "8-10",     category: "push" },
-  P3:  { name: "Bankdrücken (Kurzhantel, flach)",  sets: 3, reps: "10-12",    category: "push" },
-  P4:  { name: "Butterfly / Chest Press Maschine", sets: 3, reps: "10-12",    category: "push" },
-  P5:  { name: "Schulterdrücken (Kurzhantel)",     sets: 3, reps: "10",       category: "push" },
-  P6:  { name: "Schulterdrücken Maschine",         sets: 3, reps: "10-12",    category: "push" },
-  P7:  { name: "Seitheben",                        sets: 3, reps: "12-15",    category: "push" },
-  P8:  { name: "Dips (assistiert)",                sets: 3, reps: "8-10",     category: "push" },
-  P9:  { name: "Trizepsdrücken Kabel",             sets: 3, reps: "12-15",    category: "push" },
-  P10: { name: "French Press (Kurzhantel)",        sets: 3, reps: "10-12",    category: "push" },
-  L1:  { name: "Latzug (weiter Griff)",            sets: 3, reps: "10-12",    category: "pull" },
-  L2:  { name: "Latzug (enger Griff)",             sets: 3, reps: "10-12",    category: "pull" },
-  L3:  { name: "Rudern (Kabel, sitzend)",          sets: 3, reps: "10-12",    category: "pull" },
-  L4:  { name: "Rudern (Langhantel, vorgebeugt)",  sets: 3, reps: "8-10",     category: "pull" },
-  L5:  { name: "Rudern (Maschine)",                sets: 3, reps: "10-12",    category: "pull" },
-  L6:  { name: "Klimmzüge (assistiert)",           sets: 3, reps: "6-8",      category: "pull" },
-  L7:  { name: "Face Pulls",                       sets: 3, reps: "15",       category: "pull" },
-  L8:  { name: "Bizeps-Curls (Langhantel/EZ-Bar)", sets: 3, reps: "10-12",    category: "pull" },
-  L9:  { name: "Bizeps-Curls (Kurzhantel)",        sets: 3, reps: "10-12",    category: "pull" },
-  L10: { name: "Hammer-Curls",                     sets: 3, reps: "12",       category: "pull" },
-  B1:  { name: "Kniebeuge (Langhantel)",           sets: 3, reps: "8-10",     category: "legs" },
-  B2:  { name: "Kniebeuge (Smith Machine)",        sets: 3, reps: "10-12",    category: "legs" },
-  B3:  { name: "Beinpresse",                       sets: 3, reps: "10-12",    category: "legs" },
-  B4:  { name: "Ausfallschritte (Kurzhantel)",     sets: 3, reps: "10/Seite", category: "legs" },
-  B5:  { name: "Beinstrecker",                     sets: 3, reps: "12-15",    category: "legs" },
-  B6:  { name: "Beinbeuger",                       sets: 3, reps: "12-15",    category: "legs" },
-  B7:  { name: "Rumänisches Kreuzheben",           sets: 3, reps: "8-10",     category: "legs" },
-  B8:  { name: "Hüftschub (Hip Thrust)",           sets: 3, reps: "10-12",    category: "legs" },
-  B9:  { name: "Wadenheben (stehend)",             sets: 3, reps: "15-20",    category: "legs" },
-  B10: { name: "Wadenheben (sitzend)",             sets: 3, reps: "15-20",    category: "legs" },
-  R1:  { name: "Plank",                            sets: 3, reps: "30-45s",   category: "core" },
-  R2:  { name: "Cable Crunch",                     sets: 3, reps: "15",       category: "core" },
-  R3:  { name: "Hanging Knee Raise",               sets: 3, reps: "10-12",    category: "core" },
-  R4:  { name: "Russian Twist",                    sets: 3, reps: "15/Seite", category: "core" },
-  R5:  { name: "Ab Wheel",                         sets: 3, reps: "8-10",     category: "core" },
-  K1:  { name: "Zone-2-Cardio (Rad/Laufband)",     sets: 1, reps: "10-15 Min",category: "cardio" },
-  K2:  { name: "Intervall-Sprints (Rad)",          sets: 8, reps: "30 Sek",   category: "cardio" },
-  K3:  { name: "Rudergerät (locker)",              sets: 1, reps: "10 Min",   category: "cardio" },
+  P1:  { de: "Bankdrücken (Langhantel)",         en: "Barbell Bench Press",          sets: 3, reps: "8-10",     category: "push" },
+  P2:  { de: "Schrägbankdrücken (Kurzhantel)",   en: "Incline Dumbbell Press",       sets: 3, reps: "8-10",     category: "push" },
+  P3:  { de: "Bankdrücken (Kurzhantel, flach)",  en: "Flat Dumbbell Press",          sets: 3, reps: "10-12",    category: "push" },
+  P4:  { de: "Butterfly / Chest Press Maschine", en: "Chest Fly / Machine Press",    sets: 3, reps: "10-12",    category: "push" },
+  P5:  { de: "Schulterdrücken (Kurzhantel)",     en: "Dumbbell Shoulder Press",      sets: 3, reps: "10",       category: "push" },
+  P6:  { de: "Schulterdrücken Maschine",         en: "Machine Shoulder Press",       sets: 3, reps: "10-12",    category: "push" },
+  P7:  { de: "Seitheben",                        en: "Lateral Raises",               sets: 3, reps: "12-15",    category: "push" },
+  P8:  { de: "Dips (assistiert)",                en: "Assisted Dips",                sets: 3, reps: "8-10",     category: "push" },
+  P9:  { de: "Trizepsdrücken Kabel",             en: "Cable Tricep Pushdown",        sets: 3, reps: "12-15",    category: "push" },
+  P10: { de: "French Press (Kurzhantel)",        en: "Dumbbell French Press",        sets: 3, reps: "10-12",    category: "push" },
+  L1:  { de: "Latzug (weiter Griff)",            en: "Lat Pulldown (Wide Grip)",     sets: 3, reps: "10-12",    category: "pull" },
+  L2:  { de: "Latzug (enger Griff)",             en: "Lat Pulldown (Close Grip)",    sets: 3, reps: "10-12",    category: "pull" },
+  L3:  { de: "Rudern (Kabel, sitzend)",          en: "Seated Cable Row",             sets: 3, reps: "10-12",    category: "pull" },
+  L4:  { de: "Rudern (Langhantel, vorgebeugt)",  en: "Barbell Row",                  sets: 3, reps: "8-10",     category: "pull" },
+  L5:  { de: "Rudern (Maschine)",                en: "Machine Row",                  sets: 3, reps: "10-12",    category: "pull" },
+  L6:  { de: "Klimmzüge (assistiert)",           en: "Assisted Pull-Ups",            sets: 3, reps: "6-8",      category: "pull" },
+  L7:  { de: "Face Pulls",                       en: "Face Pulls",                   sets: 3, reps: "15",       category: "pull" },
+  L8:  { de: "Bizeps-Curls (Langhantel/EZ-Bar)", en: "Barbell / EZ-Bar Curl",        sets: 3, reps: "10-12",    category: "pull" },
+  L9:  { de: "Bizeps-Curls (Kurzhantel)",        en: "Dumbbell Curl",                sets: 3, reps: "10-12",    category: "pull" },
+  L10: { de: "Hammer-Curls",                     en: "Hammer Curls",                 sets: 3, reps: "12",       category: "pull" },
+  B1:  { de: "Kniebeuge (Langhantel)",           en: "Barbell Squat",                sets: 3, reps: "8-10",     category: "legs" },
+  B2:  { de: "Kniebeuge (Smith Machine)",        en: "Smith Machine Squat",          sets: 3, reps: "10-12",    category: "legs" },
+  B3:  { de: "Beinpresse",                       en: "Leg Press",                    sets: 3, reps: "10-12",    category: "legs" },
+  B4:  { de: "Ausfallschritte (Kurzhantel)",     en: "Dumbbell Lunges",              sets: 3, reps: "10/side",  category: "legs" },
+  B5:  { de: "Beinstrecker",                     en: "Leg Extension",                sets: 3, reps: "12-15",    category: "legs" },
+  B6:  { de: "Beinbeuger",                       en: "Leg Curl",                     sets: 3, reps: "12-15",    category: "legs" },
+  B7:  { de: "Rumänisches Kreuzheben",           en: "Romanian Deadlift",            sets: 3, reps: "8-10",     category: "legs" },
+  B8:  { de: "Hüftschub (Hip Thrust)",           en: "Hip Thrust",                   sets: 3, reps: "10-12",    category: "legs" },
+  B9:  { de: "Wadenheben (stehend)",             en: "Standing Calf Raise",          sets: 3, reps: "15-20",    category: "legs" },
+  B10: { de: "Wadenheben (sitzend)",             en: "Seated Calf Raise",            sets: 3, reps: "15-20",    category: "legs" },
+  R1:  { de: "Plank",                            en: "Plank",                        sets: 3, reps: "30-45s",   category: "core" },
+  R2:  { de: "Cable Crunch",                     en: "Cable Crunch",                 sets: 3, reps: "15",       category: "core" },
+  R3:  { de: "Hanging Knee Raise",               en: "Hanging Knee Raise",           sets: 3, reps: "10-12",    category: "core" },
+  R4:  { de: "Russian Twist",                    en: "Russian Twist",                sets: 3, reps: "15/side",  category: "core" },
+  R5:  { de: "Ab Wheel",                         en: "Ab Wheel",                     sets: 3, reps: "8-10",     category: "core" },
+  K1:  { de: "Zone-2-Cardio (Rad/Laufband)",     en: "Zone 2 Cardio (Bike/Treadmill)",sets: 1, reps: "10-15 Min",category: "cardio" },
+  K2:  { de: "Intervall-Sprints (Rad)",          en: "Interval Sprints (Bike)",      sets: 8, reps: "30 sec",   category: "cardio" },
+  K3:  { de: "Rudergerät (locker)",              en: "Rowing Machine (easy)",        sets: 1, reps: "10 Min",   category: "cardio" },
 };
 
 // ── Split-Logik (v2) ──────────────────────────────────────────────────────────
@@ -126,10 +146,11 @@ function getWeekStart() {
 }
 
 // ── ExerciseCard ──────────────────────────────────────────────────────────────
-function ExerciseCard({ id, checked, onToggle, toneKey }) {
+function ExerciseCard({ id, checked, onToggle, toneKey, lang }) {
   const ex = EXERCISES[id];
   if (!ex) return null;
   const cat = CAT_STYLE[ex.category] || CAT_STYLE.core;
+  const name = lang === "en" ? ex.en : ex.de;
 
   return (
     <div onClick={onToggle} style={{
@@ -153,9 +174,9 @@ function ExerciseCard({ id, checked, onToggle, toneKey }) {
           <span style={{ fontSize: 11, color: P.dim }}>{id}</span>
         </div>
         <div style={{ fontSize: 14, color: checked ? P.dim : P.text, textDecoration: checked ? "line-through" : "none", fontWeight: 500 }}>
-          {ex.name}
+          {name}
         </div>
-        <div style={{ fontSize: 12, color: P.dim, marginTop: 2 }}>{ex.sets} Sätze · {ex.reps}</div>
+        <div style={{ fontSize: 12, color: P.dim, marginTop: 2 }}>{ex.sets} {lang === "de" ? "Sätze" : "sets"} · {ex.reps}</div>
         <div style={{ fontSize: 11, color: P.dim, marginTop: 4, fontStyle: "italic" }}>
           {TONE[toneKey]?.setInstruction}
         </div>
@@ -165,8 +186,7 @@ function ExerciseCard({ id, checked, onToggle, toneKey }) {
 }
 
 // ── DayPanel ──────────────────────────────────────────────────────────────────
-function DayPanel({ dayKey, exerciseIds, toneKey, lang, userId, weekStart }) {
-  const [checked, setChecked] = useState({});
+function DayPanel({ dayKey, exerciseIds, toneKey, lang, userId, weekStart }) {  const [checked, setChecked] = useState({});
   const [dayDone, setDayDone] = useState(false);
   const [loading, setLoading] = useState(true);
 
@@ -197,10 +217,12 @@ function DayPanel({ dayKey, exerciseIds, toneKey, lang, userId, weekStart }) {
   const save = async (newChecked, newDone) => {
     if (!userId) return;
     const completed = Object.entries(newChecked).filter(([,v]) => v).map(([k]) => k);
+    const today = getLocalDate();
     await supabase.from("workout_logs").upsert({
       user_id: userId,
       week_start: weekStart,
       day_key: dayKey,
+      log_date: today,
       completed_exercises: completed,
       day_done: newDone,
     }, { onConflict: "user_id,week_start,day_key" });
@@ -238,7 +260,7 @@ function DayPanel({ dayKey, exerciseIds, toneKey, lang, userId, weekStart }) {
       </div>
 
       {exerciseIds.map(id => (
-        <ExerciseCard key={id} id={id} toneKey={toneKey} checked={!!checked[id]} onToggle={() => toggle(id)} />
+        <ExerciseCard key={id} id={id} toneKey={toneKey} lang={lang} checked={!!checked[id]} onToggle={() => toggle(id)} />
       ))}
 
       {!dayDone ? (
