@@ -156,124 +156,72 @@ function MonthCalendar({ lang, userId, trainingDays, year, month, livedoneDates 
 
 // ── Fortschritts-Diagramm ─────────────────────────────────────────────────────
 function ProgressChart({ lang, userId, trainingDays }) {
-  const [mode, setMode] = useState("month");
-  const [data, setData] = useState([]);
+  const [stats, setStats] = useState({ week: null, month: null, year: null });
 
   useEffect(() => {
-    if (!userId || trainingDays.length===0) return;
+    if (!userId || trainingDays.length === 0) return;
     const now = new Date();
+    const weekStart = getWeekStart();
+    const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-01`;
+    const yearStart  = `${now.getFullYear()}-01-01`;
 
-    if (mode==="week") {
-      const weeks = [];
-      for (let i=7; i>=0; i--) { const d=new Date(now); d.setDate(d.getDate()-i*7); weeks.push(getWeekStart(d)); }
-      supabase.from("workout_logs").select("week_start,day_done").eq("user_id",userId).eq("day_done",true).in("week_start",weeks)
-        .then(({ data:rows }) => {
-          const map = {}; weeks.forEach(w => { map[w]=0; }); (rows||[]).forEach(r => { if(map[r.week_start]!==undefined) map[r.week_start]++; });
-          setData(weeks.map(w => ({ label:w.slice(5), done:map[w]||0, planned:trainingDays.length })));
-        });
-    } else if (mode==="month") {
-      // Alle 12 Monate des aktuellen Jahres
-      const year = now.getFullYear();
-      const months = Array.from({length:12}, (_, i) => ({ year, month: i }));
-      const from = `${year}-01-01`;
-      const to   = `${year}-12-31`;
-      supabase.from("workout_logs").select("log_date,day_done").eq("user_id",userId).eq("day_done",true).gte("log_date",from).lte("log_date",to)
-        .then(({ data:rows }) => {
-          const map = {}; months.forEach(({ month }) => { map[`${year}-${String(month+1).padStart(2,"0")}`]=0; });
-          (rows||[]).forEach(r => { if(r.log_date){ const k=r.log_date.slice(0,7); if(map[k]!==undefined) map[k]++; } });
-          const mn = lang==="de" ? ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"] : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-          setData(months.map(({ month }) => {
-            const k=`${year}-${String(month+1).padStart(2,"0")}`;
-            const w=Math.ceil(new Date(year,month+1,0).getDate()/7);
-            return { label:mn[month], done:map[k]||0, planned:trainingDays.length*w };
-          }));
-        });
-    } else {
-      // Letztes Jahr, dieses Jahr, nächstes Jahr
-      const thisYear = now.getFullYear();
-      const years = [thisYear-1, thisYear, thisYear+1];
-      supabase.from("workout_logs").select("log_date,day_done").eq("user_id",userId).eq("day_done",true).gte("log_date",`${years[0]}-01-01`).lte("log_date",`${years[1]}-12-31`)
-        .then(({ data:rows }) => {
-          const map = {}; years.forEach(y => { map[String(y)]=0; }); (rows||[]).forEach(r => { if(r.log_date){ const k=r.log_date.slice(0,4); if(map[k]!==undefined) map[k]++; } });
-          setData(years.map(y => ({ label:String(y), done:map[String(y)]||0, planned:y<=thisYear?trainingDays.length*52:0 })));
-        });
-    }
-  }, [mode, userId, trainingDays, lang]);
+    supabase.from("workout_logs")
+      .select("log_date, week_start, day_done")
+      .eq("user_id", userId)
+      .eq("day_done", true)
+      .gte("log_date", yearStart)
+      .then(({ data: rows }) => {
+        const r = rows || [];
+        const weekDone  = r.filter(x => x.week_start === weekStart).length;
+        const monthDone = r.filter(x => x.log_date >= monthStart).length;
+        const yearDone  = r.length;
 
-  const maxVal = Math.max(...data.map(d => d.done), 1);
-  const chartH = 80;
-  const chartW = 200; // internes SVG-Koordinatensystem
+        const daysInMonth = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
+        const weekOfMonth = Math.ceil(now.getDate() / 7);
+        const weekOfYear  = Math.ceil((now - new Date(now.getFullYear(),0,1)) / (7*24*60*60*1000));
 
-  const points = data.map((d, i) => {
-    const x = data.length > 1 ? (i / (data.length - 1)) * chartW : chartW / 2;
-    const y = chartH - (d.done / maxVal) * chartH;
-    return { x, y, done: d.done, label: d.label };
-  });
+        setStats({
+          week:  { done: weekDone,  planned: trainingDays.length },
+          month: { done: monthDone, planned: trainingDays.length * weekOfMonth },
+          year:  { done: yearDone,  planned: trainingDays.length * weekOfYear  },
+        });
+      });
+  }, [userId, trainingDays]);
+
+  if (!stats.week) return null;
+
+  const blocks = [
+    { key: "week",  label: lang==="de" ? "DIESE WOCHE"  : "THIS WEEK"  },
+    { key: "month", label: lang==="de" ? "DIESER MONAT" : "THIS MONTH" },
+    { key: "year",  label: lang==="de" ? "DIESES JAHR"  : "THIS YEAR"  },
+  ];
 
   return (
     <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:16, marginTop:16 }}>
-      <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", marginBottom:12 }}>
-        <div style={{ fontFamily:"Oswald, sans-serif", fontSize:12, color:P.accent, letterSpacing:"0.08em" }}>{lang==="de"?"FORTSCHRITT":"PROGRESS"}</div>
-        <div style={{ display:"flex", gap:4 }}>
-          {["week","month","year"].map(m => (
-            <button key={m} onClick={() => setMode(m)} style={{ background:mode===m?"rgba(201,162,39,0.15)":"transparent", color:mode===m?P.accent:P.dim, border:`1px solid ${mode===m?P.accent:P.border}`, borderRadius:4, padding:"3px 8px", fontSize:10, fontFamily:"Oswald, sans-serif", cursor:"pointer" }}>
-              {m==="week"?(lang==="de"?"WOCHE":"WEEK"):m==="month"?(lang==="de"?"MONAT":"MONTH"):(lang==="de"?"JAHR":"YEAR")}
-            </button>
-          ))}
-        </div>
+      <div style={{ fontFamily:"Oswald, sans-serif", fontSize:12, color:P.accent, letterSpacing:"0.08em", marginBottom:16 }}>
+        {lang==="de" ? "FORTSCHRITT" : "PROGRESS"}
       </div>
-      {data.length===0 ? (
-        <div style={{ fontSize:12, color:P.dim }}>{lang==="de"?"Noch keine Daten.":"No data yet."}</div>
-      ) : (
-        <div>
-          <svg
-            width="100%"
-            height={chartH + 16}
-            viewBox={`0 0 ${chartW} ${chartH + 8}`}
-            preserveAspectRatio="none"
-            style={{ display:"block", overflow:"visible" }}
-          >
-            {/* Hintergrund-Grid-Linien */}
-            {[0, 0.5, 1].map((t, i) => (
-              <line key={i} x1={0} y1={chartH * (1 - t)} x2={chartW} y2={chartH * (1 - t)}
-                stroke={P.border} strokeWidth="0.5" strokeDasharray="3,3" />
-            ))}
-            {/* Bereich unter der Linie (Fill) */}
-            {points.length > 1 && (
-              <polyline
-                points={[
-                  `${points[0].x},${chartH}`,
-                  ...points.map(p => `${p.x},${p.y}`),
-                  `${points[points.length-1].x},${chartH}`,
-                ].join(" ")}
-                fill="rgba(143,160,107,0.1)"
-                stroke="none"
-              />
-            )}
-            {/* Linie */}
-            {points.length > 1 && (
-              <polyline
-                points={points.map(p => `${p.x},${p.y}`).join(" ")}
-                fill="none"
-                stroke={P.bar}
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            )}
-            {/* Punkte */}
-            {points.map((p, i) => (
-              <circle key={i} cx={p.x} cy={p.y} r="3" fill={P.bar} stroke={P.panel} strokeWidth="1.5" />
-            ))}
-          </svg>
-          {/* Labels */}
-          <div style={{ display:"flex", justifyContent:"space-between", marginTop:4, overflow:"hidden" }}>
-            {data.map((d, i) => (
-              <div key={i} style={{ fontSize:9, color:P.dim, textAlign:"center", flex:1, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{d.label}</div>
-            ))}
-          </div>
-        </div>
-      )}
+      <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+        {blocks.map(({ key, label }) => {
+          const { done, planned } = stats[key];
+          const pct = planned > 0 ? Math.min(Math.round((done/planned)*100), 100) : 0;
+          const color = pct >= 80 ? P.bar : pct >= 50 ? P.accent : "#B57A7A";
+          return (
+            <div key={key}>
+              <div style={{ display:"flex", justifyContent:"space-between", alignItems:"baseline", marginBottom:6 }}>
+                <div style={{ fontFamily:"Oswald, sans-serif", fontSize:11, color:P.dim, letterSpacing:"0.08em" }}>{label}</div>
+                <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
+                  <span style={{ fontFamily:"Oswald, sans-serif", fontSize:26, fontWeight:700, color, lineHeight:1 }}>{pct}%</span>
+                  <span style={{ fontSize:11, color:P.dim }}>{done}/{planned}</span>
+                </div>
+              </div>
+              <div style={{ height:6, background:P.border, borderRadius:3, overflow:"hidden" }}>
+                <div style={{ height:"100%", width:`${pct}%`, background:color, borderRadius:3, transition:"width 0.6s cubic-bezier(0.4,0,0.2,1)" }} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
