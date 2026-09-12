@@ -72,41 +72,41 @@ const EXERCISES = {
 // ── Split-Logik (v2) ──────────────────────────────────────────────────────────
 const SPLITS = {
   "3": {
-    label: "Ganzkörper A/B/C",
+    de: "Ganzkörper A/B/C", en: "Full Body A/B/C",
     days: {
-      "Tag A – Ganzkörper": ["P1","L3","B1","R1"],
-      "Tag B – Ganzkörper": ["P5","L6","B3","R2"],
-      "Tag C – Ganzkörper": ["P8","L4","B7","R3"],
+      "Full Body A": ["P1","L3","B1","R1"],
+      "Full Body B": ["P5","L6","B3","R2"],
+      "Full Body C": ["P8","L4","B7","R3"],
     },
   },
   "4": {
-    label: "Oberkörper / Unterkörper",
+    de: "Oberkörper / Unterkörper", en: "Upper / Lower",
     days: {
-      "Tag 1 – Oberkörper A": ["P1","L3","P5","L8","R1"],
-      "Tag 2 – Unterkörper A": ["B1","B5","B6","B9","R2"],
-      "Tag 3 – Oberkörper B": ["P2","L4","P7","L9","R3"],
-      "Tag 4 – Unterkörper B": ["B3","B4","B7","B10","R4"],
+      "Upper A": ["P1","L3","P5","L8","R1"],
+      "Lower A": ["B1","B5","B6","B9","R2"],
+      "Upper B": ["P2","L4","P7","L9","R3"],
+      "Lower B": ["B3","B4","B7","B10","R4"],
     },
   },
   "5": {
-    label: "Push / Pull / Legs + Hybrid",
+    de: "Push / Pull / Legs + Hybrid", en: "Push / Pull / Legs + Hybrid",
     days: {
-      "Tag 1 – Push": ["P1","P5","P8","P9","R1"],
-      "Tag 2 – Pull": ["L3","L6","L4","L8","R2"],
-      "Tag 3 – Legs": ["B1","B5","B6","B9"],
-      "Tag 4 – Oberkörper": ["P2","L1","P7","L9","R3"],
-      "Tag 5 – Unterkörper": ["B3","B7","B8","B10","R4"],
+      "Push":       ["P1","P5","P8","P9","R1"],
+      "Pull":       ["L3","L6","L4","L8","R2"],
+      "Legs":       ["B1","B5","B6","B9"],
+      "Upper Mix":  ["P2","L1","P7","L9","R3"],
+      "Lower Mix":  ["B3","B7","B8","B10","R4"],
     },
   },
   "6": {
-    label: "PPL × 2",
+    de: "PPL × 2", en: "PPL × 2",
     days: {
-      "Tag 1 – Push A": ["P1","P5","P8","P9"],
-      "Tag 2 – Pull A": ["L3","L6","L4","L8","R1"],
-      "Tag 3 – Legs A": ["B1","B5","B6","B9"],
-      "Tag 4 – Push B": ["P2","P6","P7","P10","R2"],
-      "Tag 5 – Pull B": ["L1","L5","L7","L9","R3"],
-      "Tag 6 – Legs B": ["B2","B3","B7","B10","R4"],
+      "Push A":  ["P1","P5","P8","P9"],
+      "Pull A":  ["L3","L6","L4","L8","R1"],
+      "Legs A":  ["B1","B5","B6","B9"],
+      "Push B":  ["P2","P6","P7","P10","R2"],
+      "Pull B":  ["L1","L5","L7","L9","R3"],
+      "Legs B":  ["B2","B3","B7","B10","R4"],
     },
   },
 };
@@ -114,20 +114,42 @@ const SPLITS = {
 // ── Ton-Varianten ─────────────────────────────────────────────────────────────
 const TONE = {
   standard: {
-    intro: "Das ist dein Plan. Er wird mit dir wachsen. Zeig auf, halt dich dran, der Rest kommt von selbst.",
-    setInstruction: "Sauber ausführen – lieber weniger Gewicht als schlechte Technik.",
-    completion: "Geschafft. Ein Tag mehr, an dem du dranbleibst.",
-    missedDay: "Ein verpasster Tag ist kein Weltuntergang. Morgen geht's weiter.",
+    de: {
+      intro: "Das ist dein Plan. Er wird mit dir wachsen. Zeig auf, halt dich dran, der Rest kommt von selbst.",
+      setInstruction: "Sauber ausführen – lieber weniger Gewicht als schlechte Technik.",
+      completion: "Geschafft. Ein Tag mehr, an dem du dranbleibst.",
+      missedDay: "Ein verpasster Tag ist kein Weltuntergang. Morgen geht's weiter.",
+    },
+    en: {
+      intro: "This is your plan. It grows with you. Show up, stick with it, the rest takes care of itself.",
+      setInstruction: "Execute clean – less weight with good form beats more weight with bad form.",
+      completion: "Done. One more day you showed up.",
+      missedDay: "A missed day isn't the end. Get back at it tomorrow.",
+    },
   },
   hardcore: {
-    intro: "Niemand rettet dich. Der Plan ist da. Du entscheidest, ob du ihn benutzt oder wieder eine Ausrede findest.",
-    setInstruction: "Keine halben Sachen. Wenn die letzte Wiederholung nicht wehtut, hast du nicht genug gegeben.",
-    completion: "Fertig. Die meisten hätten heute aufgehört, nach Ausreden zu suchen. Du nicht.",
-    missedDay: "Verpasst ist verpasst. Erklärungen ändern nichts. Morgen zählt, nicht heute.",
+    de: {
+      intro: "Niemand rettet dich. Der Plan ist da. Du entscheidest, ob du ihn benutzt oder wieder eine Ausrede findest.",
+      setInstruction: "Keine halben Sachen. Wenn die letzte Wiederholung nicht wehtut, hast du nicht genug gegeben.",
+      completion: "Fertig. Die meisten hätten heute aufgehört, nach Ausreden zu suchen. Du nicht.",
+      missedDay: "Verpasst ist verpasst. Erklärungen ändern nichts. Morgen zählt, nicht heute.",
+    },
+    en: {
+      intro: "Nobody is coming to save you. The plan is there. You decide whether you use it or find another excuse.",
+      setInstruction: "No half reps. If the last one didn't hurt, you didn't push hard enough.",
+      completion: "Done. Most people would have quit looking for an easier way today. Not you.",
+      missedDay: "Missed is missed. Explanations change nothing. Tomorrow counts, not today.",
+    },
   },
 };
 
-const CAT_STYLE = {
+function getTone(toneKey, lang) {
+  return TONE[toneKey]?.[lang === "en" ? "en" : "de"] || TONE.standard.de;
+}
+
+function getSplitLabel(split, lang) {
+  return lang === "en" ? split.en : split.de;
+}
   push:   { label: "PUSH",   color: "#C9A227" },
   pull:   { label: "PULL",   color: "#8FA06B" },
   legs:   { label: "LEGS",   color: "#7A9BB5" },
@@ -168,7 +190,7 @@ function ExerciseCard({ id, checked, onToggle, toneKey, lang }) {
         </div>
         <div style={{ fontSize: 12, color: P.dim, marginTop: 2 }}>{ex.sets} {lang === "de" ? "Sätze" : "sets"} · {ex.reps}</div>
         <div style={{ fontSize: 11, color: P.dim, marginTop: 4, fontStyle: "italic" }}>
-          {TONE[toneKey]?.setInstruction}
+          {getTone(toneKey, lang).setInstruction}
         </div>
       </div>
     </div>
@@ -268,7 +290,7 @@ function DayPanel({ dayKey, exerciseIds, toneKey, lang, userId, weekStart }) {  
             {lang === "de" ? "✓ WORKOUT ABGESCHLOSSEN" : "✓ WORKOUT COMPLETE"}
           </div>
           <div style={{ fontSize: 12, color: P.dim, marginTop: 4 }}>
-            {TONE[toneKey]?.completion}
+            {getTone(toneKey, lang).completion}
           </div>
         </div>
       )}
@@ -330,10 +352,10 @@ export default function PlanView({ profile, lang, isAdmin }) {
             {lang === "de" ? "DEIN PLAN" : "YOUR PLAN"}
           </div>
           <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, fontWeight: 700, color: P.text, marginBottom: 4 }}>
-            {split.label}
+            {getSplitLabel(split, lang)}
           </div>
           <div style={{ fontSize: 13, color: P.dim, lineHeight: 1.5, marginBottom: 14 }}>
-            {TONE[toneOverride].intro}
+            {getTone(toneOverride, lang).intro}
           </div>
           <div style={{ display: "flex", gap: 6 }}>
             {["standard","hardcore"].map(t => (
