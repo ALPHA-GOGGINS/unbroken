@@ -629,7 +629,7 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
         if (typeof sessionStorage !== "undefined") sessionStorage.setItem("introSeen", "1");
       }} />}
       <div style={{ minHeight: "100vh", width: "100%", background: P.bg, color: P.text, fontFamily: "Inter, system-ui, sans-serif", display: "flex", justifyContent: "center", padding: "32px 16px", boxSizing: "border-box" }}>
-        <div style={{ width: "100%", maxWidth: 480 }}>
+        <div style={{ width: "100%", maxWidth: 960 }}>
 
           {/* Header */}
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }}>
