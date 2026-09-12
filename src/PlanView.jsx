@@ -235,14 +235,23 @@ export default function PlanView({ profile, lang, isAdmin }) {
     if (!userId) return;
     const completed = Object.entries(newChecked).filter(([,v])=>v).map(([k])=>k);
     setSaving(true);
+    const today = getLocalDate();
+    // Erst upsert ohne log_date
     const { error } = await supabase.from("workout_logs").upsert({
       user_id:             userId,
       week_start:          weekStart,
       day_key:             dayKey,
-      log_date:            getLocalDate(),
       completed_exercises: completed,
       day_done:            newDone,
     }, { onConflict: "user_id,week_start,day_key" });
+    // Dann log_date separat updaten (kein Konflikt möglich)
+    if (!error) {
+      await supabase.from("workout_logs")
+        .update({ log_date: today })
+        .eq("user_id", userId)
+        .eq("week_start", weekStart)
+        .eq("day_key", dayKey);
+    }
     if (error) console.error("Save error:", error);
     setSaving(false);
   };
@@ -341,7 +350,7 @@ export default function PlanView({ profile, lang, isAdmin }) {
           weekStart={weekStart}
           allDayDone={allDayDone}
           activeDayNames={activeDayNames}
-          daysPerWeek={daysPerWeek}
+          daysPerWeek={profile?.days_per_week || 3}
         />
       </div>
     </div>
