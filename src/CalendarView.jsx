@@ -200,8 +200,15 @@ function ProgressChart({ lang, userId, trainingDays }) {
     }
   }, [mode, userId, trainingDays, lang]);
 
-  const maxVal = Math.max(...data.map(d => d.planned), 1);
+  const maxVal = Math.max(...data.map(d => d.done), 1);
   const chartH = 80;
+  const chartW = 200; // internes SVG-Koordinatensystem
+
+  const points = data.map((d, i) => {
+    const x = data.length > 1 ? (i / (data.length - 1)) * chartW : chartW / 2;
+    const y = chartH - (d.done / maxVal) * chartH;
+    return { x, y, done: d.done, label: d.label };
+  });
 
   return (
     <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:16, marginTop:16 }}>
@@ -219,34 +226,51 @@ function ProgressChart({ lang, userId, trainingDays }) {
         <div style={{ fontSize:12, color:P.dim }}>{lang==="de"?"Noch keine Daten.":"No data yet."}</div>
       ) : (
         <div>
-          <svg width="100%" height={chartH + 8} viewBox={`-4 -4 108 ${chartH + 8}`} preserveAspectRatio="none" style={{ overflow:"hidden", display:"block" }}>
-            {data.map((d, i) => {
-              if (data.length<2) return null;
-              const x = (i/(data.length-1))*100;
-              const y = chartH-(d.done/maxVal)*chartH;
-              const yp = chartH-(d.planned/maxVal)*chartH;
-              return (
-                <g key={i}>
-                  {i>0 && (() => {
-                    const px=((i-1)/(data.length-1))*100;
-                    const py=chartH-(data[i-1].done/maxVal)*chartH;
-                    const ppy=chartH-(data[i-1].planned/maxVal)*chartH;
-                    return (<>
-                      <line x1={`${px}%`} y1={py}  x2={`${x}%`} y2={y}  stroke={P.bar}    strokeWidth="2"   strokeLinecap="round" />
-                      <line x1={`${px}%`} y1={ppy} x2={`${x}%`} y2={yp} stroke={P.border} strokeWidth="1.5" strokeDasharray="4,3" strokeLinecap="round" />
-                    </>);
-                  })()}
-                  <circle cx={`${x}%`} cy={y} r="3" fill={P.bar} />
-                </g>
-              );
-            })}
+          <svg
+            width="100%"
+            height={chartH + 16}
+            viewBox={`0 0 ${chartW} ${chartH + 8}`}
+            preserveAspectRatio="none"
+            style={{ display:"block", overflow:"visible" }}
+          >
+            {/* Hintergrund-Grid-Linien */}
+            {[0, 0.5, 1].map((t, i) => (
+              <line key={i} x1={0} y1={chartH * (1 - t)} x2={chartW} y2={chartH * (1 - t)}
+                stroke={P.border} strokeWidth="0.5" strokeDasharray="3,3" />
+            ))}
+            {/* Bereich unter der Linie (Fill) */}
+            {points.length > 1 && (
+              <polyline
+                points={[
+                  `${points[0].x},${chartH}`,
+                  ...points.map(p => `${p.x},${p.y}`),
+                  `${points[points.length-1].x},${chartH}`,
+                ].join(" ")}
+                fill="rgba(143,160,107,0.1)"
+                stroke="none"
+              />
+            )}
+            {/* Linie */}
+            {points.length > 1 && (
+              <polyline
+                points={points.map(p => `${p.x},${p.y}`).join(" ")}
+                fill="none"
+                stroke={P.bar}
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            )}
+            {/* Punkte */}
+            {points.map((p, i) => (
+              <circle key={i} cx={p.x} cy={p.y} r="3" fill={P.bar} stroke={P.panel} strokeWidth="1.5" />
+            ))}
           </svg>
-          <div style={{ display:"flex", justifyContent:"space-between", marginTop:4 }}>
-            {data.map((d,i) => <div key={i} style={{ fontSize:10, color:P.dim, textAlign:"center" }}>{d.label}</div>)}
-          </div>
-          <div style={{ display:"flex", gap:12, marginTop:8, fontSize:10, color:P.dim }}>
-            <div style={{ display:"flex", alignItems:"center", gap:4 }}><div style={{ width:16, height:2, background:P.bar, borderRadius:1 }} />{lang==="de"?"Abgeschlossen":"Completed"}</div>
-            <div style={{ display:"flex", alignItems:"center", gap:4 }}><div style={{ width:16, height:0, borderTop:`1.5px dashed ${P.border}` }} />{lang==="de"?"Geplant":"Planned"}</div>
+          {/* Labels */}
+          <div style={{ display:"flex", justifyContent:"space-between", marginTop:4, overflow:"hidden" }}>
+            {data.map((d, i) => (
+              <div key={i} style={{ fontSize:9, color:P.dim, textAlign:"center", flex:1, whiteSpace:"nowrap", overflow:"hidden", textOverflow:"ellipsis" }}>{d.label}</div>
+            ))}
           </div>
         </div>
       )}
