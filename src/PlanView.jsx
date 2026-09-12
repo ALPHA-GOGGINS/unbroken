@@ -350,7 +350,7 @@ export default function PlanView({ profile, lang, isAdmin }) {
           weekStart={weekStart}
           allDayDone={allDayDone}
           activeDayNames={activeDayNames}
-          daysPerWeek={profile?.days_per_week || 3}
+          daysPerWeek={isAdmin ? parseInt(adminDays) : (profile?.days_per_week || 3)}
         />
       </div>
     </div>
