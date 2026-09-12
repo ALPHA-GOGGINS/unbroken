@@ -13,26 +13,23 @@ const WEEKDAYS_FULL_EN = ["Monday","Tuesday","Wednesday","Thursday","Friday","Sa
 const WEEKDAY_KEYS = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
 
 function getLocalDate() {
-  // Nutzt die lokale Zeitzone des Browsers – korrekt für jeden Nutzer weltweit
   const now = new Date();
-  const year = now.getFullYear();
-  const month = String(now.getMonth() + 1).padStart(2, "0");
-  const day = String(now.getDate()).padStart(2, "0");
-  return `${year}-${month}-${day}`;
+  const y = now.getFullYear();
+  const m = String(now.getMonth() + 1).padStart(2, "0");
+  const d = String(now.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
 function getWeekStart(date) {
-  // Wochenstartberechnung basierend auf lokaler Zeit
   const d = date ? new Date(date) : new Date();
-  // Lokales Datum verwenden
-  const localDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-  const day = localDate.getDay(); // 0=So, 1=Mo...
+  const local = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const day = local.getDay();
   const diff = day === 0 ? -6 : 1 - day;
-  localDate.setDate(localDate.getDate() + diff);
-  const y = localDate.getFullYear();
-  const m = String(localDate.getMonth() + 1).padStart(2, "0");
-  const dd = String(localDate.getDate()).padStart(2, "0");
-  return `${y}-${m}-${dd}`;
+  local.setDate(local.getDate() + diff);
+  const y = local.getFullYear();
+  const mo = String(local.getMonth() + 1).padStart(2, "0");
+  const dd = String(local.getDate()).padStart(2, "0");
+  return `${y}-${mo}-${dd}`;
 }
 
 function formatDate(date) {
@@ -50,7 +47,7 @@ function TrainingDaySetup({ lang, onSave, maxDays }) {
   const toggle = (key) => {
     setSelected(s => {
       if (s.includes(key)) return s.filter(k => k !== key);
-      if (s.length >= maxDays) return s; // Nicht mehr als maxDays auswählen
+      if (s.length >= maxDays) return s;
       return [...s, key];
     });
   };
@@ -61,9 +58,7 @@ function TrainingDaySetup({ lang, onSave, maxDays }) {
         {lang === "de" ? "An welchen Tagen trainierst du?" : "Which days do you train?"}
       </div>
       <div style={{ fontSize: 13, color: P.dim, marginBottom: 8 }}>
-        {lang === "de"
-          ? `Wähle genau ${maxDays} Trainingstage pro Woche.`
-          : `Select exactly ${maxDays} training days per week.`}
+        {lang === "de" ? `Wähle genau ${maxDays} Trainingstage.` : `Select exactly ${maxDays} training days.`}
       </div>
       <div style={{ fontSize: 12, color: P.accent, marginBottom: 16 }}>
         {selected.length}/{maxDays} {lang === "de" ? "ausgewählt" : "selected"}
@@ -71,11 +66,13 @@ function TrainingDaySetup({ lang, onSave, maxDays }) {
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
         {WEEKDAY_KEYS.map((key, i) => (
           <button key={key} onClick={() => toggle(key)} style={{
-            padding: "8px 14px", borderRadius: 4, cursor: selected.length >= maxDays && !selected.includes(key) ? "default" : "pointer",
+            padding: "8px 14px", borderRadius: 4,
+            cursor: selected.length >= maxDays && !selected.includes(key) ? "default" : "pointer",
             border: `1px solid ${selected.includes(key) ? P.accent : P.border}`,
             background: selected.includes(key) ? "rgba(201,162,39,0.15)" : "transparent",
             color: selected.includes(key) ? P.accent : selected.length >= maxDays ? P.dim : P.text,
-            fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: selected.includes(key) ? 600 : 400,
+            fontFamily: "Inter, sans-serif", fontSize: 13,
+            fontWeight: selected.includes(key) ? 600 : 400,
             opacity: selected.length >= maxDays && !selected.includes(key) ? 0.4 : 1,
           }}>{days[i]}</button>
         ))}
@@ -86,7 +83,8 @@ function TrainingDaySetup({ lang, onSave, maxDays }) {
         style={{
           width: "100%", background: P.accent, border: "none", color: "#1B1E15",
           padding: "12px 0", borderRadius: 4, fontSize: 14, fontWeight: 700,
-          fontFamily: "Inter, sans-serif", cursor: selected.length === maxDays ? "pointer" : "default",
+          fontFamily: "Inter, sans-serif",
+          cursor: selected.length === maxDays ? "pointer" : "default",
           opacity: selected.length === maxDays ? 1 : 0.4,
         }}
       >
@@ -96,33 +94,30 @@ function TrainingDaySetup({ lang, onSave, maxDays }) {
   );
 }
 
-// ── Mini-Kalender (Monatsansicht) ─────────────────────────────────────────────
+// ── Monatskalender ────────────────────────────────────────────────────────────
 function MonthCalendar({ lang, userId, trainingDays, year, month }) {
-  const [logs, setLogs] = useState({});
+  const [doneDates, setDoneDates] = useState(new Set());
 
   useEffect(() => {
     if (!userId) return;
-    // Alle Logs für diesen Monat laden
     const firstDay = new Date(year, month, 1);
     const lastDay = new Date(year, month + 1, 0);
-    const from = formatDate(firstDay);
-    const to = formatDate(lastDay);
 
     supabase.from("workout_logs")
-      .select("week_start, day_done")
+      .select("log_date, day_done")
       .eq("user_id", userId)
-      .gte("week_start", from)
-      .lte("week_start", to)
+      .eq("day_done", true)
+      .gte("log_date", formatDate(firstDay))
+      .lte("log_date", formatDate(lastDay))
       .then(({ data }) => {
-        const map = {};
-        if (data) data.forEach(row => { if (row.day_done) map[row.week_start] = true; });
-        setLogs(map);
+        const dates = new Set((data || []).map(r => r.log_date));
+        setDoneDates(dates);
       });
   }, [userId, year, month]);
 
   const firstDay = new Date(year, month, 1);
   const lastDay = new Date(year, month + 1, 0);
-  const startWeekday = (firstDay.getDay() + 6) % 7; // Mo=0
+  const startWeekday = (firstDay.getDay() + 6) % 7;
   const totalDays = lastDay.getDate();
   const today = getLocalDate();
 
@@ -143,7 +138,7 @@ function MonthCalendar({ lang, userId, trainingDays, year, month }) {
 
   const isDone = (dayNum) => {
     const dateStr = formatDate(new Date(year, month, dayNum));
-    return logs[dateStr] || false;
+    return doneDates.has(dateStr);
   };
 
   const isToday = (dayNum) => formatDate(new Date(year, month, dayNum)) === today;
@@ -163,21 +158,22 @@ function MonthCalendar({ lang, userId, trainingDays, year, month }) {
           if (!d) return <div key={`empty-${i}`} />;
           const training = isTrainingDay(d);
           const done = isDone(d);
-          const today_ = isToday(d);
+          const tod = isToday(d);
           return (
             <div key={d} style={{
-              aspectRatio: "1", borderRadius: 4, display: "flex", alignItems: "center", justifyContent: "center",
-              fontSize: 11, fontWeight: today_ ? 700 : 400,
-              background: done ? "rgba(143,160,107,0.3)" : training ? "rgba(201,162,39,0.08)" : "transparent",
-              border: today_ ? `1px solid ${P.accent}` : training && !done ? `1px solid ${P.border}` : "none",
-              color: done ? P.bar : today_ ? P.accent : training ? P.text : P.dim,
+              aspectRatio: "1", borderRadius: 4,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 11, fontWeight: tod ? 700 : 400,
+              background: done ? "rgba(143,160,107,0.35)" : training ? "rgba(201,162,39,0.08)" : "transparent",
+              border: tod ? `1px solid ${P.accent}` : training && !done ? `1px solid ${P.border}` : "none",
+              color: done ? P.bar : tod ? P.accent : training ? P.text : P.dim,
             }}>{d}</div>
           );
         })}
       </div>
       <div style={{ display: "flex", gap: 12, marginTop: 10, fontSize: 11, color: P.dim }}>
         <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
-          <div style={{ width: 10, height: 10, borderRadius: 2, background: "rgba(143,160,107,0.3)", border: `1px solid ${P.bar}` }} />
+          <div style={{ width: 10, height: 10, borderRadius: 2, background: "rgba(143,160,107,0.35)", border: `1px solid ${P.bar}` }} />
           {lang === "de" ? "Abgeschlossen" : "Done"}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
@@ -199,7 +195,6 @@ function ProgressChart({ lang, userId, trainingDays }) {
     const now = new Date();
 
     if (mode === "week") {
-      // Letzte 8 Wochen
       const weeks = [];
       for (let i = 7; i >= 0; i--) {
         const d = new Date(now);
@@ -207,15 +202,14 @@ function ProgressChart({ lang, userId, trainingDays }) {
         weeks.push(getWeekStart(d));
       }
       supabase.from("workout_logs")
-        .select("week_start, day_done")
+        .select("log_date, day_done")
         .eq("user_id", userId)
-        .in("week_start", weeks)
+        .eq("day_done", true)
+        .in("log_date", weeks)
         .then(({ data: rows }) => {
           const map = {};
-          (rows || []).forEach(r => {
-            if (!map[r.week_start]) map[r.week_start] = 0;
-            if (r.day_done) map[r.week_start]++;
-          });
+          weeks.forEach(w => { map[w] = 0; });
+          (rows || []).forEach(r => { if (map[r.log_date] !== undefined) map[r.log_date]++; });
           setData(weeks.map(w => ({
             label: w.slice(5),
             done: map[w] || 0,
@@ -223,22 +217,27 @@ function ProgressChart({ lang, userId, trainingDays }) {
           })));
         });
     } else if (mode === "month") {
-      // Letzte 6 Monate
       const months = [];
       for (let i = 5; i >= 0; i--) {
         const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
         months.push({ year: d.getFullYear(), month: d.getMonth() });
       }
+      const from = formatDate(new Date(months[0].year, months[0].month, 1));
       supabase.from("workout_logs")
-        .select("week_start, day_done")
+        .select("log_date, day_done")
         .eq("user_id", userId)
-        .gte("week_start", formatDate(new Date(months[0].year, months[0].month, 1)))
+        .eq("day_done", true)
+        .gte("log_date", from)
         .then(({ data: rows }) => {
           const map = {};
+          months.forEach(({ year, month }) => {
+            map[`${year}-${String(month + 1).padStart(2, "0")}`] = 0;
+          });
           (rows || []).forEach(r => {
-            const key = r.week_start.slice(0, 7);
-            if (!map[key]) map[key] = 0;
-            if (r.day_done) map[key]++;
+            if (r.log_date) {
+              const key = r.log_date.slice(0, 7);
+              if (map[key] !== undefined) map[key]++;
+            }
           });
           const monthNames = lang === "de"
             ? ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"]
@@ -253,6 +252,30 @@ function ProgressChart({ lang, userId, trainingDays }) {
             };
           }));
         });
+    } else if (mode === "year") {
+      const years = [];
+      for (let i = 2; i >= 0; i--) years.push(now.getFullYear() - i);
+      const from = `${years[0]}-01-01`;
+      supabase.from("workout_logs")
+        .select("log_date, day_done")
+        .eq("user_id", userId)
+        .eq("day_done", true)
+        .gte("log_date", from)
+        .then(({ data: rows }) => {
+          const map = {};
+          years.forEach(y => { map[String(y)] = 0; });
+          (rows || []).forEach(r => {
+            if (r.log_date) {
+              const key = r.log_date.slice(0, 4);
+              if (map[key] !== undefined) map[key]++;
+            }
+          });
+          setData(years.map(y => ({
+            label: String(y),
+            done: map[String(y)] || 0,
+            planned: trainingDays.length * 52,
+          })));
+        });
     }
   }, [mode, userId, trainingDays, lang]);
 
@@ -266,7 +289,7 @@ function ProgressChart({ lang, userId, trainingDays }) {
           {lang === "de" ? "FORTSCHRITT" : "PROGRESS"}
         </div>
         <div style={{ display: "flex", gap: 4 }}>
-          {["week","month"].map(m => (
+          {["week","month","year"].map(m => (
             <button key={m} onClick={() => setMode(m)} style={{
               background: mode === m ? "rgba(201,162,39,0.15)" : "transparent",
               color: mode === m ? P.accent : P.dim,
@@ -274,7 +297,7 @@ function ProgressChart({ lang, userId, trainingDays }) {
               borderRadius: 4, padding: "3px 8px", fontSize: 10,
               fontFamily: "Oswald, sans-serif", cursor: "pointer",
             }}>
-              {m === "week" ? (lang === "de" ? "WOCHE" : "WEEK") : (lang === "de" ? "MONAT" : "MONTH")}
+              {m === "week" ? (lang === "de" ? "WOCHE" : "WEEK") : m === "month" ? (lang === "de" ? "MONAT" : "MONTH") : (lang === "de" ? "JAHR" : "YEAR")}
             </button>
           ))}
         </div>
@@ -284,9 +307,9 @@ function ProgressChart({ lang, userId, trainingDays }) {
         <div style={{ fontSize: 12, color: P.dim }}>{lang === "de" ? "Noch keine Daten." : "No data yet."}</div>
       ) : (
         <div>
-          {/* Linie */}
           <svg width="100%" height={chartH} style={{ overflow: "visible" }}>
             {data.map((d, i) => {
+              if (data.length < 2) return null;
               const x = (i / (data.length - 1)) * 100;
               const y = chartH - (d.done / maxVal) * chartH;
               const xp = (i / (data.length - 1)) * 100;
@@ -294,10 +317,10 @@ function ProgressChart({ lang, userId, trainingDays }) {
               return (
                 <g key={i}>
                   {i > 0 && (() => {
-                    const px = ((i - 1) / (data.length - 1)) * 100;
-                    const py = chartH - (data[i - 1].done / maxVal) * chartH;
-                    const ppx = ((i - 1) / (data.length - 1)) * 100;
-                    const ppy = chartH - (data[i - 1].planned / maxVal) * chartH;
+                    const px = ((i-1) / (data.length-1)) * 100;
+                    const py = chartH - (data[i-1].done / maxVal) * chartH;
+                    const ppx = ((i-1) / (data.length-1)) * 100;
+                    const ppy = chartH - (data[i-1].planned / maxVal) * chartH;
                     return (
                       <>
                         <line x1={`${px}%`} y1={py} x2={`${x}%`} y2={y} stroke={P.bar} strokeWidth="2" strokeLinecap="round" />
@@ -310,15 +333,11 @@ function ProgressChart({ lang, userId, trainingDays }) {
               );
             })}
           </svg>
-
-          {/* Labels */}
           <div style={{ display: "flex", justifyContent: "space-between", marginTop: 4 }}>
             {data.map((d, i) => (
               <div key={i} style={{ fontSize: 10, color: P.dim, textAlign: "center" }}>{d.label}</div>
             ))}
           </div>
-
-          {/* Legende */}
           <div style={{ display: "flex", gap: 12, marginTop: 8, fontSize: 10, color: P.dim }}>
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <div style={{ width: 16, height: 2, background: P.bar, borderRadius: 1 }} />
@@ -335,7 +354,7 @@ function ProgressChart({ lang, userId, trainingDays }) {
   );
 }
 
-// ── CalendarView (Haupt-Export) ───────────────────────────────────────────────
+// ── CalendarView ──────────────────────────────────────────────────────────────
 export default function CalendarView({ profile, lang }) {
   const userId = profile?.id;
   const maxDays = profile?.days_per_week || 3;
@@ -362,13 +381,10 @@ export default function CalendarView({ profile, lang }) {
 
   return (
     <div>
-      {!setupDone && (
+      {!setupDone ? (
         <TrainingDaySetup lang={lang} onSave={saveTrainingDays} maxDays={maxDays} />
-      )}
-
-      {setupDone && (
+      ) : (
         <>
-          {/* Monat-Navigation */}
           <div style={{ background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6, padding: 16, marginBottom: 16 }}>
             <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }}>
               <button onClick={prevMonth} style={{ background: "transparent", border: `1px solid ${P.border}`, color: P.dim, borderRadius: 4, padding: "4px 10px", cursor: "pointer", fontSize: 14 }}>←</button>
@@ -384,7 +400,6 @@ export default function CalendarView({ profile, lang }) {
             />
           </div>
 
-          {/* Trainingstage ändern */}
           <button onClick={() => setSetupDone(false)} style={{
             background: "transparent", border: `1px solid ${P.border}`,
             color: P.dim, padding: "8px 14px", borderRadius: 4,
@@ -394,7 +409,6 @@ export default function CalendarView({ profile, lang }) {
             {lang === "de" ? "Trainingstage ändern" : "Change training days"}
           </button>
 
-          {/* Fortschritts-Diagramm */}
           <ProgressChart lang={lang} userId={userId} trainingDays={trainingDays} />
         </>
       )}
