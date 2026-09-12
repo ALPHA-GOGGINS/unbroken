@@ -154,46 +154,43 @@ function MonthCalendar({ lang, userId, trainingDays, year, month, livedoneDates 
   );
 }
 
-// ── Fortschritts-Diagramm ─────────────────────────────────────────────────────
-function ProgressChart({ lang, userId, trainingDays }) {
-  const [stats, setStats] = useState({ week: null, month: null, year: null });
+// ── Fortschritts-Anzeige (Prozent, live) ────────────────────────────────────
+function ProgressChart({ lang, userId, trainingDays, allDayDone, activeDayNames, weekStart }) {
+  const [dbDone, setDbDone] = useState({ month: 0, year: 0 });
 
+  // Wochendaten live aus allDayDone
+  const weekDone  = activeDayNames ? activeDayNames.filter(d => allDayDone?.[d]).length : 0;
+  const weekTotal = trainingDays.length;
+
+  // Monats/Jahresdaten aus Supabase
   useEffect(() => {
     if (!userId || trainingDays.length === 0) return;
     const now = new Date();
-    const weekStart = getWeekStart();
     const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-01`;
     const yearStart  = `${now.getFullYear()}-01-01`;
-
     supabase.from("workout_logs")
-      .select("log_date, week_start, day_done")
+      .select("log_date, day_done")
       .eq("user_id", userId)
       .eq("day_done", true)
       .gte("log_date", yearStart)
       .then(({ data: rows }) => {
         const r = rows || [];
-        const weekDone  = r.filter(x => x.week_start === weekStart).length;
-        const monthDone = r.filter(x => x.log_date >= monthStart).length;
-        const yearDone  = r.length;
-
-        const daysInMonth = new Date(now.getFullYear(), now.getMonth()+1, 0).getDate();
-        const weekOfMonth = Math.ceil(now.getDate() / 7);
-        const weekOfYear  = Math.ceil((now - new Date(now.getFullYear(),0,1)) / (7*24*60*60*1000));
-
-        setStats({
-          week:  { done: weekDone,  planned: trainingDays.length },
-          month: { done: monthDone, planned: trainingDays.length * weekOfMonth },
-          year:  { done: yearDone,  planned: trainingDays.length * weekOfYear  },
+        setDbDone({
+          month: r.filter(x => x.log_date >= monthStart).length,
+          year:  r.length,
         });
       });
-  }, [userId, trainingDays]);
+  }, [userId, trainingDays, weekStart]);
 
-  if (!stats.week) return null;
+  const now = new Date();
+  const weekOfMonth = Math.ceil(now.getDate() / 7);
+  const dayOfYear   = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / (1000*60*60*24));
+  const weekOfYear  = Math.ceil(dayOfYear / 7);
 
   const blocks = [
-    { key: "week",  label: lang==="de" ? "DIESE WOCHE"  : "THIS WEEK"  },
-    { key: "month", label: lang==="de" ? "DIESER MONAT" : "THIS MONTH" },
-    { key: "year",  label: lang==="de" ? "DIESES JAHR"  : "THIS YEAR"  },
+    { label: lang==="de" ? "DIESE WOCHE"  : "THIS WEEK",  done: weekDone,      total: weekTotal },
+    { label: lang==="de" ? "DIESER MONAT" : "THIS MONTH", done: dbDone.month,  total: trainingDays.length * weekOfMonth },
+    { label: lang==="de" ? "DIESES JAHR"  : "THIS YEAR",  done: dbDone.year,   total: trainingDays.length * weekOfYear  },
   ];
 
   return (
@@ -202,9 +199,8 @@ function ProgressChart({ lang, userId, trainingDays }) {
         {lang==="de" ? "FORTSCHRITT" : "PROGRESS"}
       </div>
       <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
-        {blocks.map(({ key, label }) => {
-          const { done, planned } = stats[key];
-          const pct = planned > 0 ? Math.min(Math.round((done/planned)*100), 100) : 0;
+        {blocks.map(({ label, done, total }) => {
+          const pct = total > 0 ? Math.min(Math.round((done/total)*100), 100) : 0;
           const color = pct >= 80 ? P.bar : pct >= 50 ? P.accent : "#B57A7A";
           return (
             <div key={key}>
@@ -212,7 +208,7 @@ function ProgressChart({ lang, userId, trainingDays }) {
                 <div style={{ fontFamily:"Oswald, sans-serif", fontSize:11, color:P.dim, letterSpacing:"0.08em" }}>{label}</div>
                 <div style={{ display:"flex", alignItems:"baseline", gap:6 }}>
                   <span style={{ fontFamily:"Oswald, sans-serif", fontSize:26, fontWeight:700, color, lineHeight:1 }}>{pct}%</span>
-                  <span style={{ fontSize:11, color:P.dim }}>{done}/{planned}</span>
+                  <span style={{ fontSize:11, color:P.dim }}>{done}/{total}</span>
                 </div>
               </div>
               <div style={{ height:6, background:P.border, borderRadius:3, overflow:"hidden" }}>
@@ -283,7 +279,7 @@ export default function CalendarView({ profile, lang, weekStart, allDayDone, act
             {lang==="de"?"Trainingstage ändern":"Change training days"}
           </button>
 
-          <ProgressChart lang={lang} userId={userId} trainingDays={trainingDays} />
+          <ProgressChart lang={lang} userId={userId} trainingDays={trainingDays} allDayDone={allDayDone} activeDayNames={activeDayNames} weekStart={weekStart} />
         </>
       )}
     </div>
