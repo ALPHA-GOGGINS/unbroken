@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./supabase";
+import PlanView from "./PlanView";
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
 const P = {
@@ -721,13 +722,7 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
           {view === "myplan" && (
             <div className="fade-in">
               {session && profile?.is_admin ? (
-                <Panel>
-                  <Heading>ADMIN – Plan Preview</Heading>
-                  <Body dim>Du siehst das als Admin. Normale Nutzer sehen noch "Coming Soon".</Body>
-                  <div style={{ marginTop: 16, padding: "12px 14px", border: `1px solid ${P.accent}`, borderRadius: 4, fontSize: 13, color: P.accent, fontFamily: "Oswald, sans-serif", letterSpacing: "0.04em" }}>
-                    PLAN KOMMT HIER – BAUKASTEN WIRD GLEICH GEBAUT
-                  </div>
-                </Panel>
+                <PlanView profile={profile} lang={lang} />
               ) : session ? (
                 <div style={{ textAlign: "center", padding: "40px 0" }}>
                   <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>COMING</div>
