@@ -207,9 +207,9 @@ function ProgressChart({ lang, userId, daysPerWeek, allDayDone, activeDayNames, 
 }
 
 // ── CalendarView (Haupt-Export) ───────────────────────────────────────────────
-export default function CalendarView({ profile, lang, weekStart, allDayDone, activeDayNames }) {
-  const userId     = profile?.id;
-  const daysPerWeek = profile?.days_per_week || 3;
+export default function CalendarView({ profile, lang, weekStart, allDayDone, activeDayNames, daysPerWeek }) {
+  const userId      = profile?.id;
+  const dpw         = daysPerWeek || profile?.days_per_week || 3;
   const [trainingDays, setTrainingDays] = useState(profile?.training_days||[]);
   const [setupDone, setSetupDone]       = useState((profile?.training_days||[]).length > 0);
   const now = new Date();
@@ -246,7 +246,7 @@ export default function CalendarView({ profile, lang, weekStart, allDayDone, act
   return (
     <div>
       {!setupDone ? (
-        <TrainingDaySetup lang={lang} onSave={saveDays} daysPerWeek={daysPerWeek} />
+        <TrainingDaySetup lang={lang} onSave={saveDays} daysPerWeek={dpw} />
       ) : (
         <>
           <div style={{background:P.panel,border:`1px solid ${P.border}`,borderRadius:6,padding:16,marginBottom:16}}>
@@ -264,7 +264,7 @@ export default function CalendarView({ profile, lang, weekStart, allDayDone, act
             {lang==="de"?"Trainingstage ändern":"Change training days"}
           </button>
 
-          <ProgressChart lang={lang} userId={userId} daysPerWeek={daysPerWeek} allDayDone={allDayDone} activeDayNames={activeDayNames} weekStart={weekStart}/>
+          <ProgressChart lang={lang} userId={userId} daysPerWeek={dpw} allDayDone={allDayDone} activeDayNames={activeDayNames} weekStart={weekStart}/>
         </>
       )}
     </div>
