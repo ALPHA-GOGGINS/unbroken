@@ -150,6 +150,7 @@ function getTone(toneKey, lang) {
 function getSplitLabel(split, lang) {
   return lang === "en" ? split.en : split.de;
 }
+const CAT_STYLE = {
   push:   { label: "PUSH",   color: "#C9A227" },
   pull:   { label: "PULL",   color: "#8FA06B" },
   legs:   { label: "LEGS",   color: "#7A9BB5" },
