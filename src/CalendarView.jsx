@@ -172,22 +172,30 @@ function ProgressChart({ lang, userId, trainingDays }) {
           setData(weeks.map(w => ({ label:w.slice(5), done:map[w]||0, planned:trainingDays.length })));
         });
     } else if (mode==="month") {
-      const months = [];
-      for (let i=5; i>=0; i--) { const d=new Date(now.getFullYear(),now.getMonth()-i,1); months.push({ year:d.getFullYear(), month:d.getMonth() }); }
-      const from = formatDate(new Date(months[0].year, months[0].month, 1));
-      supabase.from("workout_logs").select("log_date,day_done").eq("user_id",userId).eq("day_done",true).gte("log_date",from)
+      // Alle 12 Monate des aktuellen Jahres
+      const year = now.getFullYear();
+      const months = Array.from({length:12}, (_, i) => ({ year, month: i }));
+      const from = `${year}-01-01`;
+      const to   = `${year}-12-31`;
+      supabase.from("workout_logs").select("log_date,day_done").eq("user_id",userId).eq("day_done",true).gte("log_date",from).lte("log_date",to)
         .then(({ data:rows }) => {
-          const map = {}; months.forEach(({ year,month }) => { map[`${year}-${String(month+1).padStart(2,"0")}`]=0; });
+          const map = {}; months.forEach(({ month }) => { map[`${year}-${String(month+1).padStart(2,"0")}`]=0; });
           (rows||[]).forEach(r => { if(r.log_date){ const k=r.log_date.slice(0,7); if(map[k]!==undefined) map[k]++; } });
           const mn = lang==="de" ? ["Jan","Feb","Mär","Apr","Mai","Jun","Jul","Aug","Sep","Okt","Nov","Dez"] : ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-          setData(months.map(({ year,month }) => { const k=`${year}-${String(month+1).padStart(2,"0")}`; const w=Math.ceil(new Date(year,month+1,0).getDate()/7); return { label:mn[month], done:map[k]||0, planned:trainingDays.length*w }; }));
+          setData(months.map(({ month }) => {
+            const k=`${year}-${String(month+1).padStart(2,"0")}`;
+            const w=Math.ceil(new Date(year,month+1,0).getDate()/7);
+            return { label:mn[month], done:map[k]||0, planned:trainingDays.length*w };
+          }));
         });
     } else {
-      const years = []; for (let i=2; i>=0; i--) years.push(now.getFullYear()-i);
-      supabase.from("workout_logs").select("log_date,day_done").eq("user_id",userId).eq("day_done",true).gte("log_date",`${years[0]}-01-01`)
+      // Letztes Jahr, dieses Jahr, nächstes Jahr
+      const thisYear = now.getFullYear();
+      const years = [thisYear-1, thisYear, thisYear+1];
+      supabase.from("workout_logs").select("log_date,day_done").eq("user_id",userId).eq("day_done",true).gte("log_date",`${years[0]}-01-01`).lte("log_date",`${years[1]}-12-31`)
         .then(({ data:rows }) => {
           const map = {}; years.forEach(y => { map[String(y)]=0; }); (rows||[]).forEach(r => { if(r.log_date){ const k=r.log_date.slice(0,4); if(map[k]!==undefined) map[k]++; } });
-          setData(years.map(y => ({ label:String(y), done:map[String(y)]||0, planned:trainingDays.length*52 })));
+          setData(years.map(y => ({ label:String(y), done:map[String(y)]||0, planned:y<=thisYear?trainingDays.length*52:0 })));
         });
     }
   }, [mode, userId, trainingDays, lang]);
@@ -211,7 +219,7 @@ function ProgressChart({ lang, userId, trainingDays }) {
         <div style={{ fontSize:12, color:P.dim }}>{lang==="de"?"Noch keine Daten.":"No data yet."}</div>
       ) : (
         <div>
-          <svg width="100%" height={chartH} style={{ overflow:"visible" }}>
+          <svg width="100%" height={chartH + 8} viewBox={`-4 -4 108 ${chartH + 8}`} preserveAspectRatio="none" style={{ overflow:"hidden", display:"block" }}>
             {data.map((d, i) => {
               if (data.length<2) return null;
               const x = (i/(data.length-1))*100;
