@@ -135,16 +135,6 @@ const CAT_STYLE = {
   cardio: { label: "CARDIO", color: "#A9AD9C" },
 };
 
-// ── Wochenstartdatum berechnen ────────────────────────────────────────────────
-function getWeekStart() {
-  const now = new Date();
-  const day = now.getDay(); // 0=So, 1=Mo...
-  const diff = (day === 0 ? -6 : 1 - day);
-  const monday = new Date(now);
-  monday.setDate(now.getDate() + diff);
-  return monday.toISOString().split("T")[0];
-}
-
 // ── ExerciseCard ──────────────────────────────────────────────────────────────
 function ExerciseCard({ id, checked, onToggle, toneKey, lang }) {
   const ex = EXERCISES[id];
