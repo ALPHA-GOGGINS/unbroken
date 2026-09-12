@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./supabase";
+import CalendarView from "./CalendarView";
 
 const P = {
   bg: "#20241C", panel: "#2A2F22", border: "#3D4530",
@@ -283,90 +284,103 @@ export default function PlanView({ profile, lang, isAdmin }) {
   }, [daysKey]);
 
   return (
-    <div>
-      {/* Admin-Controls */}
-      {isAdmin && (
-        <div style={{ background: "rgba(201,162,39,0.08)", border: `1px solid ${P.accent}`, borderRadius: 6, padding: 14, marginBottom: 16 }}>
-          <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: P.accent, letterSpacing: "0.1em", marginBottom: 10 }}>ADMIN – ALLE PLÄNE VORSCHAU</div>
-          <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
-            {["3","4","5","6"].map(d => (
-              <button key={d} onClick={() => setAdminDays(d)} style={{
-                background: adminDays === d ? P.accent : "transparent",
-                color: adminDays === d ? "#1B1E15" : P.dim,
-                border: `1px solid ${adminDays === d ? P.accent : P.border}`,
+    <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr)", gap: 0 }}
+      className="plan-grid">
+      <style>{`
+        @media (min-width: 900px) {
+          .plan-grid { grid-template-columns: minmax(0,1.4fr) minmax(0,1fr) !important; gap: 24px !important; align-items: start; }
+        }
+      `}</style>
+
+      {/* Linke Spalte – Plan */}
+      <div>
+        {/* Admin-Controls */}
+        {isAdmin && (
+          <div style={{ background: "rgba(201,162,39,0.08)", border: `1px solid ${P.accent}`, borderRadius: 6, padding: 14, marginBottom: 16 }}>
+            <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: P.accent, letterSpacing: "0.1em", marginBottom: 10 }}>ADMIN – ALLE PLÄNE VORSCHAU</div>
+            <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+              {["3","4","5","6"].map(d => (
+                <button key={d} onClick={() => setAdminDays(d)} style={{
+                  background: adminDays === d ? P.accent : "transparent",
+                  color: adminDays === d ? "#1B1E15" : P.dim,
+                  border: `1px solid ${adminDays === d ? P.accent : P.border}`,
+                  borderRadius: 4, padding: "5px 12px", fontSize: 11,
+                  fontFamily: "Oswald, sans-serif", cursor: "pointer",
+                }}>{d} Tage</button>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Plan Header */}
+        <div style={{ background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6, padding: 20, marginBottom: 16 }}>
+          <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: P.accent, letterSpacing: "0.1em", marginBottom: 4 }}>
+            {lang === "de" ? "DEIN PLAN" : "YOUR PLAN"}
+          </div>
+          <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, fontWeight: 700, color: P.text, marginBottom: 4 }}>
+            {split.label}
+          </div>
+          <div style={{ fontSize: 13, color: P.dim, lineHeight: 1.5, marginBottom: 14 }}>
+            {TONE[toneOverride].intro}
+          </div>
+          <div style={{ display: "flex", gap: 6 }}>
+            {["standard","hardcore"].map(t => (
+              <button key={t} onClick={() => setToneOverride(t)} style={{
+                background: toneOverride === t ? "rgba(201,162,39,0.15)" : "transparent",
+                color: toneOverride === t ? P.accent : P.dim,
+                border: `1px solid ${toneOverride === t ? P.accent : P.border}`,
                 borderRadius: 4, padding: "5px 12px", fontSize: 11,
-                fontFamily: "Oswald, sans-serif", cursor: "pointer",
-              }}>{d} Tage</button>
+                fontFamily: "Oswald, sans-serif", letterSpacing: "0.06em", cursor: "pointer",
+              }}>
+                {t === "standard" ? "STANDARD" : (lang === "de" ? "KNALLHART" : "HARDCORE")}
+              </button>
             ))}
           </div>
         </div>
-      )}
 
-      {/* Plan Header */}
-      <div style={{ background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6, padding: 20, marginBottom: 16 }}>
-        <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 11, color: P.accent, letterSpacing: "0.1em", marginBottom: 4 }}>
-          {lang === "de" ? "DEIN PLAN" : "YOUR PLAN"}
-        </div>
-        <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 20, fontWeight: 700, color: P.text, marginBottom: 4 }}>
-          {split.label}
-        </div>
-        <div style={{ fontSize: 13, color: P.dim, lineHeight: 1.5, marginBottom: 14 }}>
-          {TONE[toneOverride].intro}
-        </div>
-
-        {/* Ton-Umschalter */}
-        <div style={{ display: "flex", gap: 6 }}>
-          {["standard","hardcore"].map(t => (
-            <button key={t} onClick={() => setToneOverride(t)} style={{
-              background: toneOverride === t ? "rgba(201,162,39,0.15)" : "transparent",
-              color: toneOverride === t ? P.accent : P.dim,
-              border: `1px solid ${toneOverride === t ? P.accent : P.border}`,
-              borderRadius: 4, padding: "5px 12px", fontSize: 11,
-              fontFamily: "Oswald, sans-serif", letterSpacing: "0.06em", cursor: "pointer",
+        {/* Tag-Navigation */}
+        <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
+          {dayNames.map((dayName, i) => (
+            <button key={dayName} onClick={() => setActiveDay(dayName)} style={{
+              background: activeDay === dayName ? "rgba(201,162,39,0.15)" : "transparent",
+              color: activeDay === dayName ? P.accent : P.dim,
+              border: `1px solid ${activeDay === dayName ? P.accent : P.border}`,
+              borderRadius: 4, padding: "6px 12px", fontSize: 11,
+              fontFamily: "Oswald, sans-serif", letterSpacing: "0.04em", cursor: "pointer",
             }}>
-              {t === "standard" ? "STANDARD" : (lang === "de" ? "KNALLHART" : "HARDCORE")}
+              {lang === "de" ? `TAG ${i + 1}` : `DAY ${i + 1}`}
             </button>
           ))}
         </div>
-      </div>
 
-      {/* Tag-Navigation */}
-      <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 16 }}>
-        {dayNames.map((dayName, i) => (
-          <button key={dayName} onClick={() => setActiveDay(dayName)} style={{
-            background: activeDay === dayName ? "rgba(201,162,39,0.15)" : "transparent",
-            color: activeDay === dayName ? P.accent : P.dim,
-            border: `1px solid ${activeDay === dayName ? P.accent : P.border}`,
-            borderRadius: 4, padding: "6px 12px", fontSize: 11,
-            fontFamily: "Oswald, sans-serif", letterSpacing: "0.04em", cursor: "pointer",
-          }}>
-            {lang === "de" ? `TAG ${i + 1}` : `DAY ${i + 1}`}
-          </button>
-        ))}
-      </div>
+        <DayPanel
+          key={`${daysKey}-${activeDay}-${weekStart}`}
+          dayKey={activeDay}
+          exerciseIds={split.days[activeDay] || []}
+          toneKey={toneOverride}
+          lang={lang}
+          userId={userId}
+          weekStart={weekStart}
+        />
 
-      {/* Aktiver Tag – key erzwingt Reload wenn Tag oder Split wechselt */}
-      <DayPanel
-        key={`${daysKey}-${activeDay}-${weekStart}`}
-        dayKey={activeDay}
-        exerciseIds={split.days[activeDay] || []}
-        toneKey={toneOverride}
-        lang={lang}
-        userId={userId}
-        weekStart={weekStart}
-      />
-
-      {/* Progressions-Info */}
-      <div style={{ background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6, padding: 16 }}>
-        <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 12, color: P.accent, letterSpacing: "0.08em", marginBottom: 8 }}>
-          {lang === "de" ? "PROGRESSION" : "PROGRESSION"}
-        </div>
-        <div style={{ fontSize: 12, color: P.dim, lineHeight: 1.7 }}>
-          {lang === "de"
-            ? "Alle 2 Wochen: +1 Wdh. pro Satz. Oberes Ende erreicht: +2,5–5 kg, Wdh. zurück zum Start. Alle 6–8 Wochen: automatische Deload-Woche (–20% Volumen)."
-            : "Every 2 weeks: +1 rep per set. Top of range reached: +2.5–5 kg, reps back to start. Every 6–8 weeks: automatic deload week (–20% volume)."}
+        {/* Progressions-Info */}
+        <div style={{ background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6, padding: 16 }}>
+          <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 12, color: P.accent, letterSpacing: "0.08em", marginBottom: 8 }}>
+            {lang === "de" ? "PROGRESSION" : "PROGRESSION"}
+          </div>
+          <div style={{ fontSize: 12, color: P.dim, lineHeight: 1.7 }}>
+            {lang === "de"
+              ? "Alle 2 Wochen: +1 Wdh. pro Satz. Oberes Ende erreicht: +2,5–5 kg, Wdh. zurück zum Start. Alle 6–8 Wochen: automatische Deload-Woche (–20% Volumen)."
+              : "Every 2 weeks: +1 rep per set. Top of range reached: +2.5–5 kg, reps back to start. Every 6–8 weeks: automatic deload week (–20% volume)."}
+          </div>
         </div>
       </div>
+
+      {/* Rechte Spalte – Kalender */}
+      <div>
+        <CalendarView profile={profile} lang={lang} />
+      </div>
+
     </div>
   );
 }
