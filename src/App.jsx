@@ -722,7 +722,7 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
           {view === "myplan" && (
             <div className="fade-in">
               {session && profile?.is_admin ? (
-                <PlanView profile={profile} lang={lang} />
+                <PlanView profile={profile} lang={lang} isAdmin={true} />
               ) : session ? (
                 <div style={{ textAlign: "center", padding: "40px 0" }}>
                   <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 48, fontWeight: 700, letterSpacing: "0.06em", color: P.accent, marginBottom: 8 }}>COMING</div>
