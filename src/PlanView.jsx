@@ -180,7 +180,7 @@ function DayPanel({ dayKey, exerciseIds, toneKey, lang, userId, weekStart }) {
       .eq("user_id", userId)
       .eq("week_start", weekStart)
       .eq("day_key", dayKey)
-      .single()
+      .maybeSingle()
       .then(({ data }) => {
         if (data) {
           const checkedMap = {};
@@ -349,7 +349,7 @@ export default function PlanView({ profile, lang, isAdmin }) {
       <DayPanel
         key={`${daysKey}-${activeDay}-${weekStart}`}
         dayKey={activeDay}
-        exerciseIds={split.days[activeDay]}
+        exerciseIds={split.days[activeDay] || []}
         toneKey={toneOverride}
         lang={lang}
         userId={userId}
