@@ -192,6 +192,9 @@ export default function PlanView({ profile, lang, isAdmin }) {
   // Alle Logs für diese Woche beim Start laden
   useEffect(() => {
     if (!userId) { setLoading(false); return; }
+    const currentSplit = SPLITS[isAdmin ? adminDays : daysKey] || SPLITS["3"];
+    const currentDayNames = Object.keys(currentSplit.days);
+
     supabase.from("workout_logs")
       .select("day_key, completed_exercises, day_done")
       .eq("user_id", userId)
@@ -199,20 +202,21 @@ export default function PlanView({ profile, lang, isAdmin }) {
       .then(({ data }) => {
         const checked = {};
         const done = {};
-        activeDayNames.forEach(d => { checked[d] = {}; done[d] = false; });
+        // Initialisiere alle Tage mit leerem State
+        currentDayNames.forEach(d => { checked[d] = {}; done[d] = false; });
+        // Überschreibe mit gespeicherten Daten aus Supabase
         (data || []).forEach(row => {
-          if (checked[row.day_key] !== undefined) {
-            const map = {};
-            (row.completed_exercises || []).forEach(id => { map[id] = true; });
-            checked[row.day_key] = map;
-            done[row.day_key] = row.day_done || false;
-          }
+          const map = {};
+          (row.completed_exercises || []).forEach(id => { map[id] = true; });
+          // Speichere auch wenn day_key nicht in currentDayNames ist
+          checked[row.day_key] = map;
+          done[row.day_key] = row.day_done || false;
         });
         setAllChecked(checked);
         setAllDayDone(done);
         setLoading(false);
       });
-  }, [userId, weekStart, adminDays]);
+  }, [userId, weekStart, adminDays, daysKey]);
 
   const save = async (dayKey, newChecked, newDone) => {
     if (!userId) return;
