@@ -12,31 +12,47 @@ const WEEKDAYS_FULL_DE = ["Montag","Dienstag","Mittwoch","Donnerstag","Freitag",
 const WEEKDAYS_FULL_EN = ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"];
 const WEEKDAY_KEYS = ["monday","tuesday","wednesday","thursday","friday","saturday","sunday"];
 
-function getWeekStart(date = new Date()) {
-  const d = new Date(date);
-  const day = d.getDay();
+function getLocalDate() {
+  // Nutzt die lokale Zeitzone des Browsers – korrekt für jeden Nutzer weltweit
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
+
+function getWeekStart(date) {
+  // Wochenstartberechnung basierend auf lokaler Zeit
+  const d = date ? new Date(date) : new Date();
+  // Lokales Datum verwenden
+  const localDate = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const day = localDate.getDay(); // 0=So, 1=Mo...
   const diff = day === 0 ? -6 : 1 - day;
-  d.setDate(d.getDate() + diff);
-  return d.toISOString().split("T")[0];
+  localDate.setDate(localDate.getDate() + diff);
+  const y = localDate.getFullYear();
+  const m = String(localDate.getMonth() + 1).padStart(2, "0");
+  const dd = String(localDate.getDate()).padStart(2, "0");
+  return `${y}-${m}-${dd}`;
 }
 
 function formatDate(date) {
-  return date.toISOString().split("T")[0];
-}
-
-function addDays(dateStr, n) {
-  const d = new Date(dateStr);
-  d.setDate(d.getDate() + n);
-  return formatDate(d);
+  const y = date.getFullYear();
+  const m = String(date.getMonth() + 1).padStart(2, "0");
+  const d = String(date.getDate()).padStart(2, "0");
+  return `${y}-${m}-${d}`;
 }
 
 // ── Trainingstag-Setup ────────────────────────────────────────────────────────
-function TrainingDaySetup({ lang, onSave }) {
+function TrainingDaySetup({ lang, onSave, maxDays }) {
   const [selected, setSelected] = useState([]);
   const days = lang === "de" ? WEEKDAYS_FULL_DE : WEEKDAYS_FULL_EN;
 
   const toggle = (key) => {
-    setSelected(s => s.includes(key) ? s.filter(k => k !== key) : [...s, key]);
+    setSelected(s => {
+      if (s.includes(key)) return s.filter(k => k !== key);
+      if (s.length >= maxDays) return s; // Nicht mehr als maxDays auswählen
+      return [...s, key];
+    });
   };
 
   return (
@@ -44,28 +60,34 @@ function TrainingDaySetup({ lang, onSave }) {
       <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 16, fontWeight: 600, color: P.text, marginBottom: 4 }}>
         {lang === "de" ? "An welchen Tagen trainierst du?" : "Which days do you train?"}
       </div>
-      <div style={{ fontSize: 13, color: P.dim, marginBottom: 16 }}>
-        {lang === "de" ? "Wähle deine Trainingstage – so können wir deinen Fortschritt tracken." : "Select your training days — this lets us track your progress accurately."}
+      <div style={{ fontSize: 13, color: P.dim, marginBottom: 8 }}>
+        {lang === "de"
+          ? `Wähle genau ${maxDays} Trainingstage pro Woche.`
+          : `Select exactly ${maxDays} training days per week.`}
+      </div>
+      <div style={{ fontSize: 12, color: P.accent, marginBottom: 16 }}>
+        {selected.length}/{maxDays} {lang === "de" ? "ausgewählt" : "selected"}
       </div>
       <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }}>
         {WEEKDAY_KEYS.map((key, i) => (
           <button key={key} onClick={() => toggle(key)} style={{
-            padding: "8px 14px", borderRadius: 4, cursor: "pointer",
+            padding: "8px 14px", borderRadius: 4, cursor: selected.length >= maxDays && !selected.includes(key) ? "default" : "pointer",
             border: `1px solid ${selected.includes(key) ? P.accent : P.border}`,
             background: selected.includes(key) ? "rgba(201,162,39,0.15)" : "transparent",
-            color: selected.includes(key) ? P.accent : P.dim,
+            color: selected.includes(key) ? P.accent : selected.length >= maxDays ? P.dim : P.text,
             fontFamily: "Inter, sans-serif", fontSize: 13, fontWeight: selected.includes(key) ? 600 : 400,
+            opacity: selected.length >= maxDays && !selected.includes(key) ? 0.4 : 1,
           }}>{days[i]}</button>
         ))}
       </div>
       <button
-        onClick={() => selected.length > 0 && onSave(selected)}
-        disabled={selected.length === 0}
+        onClick={() => selected.length === maxDays && onSave(selected)}
+        disabled={selected.length !== maxDays}
         style={{
           width: "100%", background: P.accent, border: "none", color: "#1B1E15",
           padding: "12px 0", borderRadius: 4, fontSize: 14, fontWeight: 700,
-          fontFamily: "Inter, sans-serif", cursor: selected.length > 0 ? "pointer" : "default",
-          opacity: selected.length > 0 ? 1 : 0.4,
+          fontFamily: "Inter, sans-serif", cursor: selected.length === maxDays ? "pointer" : "default",
+          opacity: selected.length === maxDays ? 1 : 0.4,
         }}
       >
         {lang === "de" ? "Speichern" : "Save"}
@@ -102,7 +124,7 @@ function MonthCalendar({ lang, userId, trainingDays, year, month }) {
   const lastDay = new Date(year, month + 1, 0);
   const startWeekday = (firstDay.getDay() + 6) % 7; // Mo=0
   const totalDays = lastDay.getDate();
-  const today = formatDate(new Date());
+  const today = getLocalDate();
 
   const labels = lang === "de" ? WEEKDAYS_DE : WEEKDAYS_EN;
   const monthNames_de = ["Januar","Februar","März","April","Mai","Juni","Juli","August","September","Oktober","November","Dezember"];
@@ -316,6 +338,7 @@ function ProgressChart({ lang, userId, trainingDays }) {
 // ── CalendarView (Haupt-Export) ───────────────────────────────────────────────
 export default function CalendarView({ profile, lang }) {
   const userId = profile?.id;
+  const maxDays = profile?.days_per_week || 3;
   const [trainingDays, setTrainingDays] = useState(profile?.training_days || []);
   const [setupDone, setSetupDone] = useState((profile?.training_days || []).length > 0);
   const now = new Date();
@@ -340,7 +363,7 @@ export default function CalendarView({ profile, lang }) {
   return (
     <div>
       {!setupDone && (
-        <TrainingDaySetup lang={lang} onSave={saveTrainingDays} />
+        <TrainingDaySetup lang={lang} onSave={saveTrainingDays} maxDays={maxDays} />
       )}
 
       {setupDone && (
