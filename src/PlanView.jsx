@@ -229,8 +229,20 @@ export default function PlanView({ profile, lang, isAdmin }) {
         const monthStr = `${year}-${String(month+1).padStart(2,"0")}`;
         const monthDone = completedWeeks.filter(w => w.startsWith(monthStr)).length;
 
-        // Jahr: Monate mit mindestens einer abgeschlossenen Woche
-        const yearDone = new Set(completedWeeks.map(w => w.slice(0,7))).size;
+        // Jahr: Monate wo ALLE Wochen des Monats abgeschlossen wurden
+        // Zähle Montage pro Monat und prüfe ob alle abgeschlossen
+        let yearDone = 0;
+        for (let m = 0; m < 12; m++) {
+          const mStr = `${year}-${String(m+1).padStart(2,"0")}`;
+          // Alle Montage in diesem Monat
+          const daysInM = new Date(year, m+1, 0).getDate();
+          let mondaysInM = 0;
+          for (let d = 1; d <= daysInM; d++) {
+            if (new Date(year, m, d).getDay() === 1) mondaysInM++;
+          }
+          const completedInM = completedWeeks.filter(w => w.startsWith(mStr)).length;
+          if (mondaysInM > 0 && completedInM >= mondaysInM) yearDone++;
+        }
 
         setDbProgress({ month: monthDone, year: yearDone });
       });
