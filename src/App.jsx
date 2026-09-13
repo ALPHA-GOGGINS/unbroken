@@ -629,6 +629,7 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
         setIntroVisible(false);
         if (typeof sessionStorage !== "undefined") sessionStorage.setItem("introSeen", "1");
       }} />}
+      <div style={{ visibility: introVisible ? "hidden" : "visible" }}>
       <div style={{ minHeight: "100vh", width: "100%", background: P.bg, color: P.text, fontFamily: "Inter, system-ui, sans-serif", display: "flex", justifyContent: "center", padding: "32px 16px", boxSizing: "border-box" }}>
         <div style={{ width: "100%", maxWidth: 960 }}>
 
@@ -845,6 +846,7 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
           )}
 
         </div>
+      </div>
       </div>
     </>
   );
