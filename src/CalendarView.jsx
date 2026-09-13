@@ -137,11 +137,21 @@ function ProgressChart({ lang, daysPerWeek, allDayDone, activeDayNames, dbProgre
 
   const now          = new Date();
   const year         = now.getFullYear();
-  const day          = now.getDate();
-  const startOfYear  = new Date(year, 0, 1);
-  const daysIntoYear = Math.ceil((now - startOfYear) / (1000*60*60*24)) + 1;
-  const monthTotal   = Math.max(1, Math.round((day / 7) * daysPerWeek));
-  const yearTotal    = Math.max(1, Math.round((daysIntoYear / 7) * daysPerWeek));
+  const month        = now.getMonth();
+
+  // Wochen im aktuellen Monat (vergangen + laufende)
+  const firstOfMonth  = new Date(year, month, 1);
+  const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
+  // Anzahl Wochen die im Monat begonnen haben (Montage die in diesem Monat liegen)
+  let weeksInMonth = 0;
+  for (let d = 1; d <= Math.min(now.getDate(), lastDayOfMonth); d++) {
+    if (new Date(year, month, d).getDay() === 1) weeksInMonth++; // Montag
+  }
+  if (weeksInMonth === 0) weeksInMonth = 1; // mindestens 1 Woche
+  const monthTotal = weeksInMonth;
+
+  // Monate im Jahr bis heute (Jan = 1, Sep = 9)
+  const yearTotal = month + 1; // Anzahl Monate die begonnen haben
 
   const blocks = [
     { label: lang==="de"?"DIESE WOCHE":"THIS WEEK",   done:weekDone,              total:weekTotal  },
