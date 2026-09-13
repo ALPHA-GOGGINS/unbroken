@@ -247,7 +247,7 @@ const UI = {
     aboutTitle: "Worum es geht",
     aboutP1: "Unbroken kommt nicht von jemandem, der bereits oben steht und erklärt, wie man hochkommt. Hinter diesem Projekt steckt jemand, der selbst noch mittendrin ist.",
     aboutP2: "Das Kernkonzept: Statt eines starren Plans entsteht hier etwas, das sich durch echte Daten von echten Menschen weiterentwickelt.",
-    aboutP3: "Wir stehen ganz am Anfang. Wer jetzt mitmacht, gestaltet mit, was daraus wird.",
+    aboutP3: "Dieses Projekt steht ganz am Anfang. Wer jetzt mitmacht, gestaltet mit, was daraus wird.",
     aboutPersonTitle: "Wer steckt dahinter?",
     aboutPersonBody: "Unbroken wird von einer einzelnen Person aufgebaut, die selbst mitten im eigenen Weg steckt. Name und weitere Details bleiben bewusst anonym.",
     aboutCta: "Zur Umfrage",
@@ -262,7 +262,7 @@ const UI = {
       "Wer selbst durch etwas gegangen ist, versteht es besser als jeder Außenstehende.",
       "Kein starrer Plan schlägt einen, der auf echten Daten echter Menschen basiert.",
       "Rückschläge gehören zum Weg. Sie sind keine Niederlage, sondern Datenpunkte.",
-      "Wir stehen ganz am Anfang – und das sagen wir offen.",
+      "Dieses Projekt steht ganz am Anfang – und das sagen wir offen.",
     ],
     aboutPersonTitle2: "Wer steckt dahinter?",
     aboutPersonBody2: "Unbroken wird von einer einzelnen Person aufgebaut, die selbst mitten im eigenen Weg steckt. Name und weitere Details bleiben bewusst anonym.",
@@ -289,7 +289,7 @@ const UI = {
     aboutTitle: "What this is",
     aboutP1: "Unbroken isn't built by someone at the top explaining how to get there. It's built by someone still in it — progress, setbacks, and everything in between.",
     aboutP2: "The core idea: instead of a fixed plan, this evolves through real data from real people.",
-    aboutP3: "We're at the very start. Joining now means shaping what this becomes.",
+    aboutP3: "This project is at the very start. Joining now means shaping what this becomes.",
     aboutPersonTitle: "Who's behind this?",
     aboutPersonBody: "Unbroken is built by a single person who is still in the middle of their own journey. Name and further details stay anonymous here by choice.",
     aboutCta: "Go to the survey",
@@ -304,7 +304,7 @@ const UI = {
       "Whoever has lived through something understands it better than any outside expert.",
       "No fixed plan beats one that grows from real data of real people.",
       "Setbacks are part of the path, not a defeat — they're data points.",
-      "We're at the very start — and we say so openly.",
+      "This project is at the very start — and we say so openly.",
     ],
     back: "Back", next: "Next", submit: "Submit", submitting: "Sending…",
     thanksTitle: "Thanks.",
@@ -554,12 +554,13 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
 
   const { displayed: typedTitle, done: typeDone } = useTypewriter("UNBROKEN", 80);
   const [lang, setLang] = useState("de");
-  // Intro nur einmal pro Browser-Session zeigen
-  const [showIntro, setShowIntro] = useState(() => {
+  // Intro-State sofort berechnen (sync, kein Flash)
+  const [showIntro] = useState(() => {
     if (justConfirmed) return false;
     if (typeof sessionStorage !== "undefined" && sessionStorage.getItem("introSeen")) return false;
     return true;
   });
+  const [introVisible, setIntroVisible] = useState(showIntro);
   const [view, setView] = useState(justConfirmed ? "myplan" : "start");
   const t = UI[lang];
 
@@ -624,8 +625,8 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
 
   return (
     <>
-      {showIntro && <CinematicIntro onDone={() => {
-        setShowIntro(false);
+      {introVisible && <CinematicIntro onDone={() => {
+        setIntroVisible(false);
         if (typeof sessionStorage !== "undefined") sessionStorage.setItem("introSeen", "1");
       }} />}
       <div style={{ minHeight: "100vh", width: "100%", background: P.bg, color: P.text, fontFamily: "Inter, system-ui, sans-serif", display: "flex", justifyContent: "center", padding: "32px 16px", boxSizing: "border-box" }}>
