@@ -202,20 +202,37 @@ export default function PlanView({ profile, lang, isAdmin }) {
   // Monat/Jahr Fortschritt laden und bei jedem Workout-Abschluss neu laden
   const loadProgress = () => {
     if (!userId) return;
-    const now = new Date();
-    const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-01`;
-    const yearStart  = `${now.getFullYear()}-01-01`;
+    const now   = new Date();
+    const year  = now.getFullYear();
+    const month = now.getMonth();
+
     supabase.from("workout_logs")
-      .select("log_date")
+      .select("week_start, day_done")
       .eq("user_id", userId)
-      .eq("day_done", true)
-      .gte("log_date", yearStart)
+      .gte("week_start", `${year}-01-01`)
       .then(({ data }) => {
-        const rows = data||[];
-        setDbProgress({
-          month: rows.filter(r => r.log_date >= monthStart).length,
-          year:  rows.length,
+        const rows = data || [];
+
+        // Gruppiere done-Tage pro Woche
+        const weekMap = {};
+        rows.forEach(r => {
+          if (!weekMap[r.week_start]) weekMap[r.week_start] = 0;
+          if (r.day_done) weekMap[r.week_start]++;
         });
+
+        // Woche abgeschlossen = alle daysPerWeek Tage done
+        const completedWeeks = Object.entries(weekMap)
+          .filter(([, count]) => count >= daysPerWeek)
+          .map(([week]) => week);
+
+        // Monat: abgeschlossene Wochen in diesem Monat
+        const monthStr = `${year}-${String(month+1).padStart(2,"0")}`;
+        const monthDone = completedWeeks.filter(w => w.startsWith(monthStr)).length;
+
+        // Jahr: Monate mit mindestens einer abgeschlossenen Woche
+        const yearDone = new Set(completedWeeks.map(w => w.slice(0,7))).size;
+
+        setDbProgress({ month: monthDone, year: yearDone });
       });
   };
 
