@@ -135,23 +135,20 @@ function ProgressChart({ lang, daysPerWeek, allDayDone, activeDayNames, dbProgre
   const weekDone  = (activeDayNames||[]).filter(d => allDayDone?.[d]).length;
   const weekTotal = daysPerWeek;
 
-  const now          = new Date();
-  const year         = now.getFullYear();
-  const month        = now.getMonth();
+  const now   = new Date();
+  const year  = now.getFullYear();
+  const month = now.getMonth();
 
-  // Wochen im aktuellen Monat (vergangen + laufende)
-  const firstOfMonth  = new Date(year, month, 1);
-  const lastDayOfMonth = new Date(year, month + 1, 0).getDate();
-  // Anzahl Wochen die im Monat begonnen haben (Montage die in diesem Monat liegen)
-  let weeksInMonth = 0;
-  for (let d = 1; d <= Math.min(now.getDate(), lastDayOfMonth); d++) {
-    if (new Date(year, month, d).getDay() === 1) weeksInMonth++; // Montag
+  // Trainingswochen im Monat = Anzahl Montage die in diesem Monat liegen
+  // (week_start ist immer Montag)
+  let monthTotal = 0;
+  const daysInMonth = new Date(year, month + 1, 0).getDate();
+  for (let d = 1; d <= daysInMonth; d++) {
+    if (new Date(year, month, d).getDay() === 1) monthTotal++;
   }
-  if (weeksInMonth === 0) weeksInMonth = 1; // mindestens 1 Woche
-  const monthTotal = weeksInMonth;
 
-  // Monate im Jahr bis heute (Jan = 1, Sep = 9)
-  const yearTotal = month + 1; // Anzahl Monate die begonnen haben
+  // Jahr: immer 12 Monate
+  const yearTotal = 12;
 
   const blocks = [
     { label: lang==="de"?"DIESE WOCHE":"THIS WEEK",   done:weekDone,              total:weekTotal  },
