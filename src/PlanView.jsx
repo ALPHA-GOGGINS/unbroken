@@ -197,6 +197,29 @@ export default function PlanView({ profile, lang, isAdmin }) {
   const [allDayDone,   setAllDayDone]   = useState({});
   const [loading,      setLoading]      = useState(true);
   const [saving,       setSaving]       = useState(false);
+  const [dbProgress,   setDbProgress]   = useState({ month:0, year:0 });
+
+  // Monat/Jahr Fortschritt laden und bei jedem Workout-Abschluss neu laden
+  const loadProgress = () => {
+    if (!userId) return;
+    const now = new Date();
+    const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-01`;
+    const yearStart  = `${now.getFullYear()}-01-01`;
+    supabase.from("workout_logs")
+      .select("log_date")
+      .eq("user_id", userId)
+      .eq("day_done", true)
+      .gte("log_date", yearStart)
+      .then(({ data }) => {
+        const rows = data||[];
+        setDbProgress({
+          month: rows.filter(r => r.log_date >= monthStart).length,
+          year:  rows.length,
+        });
+      });
+  };
+
+  useEffect(() => { loadProgress(); }, [userId, weekStart]);
 
   const activeSplit    = SPLITS[isAdmin ? adminDays : daysKey] || SPLITS["3"];
   const activeDayNames = Object.keys(activeSplit.days);
@@ -254,6 +277,8 @@ export default function PlanView({ profile, lang, isAdmin }) {
     }
     if (error) console.error("Save error:", error);
     setSaving(false);
+    // Fortschritt neu laden nach 600ms
+    setTimeout(loadProgress, 600);
   };
 
   const handleToggle = async (dayKey, exId) => {
@@ -351,6 +376,7 @@ export default function PlanView({ profile, lang, isAdmin }) {
           allDayDone={allDayDone}
           activeDayNames={activeDayNames}
           daysPerWeek={isAdmin ? parseInt(adminDays) : (profile?.days_per_week || 3)}
+          dbProgress={dbProgress}
         />
       </div>
     </div>
