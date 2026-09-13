@@ -547,20 +547,13 @@ function AuthInline({ lang, onBack }) {
 }
 
 // ── Main App ──────────────────────────────────────────────────────────────────
-export default function UnbrokenApp({ session, profile, justConfirmed }) {
+export default function UnbrokenApp({ session, profile, justConfirmed, showIntro, onIntroDone }) {
   useEffect(ensureFonts, []);
   useEffect(ensurePageStyle, []);
   useEffect(ensureAnimations, []);
 
   const { displayed: typedTitle, done: typeDone } = useTypewriter("UNBROKEN", 80);
   const [lang, setLang] = useState("de");
-  // Intro-State sofort berechnen (sync, kein Flash)
-  const [showIntro] = useState(() => {
-    if (justConfirmed) return false;
-    if (typeof sessionStorage !== "undefined" && sessionStorage.getItem("introSeen")) return false;
-    return true;
-  });
-  const [introVisible, setIntroVisible] = useState(showIntro);
   const [view, setView] = useState(justConfirmed ? "myplan" : "start");
   const t = UI[lang];
 
@@ -625,11 +618,7 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
 
   return (
     <>
-      {introVisible && <CinematicIntro onDone={() => {
-        setIntroVisible(false);
-        if (typeof sessionStorage !== "undefined") sessionStorage.setItem("introSeen", "1");
-      }} />}
-      <div style={{ visibility: introVisible ? "hidden" : "visible" }}>
+      {showIntro && <CinematicIntro onDone={onIntroDone} />}
       <div style={{ minHeight: "100vh", width: "100%", background: P.bg, color: P.text, fontFamily: "Inter, system-ui, sans-serif", display: "flex", justifyContent: "center", padding: "32px 16px", boxSizing: "border-box" }}>
         <div style={{ width: "100%", maxWidth: 960 }}>
 
@@ -846,7 +835,6 @@ export default function UnbrokenApp({ session, profile, justConfirmed }) {
           )}
 
         </div>
-      </div>
       </div>
     </>
   );
