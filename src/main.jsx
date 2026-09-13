@@ -4,15 +4,17 @@ import { supabase } from "./supabase";
 import UnbrokenApp from "./App";
 import Onboarding from "./Onboarding";
 
+// Intro sofort beim ersten JS-Load prüfen - kein State, kein Re-render
+const SHOW_INTRO = !sessionStorage.getItem("introSeen");
+
 function Root() {
   const [session, setSession] = useState(undefined);
   const [profile, setProfile] = useState(undefined);
   const [authEvent, setAuthEvent] = useState(null);
+  const [introGone, setIntroGone] = useState(!SHOW_INTRO);
 
   useEffect(() => {
-    // Prüfe ob URL einen Auth-Token enthält (nach Email-Bestätigung)
     supabase.auth.getSession().then(({ data }) => setSession(data.session));
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, s) => {
       setSession(s);
       setAuthEvent(event);
@@ -26,16 +28,21 @@ function Root() {
       .then(({ data }) => setProfile(data));
   }, [session]);
 
-  // Laden
+  const handleIntroDone = () => {
+    sessionStorage.setItem("introSeen", "1");
+    setIntroGone(true);
+  };
+
+  // Loading screen
   if (session === undefined || (session && profile === undefined)) {
     return (
-      <div style={{ minHeight: "100vh", background: "#20241C", display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <div style={{ color: "#C9A227", fontFamily: "Oswald, sans-serif", fontSize: 20, letterSpacing: "0.1em" }}>UNBROKEN</div>
+      <div style={{ minHeight:"100vh", background:"#20241C", display:"flex", alignItems:"center", justifyContent:"center" }}>
+        <div style={{ color:"#C9A227", fontFamily:"Oswald, sans-serif", fontSize:20, letterSpacing:"0.1em" }}>UNBROKEN</div>
       </div>
     );
   }
 
-  // Eingeloggt aber kein Profil → Onboarding
+  // Onboarding
   if (session && (!profile || !profile.training_level)) {
     return (
       <Onboarding
@@ -48,8 +55,15 @@ function Root() {
     );
   }
 
-  // Alles okay → App, mit Flag ob gerade von Email-Bestätigung kommend
-  return <UnbrokenApp session={session} profile={profile} justConfirmed={authEvent === "SIGNED_IN"} />;
+  return (
+    <UnbrokenApp
+      session={session}
+      profile={profile}
+      justConfirmed={authEvent === "SIGNED_IN"}
+      showIntro={SHOW_INTRO && !introGone}
+      onIntroDone={handleIntroDone}
+    />
+  );
 }
 
 createRoot(document.getElementById("root")).render(
