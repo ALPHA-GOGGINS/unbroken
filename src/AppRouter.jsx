@@ -117,63 +117,51 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
 
   return (
     <>
-      {/* Cinematisches Intro */}
       {introVisible && <CinematicIntro onDone={handleIntroDone} />}
 
       <div style={{ display:"flex", minHeight:"100vh", background:P.bg, color:P.text, fontFamily:"Inter, system-ui, sans-serif" }}>
 
-        {/* Desktop: feste linke Sidebar */}
-        {desktop && (
-          <div style={{ width:240, flexShrink:0, borderRight:`1px solid ${P.border}`, position:"sticky", top:0, height:"100vh", overflowY:"auto" }}>
-            <NavContent />
-          </div>
-        )}
-
-        {/* Mobile: Overlay + Slide-in */}
-        {!desktop && menuOpen && (
+        {/* Overlay für alle Bildschirmgrößen */}
+        {menuOpen && (
           <>
-            {/* Overlay */}
             <div
               onClick={() => setMenu(false)}
               style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.6)", zIndex:100, cursor:"pointer" }}
             />
-            {/* Slide-in panel */}
             <div style={{
-              position:"fixed", top:0, left:0, bottom:0, width:280,
+              position:"fixed", top:0, left:0, bottom:0, width: desktop ? 280 : 280,
               background:P.panel, borderRight:`1px solid ${P.border}`,
               zIndex:101, overflowY:"auto",
-              animation:"slideIn 0.25s cubic-bezier(0.4,0,0.2,1) both",
+              animation:"slideIn 0.28s cubic-bezier(0.4,0,0.2,1) both",
             }}>
-              <style>{`@keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}}`}</style>
+              <style>{`@keyframes slideIn{from{transform:translateX(-100%)}to{transform:translateX(0)}} @keyframes arrowBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}`}</style>
               <NavContent />
             </div>
           </>
         )}
 
-        {/* Main content */}
-        <div style={{ flex:1, display:"flex", flexDirection:"column", minHeight:"100vh", overflow:"auto" }}>
-          {/* Mobile header */}
-          {!desktop && (
-            <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding:"16px 20px", borderBottom:`1px solid ${P.border}`, position:"sticky", top:0, background:P.bg, zIndex:50 }}>
-              <div
-                onClick={() => navigate("/")}
-                style={{ fontFamily:"Oswald, sans-serif", fontWeight:700, fontSize:20, color:P.text, letterSpacing:"0.05em", cursor:"pointer" }}
-              >
-                UNBROKEN
-              </div>
-              <button
-                onClick={() => setMenu(m => !m)}
-                style={{ background:"transparent", border:`1px solid ${P.border}`, borderRadius:4, padding:"8px 10px", cursor:"pointer", color:P.text, display:"flex", flexDirection:"column", gap:4 }}
-              >
-                <div style={{ width:18, height:2, background:P.text, borderRadius:1 }}/>
-                <div style={{ width:18, height:2, background:P.text, borderRadius:1 }}/>
-                <div style={{ width:18, height:2, background:P.text, borderRadius:1 }}/>
-              </button>
+        {/* Main content – volle Breite immer */}
+        <div style={{ flex:1, display:"flex", flexDirection:"column", minHeight:"100vh" }}>
+          {/* Header mit Hamburger – immer sichtbar */}
+          <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding: desktop ? "20px 48px" : "16px 20px", borderBottom:`1px solid ${P.border}`, position:"sticky", top:0, background:P.bg, zIndex:50 }}>
+            <div
+              onClick={() => { navigate("/"); setMenu(false); }}
+              style={{ fontFamily:"Oswald, sans-serif", fontWeight:700, fontSize: desktop ? 22 : 20, color:P.text, letterSpacing:"0.05em", cursor:"pointer" }}
+            >
+              UNBROKEN
             </div>
-          )}
+            <button
+              onClick={() => setMenu(m => !m)}
+              style={{ background:"transparent", border:`1px solid ${P.border}`, borderRadius:4, padding:"8px 10px", cursor:"pointer", color:P.text, display:"flex", flexDirection:"column", gap:4, transition:"border-color 0.2s" }}
+            >
+              <div style={{ width:18, height:2, background:menuOpen ? P.accent : P.text, borderRadius:1, transition:"background 0.2s" }}/>
+              <div style={{ width:18, height:2, background:menuOpen ? P.accent : P.text, borderRadius:1, transition:"background 0.2s" }}/>
+              <div style={{ width:18, height:2, background:menuOpen ? P.accent : P.text, borderRadius:1, transition:"background 0.2s" }}/>
+            </button>
+          </div>
 
           {/* Page content */}
-          <div style={{ flex:1, padding: desktop ? "40px 48px" : "24px 20px", maxWidth: desktop ? 900 : "100%", width:"100%", boxSizing:"border-box" }}>
+          <div style={{ flex:1, padding: desktop ? "48px 48px" : "24px 20px", maxWidth: desktop ? 960 : "100%", width:"100%", boxSizing:"border-box" }}>
             <Routes>
               <Route path="/"           element={<PageStart    lang={lang} session={session} />} />
               <Route path="/konzept"    element={<PageConcept  lang={lang} />} />
@@ -193,4 +181,3 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
     </>
   );
 }
-
