@@ -131,75 +131,22 @@ function MonthCalendar({ lang, userId, trainingDays, year, month, liveDoneDates 
 }
 
 // ── Fortschritts-Anzeige ─────────────────────────────────────────────────────
-function ProgressChart({ lang, userId, daysPerWeek, allDayDone, activeDayNames, weekStart }) {
-  const [dbDone, setDbDone] = useState({ month:0, year:0 });
-
-  // Woche: live aus allDayDone – Anzahl abgeschlossener Tage von daysPerWeek
+function ProgressChart({ lang, daysPerWeek, allDayDone, activeDayNames, dbProgress }) {
   const weekDone  = (activeDayNames||[]).filter(d => allDayDone?.[d]).length;
-  const weekTotal = daysPerWeek; // kommt direkt aus profile.days_per_week
+  const weekTotal = daysPerWeek;
 
-  // Monat/Jahr: aus Supabase, wird neu geladen wenn weekStart sich ändert (neue Woche)
-  // oder wenn weekDone sich ändert (Workout gerade abgeschlossen)
-  useEffect(() => {
-    if (!userId || daysPerWeek === 0) return;
-    const now        = new Date();
-    const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-01`;
-    const yearStart  = `${now.getFullYear()}-01-01`;
-    supabase.from("workout_logs")
-      .select("log_date")
-      .eq("user_id", userId)
-      .eq("day_done", true)
-      .gte("log_date", yearStart)
-      .then(({ data }) => {
-        const rows = data||[];
-        setDbDone({
-          month: rows.filter(r => r.log_date >= monthStart).length,
-          year:  rows.length,
-        });
-      });
-  }, [userId, daysPerWeek, weekStart]); // weekStart als Trigger für neue Woche
-
-  // Separater Effect für weekDone - mit kurzer Verzögerung damit Supabase speichern kann
-  useEffect(() => {
-    if (!userId || daysPerWeek === 0) return;
-    const timer = setTimeout(() => {
-      const now        = new Date();
-      const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-01`;
-      const yearStart  = `${now.getFullYear()}-01-01`;
-      supabase.from("workout_logs")
-        .select("log_date")
-        .eq("user_id", userId)
-        .eq("day_done", true)
-        .gte("log_date", yearStart)
-        .then(({ data }) => {
-          const rows = data||[];
-          setDbDone({
-            month: rows.filter(r => r.log_date >= monthStart).length,
-            year:  rows.length,
-          });
-        });
-    }, 800); // 800ms warten damit save() in PlanView fertig ist
-    return () => clearTimeout(timer);
-  }, [weekDone]);
-
-  const now   = new Date();
-  const year  = now.getFullYear();
-  const month = now.getMonth();
-  const day   = now.getDate();
-
-  // MONAT: Tage von Monatsanfang bis heute ÷ 7 × daysPerWeek
-  const daysIntoMonth = day;
-  const monthTotal = Math.max(1, Math.round((daysIntoMonth / 7) * daysPerWeek));
-
-  // JAHR: Tage seit 1. Jan bis heute ÷ 7 × daysPerWeek
-  const startOfYear = new Date(year, 0, 1);
+  const now          = new Date();
+  const year         = now.getFullYear();
+  const day          = now.getDate();
+  const startOfYear  = new Date(year, 0, 1);
   const daysIntoYear = Math.ceil((now - startOfYear) / (1000*60*60*24)) + 1;
-  const yearTotal = Math.max(1, Math.round((daysIntoYear / 7) * daysPerWeek));
+  const monthTotal   = Math.max(1, Math.round((day / 7) * daysPerWeek));
+  const yearTotal    = Math.max(1, Math.round((daysIntoYear / 7) * daysPerWeek));
 
   const blocks = [
-    { label: lang==="de"?"DIESE WOCHE":"THIS WEEK",   done:weekDone,     total:weekTotal  },
-    { label: lang==="de"?"DIESER MONAT":"THIS MONTH", done:dbDone.month, total:monthTotal },
-    { label: lang==="de"?"DIESES JAHR":"THIS YEAR",   done:dbDone.year,  total:yearTotal  },
+    { label: lang==="de"?"DIESE WOCHE":"THIS WEEK",   done:weekDone,              total:weekTotal  },
+    { label: lang==="de"?"DIESER MONAT":"THIS MONTH", done:dbProgress?.month||0,  total:monthTotal },
+    { label: lang==="de"?"DIESES JAHR":"THIS YEAR",   done:dbProgress?.year||0,   total:yearTotal  },
   ];
 
   return (
@@ -232,7 +179,7 @@ function ProgressChart({ lang, userId, daysPerWeek, allDayDone, activeDayNames, 
 }
 
 // ── CalendarView (Haupt-Export) ───────────────────────────────────────────────
-export default function CalendarView({ profile, lang, weekStart, allDayDone, activeDayNames, daysPerWeek }) {
+export default function CalendarView({ profile, lang, weekStart, allDayDone, activeDayNames, daysPerWeek, dbProgress }) {
   const userId      = profile?.id;
   const dpw         = daysPerWeek || profile?.days_per_week || 3;
   const [trainingDays, setTrainingDays] = useState(profile?.training_days||[]);
@@ -289,7 +236,7 @@ export default function CalendarView({ profile, lang, weekStart, allDayDone, act
             {lang==="de"?"Trainingstage ändern":"Change training days"}
           </button>
 
-          <ProgressChart lang={lang} userId={userId} daysPerWeek={dpw} allDayDone={allDayDone} activeDayNames={activeDayNames} weekStart={weekStart}/>
+          <ProgressChart lang={lang} daysPerWeek={dpw} allDayDone={allDayDone} activeDayNames={activeDayNames} dbProgress={dbProgress}/>
         </>
       )}
     </div>
