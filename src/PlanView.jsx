@@ -99,7 +99,7 @@ const SET_INSTRUCTION = {
     push:   { de:"Keine halben Sachen. Wenn die letzte Wdh. nicht wehtut – zu leicht.",  en:"No half reps. If the last one didn't hurt, it was too light." },
     pull:   { de:"Jede Wiederholung mit voller Amplitude. Kein Schummeln.",               en:"Full range every rep. No cheating." },
     legs:   { de:"Tief runter, hart raus. Beine wackeln ist kein Grund aufzuhören.",     en:"Go deep, push hard. Shaking legs are not a reason to stop." },
-    core:   { de:"Maximale Anspannung. Dein Körpergewicht IST das Gewicht.",              en:"Maximum tension. Your bodyweight IS the weight." },
+    core:   { de:"Maximale Körperspannung. Keine Ausweichbewegungen.",              en:"Maximum tension. No compensating movements." },
     cardio: { de:"Kein Tempo das sich angenehm anfühlt. Unangenehm ist das Ziel.",       en:"No pace that feels comfortable. Uncomfortable is the goal." },
   },
 };
