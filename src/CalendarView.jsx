@@ -157,7 +157,30 @@ function ProgressChart({ lang, userId, daysPerWeek, allDayDone, activeDayNames, 
           year:  rows.length,
         });
       });
-  }, [userId, daysPerWeek, weekStart, weekDone]); // weekDone als Trigger: lädt neu wenn Workout fertig
+  }, [userId, daysPerWeek, weekStart]); // weekStart als Trigger für neue Woche
+
+  // Separater Effect für weekDone - mit kurzer Verzögerung damit Supabase speichern kann
+  useEffect(() => {
+    if (!userId || daysPerWeek === 0) return;
+    const timer = setTimeout(() => {
+      const now        = new Date();
+      const monthStart = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,"0")}-01`;
+      const yearStart  = `${now.getFullYear()}-01-01`;
+      supabase.from("workout_logs")
+        .select("log_date")
+        .eq("user_id", userId)
+        .eq("day_done", true)
+        .gte("log_date", yearStart)
+        .then(({ data }) => {
+          const rows = data||[];
+          setDbDone({
+            month: rows.filter(r => r.log_date >= monthStart).length,
+            year:  rows.length,
+          });
+        });
+    }, 800); // 800ms warten damit save() in PlanView fertig ist
+    return () => clearTimeout(timer);
+  }, [weekDone]);
 
   const now         = new Date();
   const weekOfMonth = Math.ceil(now.getDate()/7);
