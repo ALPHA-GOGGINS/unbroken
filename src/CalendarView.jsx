@@ -182,20 +182,22 @@ function ProgressChart({ lang, userId, daysPerWeek, allDayDone, activeDayNames, 
     return () => clearTimeout(timer);
   }, [weekDone]);
 
-  const now         = new Date();
-  const weekOfMonth = Math.ceil(now.getDate()/7);
-  const dayOfYear   = Math.floor((now - new Date(now.getFullYear(),0,0))/(1000*60*60*24));
-  const weekOfYear  = Math.ceil(dayOfYear/7);
+  const now   = new Date();
+  const year  = now.getFullYear();
+  const month = now.getMonth();
+  const day   = now.getDate();
 
-  // Alle Kombinationen korrekt:
-  // - weekTotal = daysPerWeek (3,4,5,6 je nach Plan)
-  // - monthTotal = daysPerWeek × Wochen im Monat bisher
-  // - yearTotal  = daysPerWeek × Kalenderwochen im Jahr bisher
-  const monthTotal = daysPerWeek * weekOfMonth;
-  const yearTotal  = daysPerWeek * weekOfYear;
+  // MONAT: Tage von Monatsanfang bis heute ÷ 7 × daysPerWeek
+  const daysIntoMonth = day;
+  const monthTotal = Math.max(1, Math.round((daysIntoMonth / 7) * daysPerWeek));
+
+  // JAHR: Tage seit 1. Jan bis heute ÷ 7 × daysPerWeek
+  const startOfYear = new Date(year, 0, 1);
+  const daysIntoYear = Math.ceil((now - startOfYear) / (1000*60*60*24)) + 1;
+  const yearTotal = Math.max(1, Math.round((daysIntoYear / 7) * daysPerWeek));
 
   const blocks = [
-    { label: lang==="de"?"DIESE WOCHE":"THIS WEEK",   done:weekDone,   total:weekTotal  },
+    { label: lang==="de"?"DIESE WOCHE":"THIS WEEK",   done:weekDone,     total:weekTotal  },
     { label: lang==="de"?"DIESER MONAT":"THIS MONTH", done:dbDone.month, total:monthTotal },
     { label: lang==="de"?"DIESES JAHR":"THIS YEAR",   done:dbDone.year,  total:yearTotal  },
   ];
