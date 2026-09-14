@@ -51,7 +51,7 @@ export default function PageStart({ lang }) {
         </button>
 
         <div className="ub-tag">
-          EARLY ALPHA · {de ? "DISZIPLIN. KEIN PUDER." : "DISCIPLINE. NO SUGARCOAT."}
+          {de ? "DISZIPLIN. KEIN PUDER." : "DISCIPLINE. NO SUGARCOAT."}
         </div>
       </div>
     </>
