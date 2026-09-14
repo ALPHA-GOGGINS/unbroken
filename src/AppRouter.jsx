@@ -170,6 +170,16 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
               <Route path="/login"      element={<PageLogin    lang={lang} />} />
             </Routes>
           </div>
+
+          {/* Footer */}
+          <div style={{ padding: desktop ? "20px 48px" : "16px 20px", borderTop:`1px solid ${P.border}`, display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:8 }}>
+            <div style={{ fontSize:11, color:P.dim, fontFamily:"Oswald, sans-serif", letterSpacing:"0.06em" }}>
+              © {new Date().getFullYear()} UNBROKEN · EARLY ALPHA
+            </div>
+            <div style={{ fontSize:11, color:P.dim }}>
+              {lang==="de"?"Alle Rechte vorbehalten.":"All rights reserved."}
+            </div>
+          </div>
         </div>
       </div>
     </>
