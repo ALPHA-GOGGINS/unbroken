@@ -19,10 +19,9 @@ export default function PageConcept({ lang }) {
       <div style={{ borderTop:`1px solid ${P.border}`, paddingTop:24 }}>
         <div style={{ fontFamily:"Oswald, sans-serif", fontSize:14, color:P.accent, marginBottom:8 }}>{de?"WER STECKT DAHINTER?":"WHO'S BEHIND THIS?"}</div>
         <p style={{ fontSize:14, color:P.dim, lineHeight:1.7, margin:0 }}>
-          {de?"Unbroken wird von einer einzelnen Person aufgebaut, die selbst mitten im eigenen Weg steckt. Name und weitere Details bleiben bewusst anonym.":"Unbroken is built by a single person who is still in the middle of their own journey. Name and further details stay anonymous here by choice."}
+          {de?"Unbroken wird von einer einzelnen Person aufgebaut, die selbst mitten im eigenen Weg steckt.":"Unbroken is built by a single person who is still in the middle of their own journey."}
         </p>
       </div>
     </div>
   );
 }
-
