@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../supabase";
 
@@ -90,9 +90,33 @@ const DEVICE_KEY = "ub_survey_done";
 export default function PageSurvey({ lang, session, profile }) {
   const navigate  = useNavigate();
   const de        = lang === "de";
-  const deviceDone  = typeof localStorage !== "undefined" && localStorage.getItem(DEVICE_KEY) === "1";
-  const accountDone = !!profile?.survey_done;
-  const alreadyDone = deviceDone || accountDone;
+
+  // null = wird noch geprüft, true/false = Ergebnis
+  const [alreadyDone, setAlreadyDone] = useState(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const check = async () => {
+      // 1. Gerät
+      let device = false;
+      try { device = localStorage.getItem(DEVICE_KEY) === "1"; } catch (e) {}
+      if (device) { if (!cancelled) setAlreadyDone(true); return; }
+
+      // 2. Account – frisch aus Supabase, nicht aus veraltetem Prop
+      if (session?.user?.id) {
+        const { data } = await supabase
+          .from("profiles").select("survey_done").eq("id", session.user.id).maybeSingle();
+        if (!cancelled) setAlreadyDone(!!data?.survey_done);
+        return;
+      }
+
+      if (!cancelled) setAlreadyDone(false);
+    };
+
+    check();
+    return () => { cancelled = true; };
+  }, [session]);
   const [step, setStep]     = useState(0);
   const [q1, setQ1]         = useState(null);
   const [q1Other, setQ1Other] = useState("");
@@ -139,6 +163,10 @@ export default function PageSurvey({ lang, session, profile }) {
     de?"Was hat dir bisher am meisten geholfen – falls überhaupt etwas?":"What has helped you most so far, if anything?",
     de?"Wie alt bist du ungefähr?":"About how old are you?",
   ];
+
+  if (alreadyDone === null && !done) return (
+    <div style={{ color:P.dim, fontSize:13 }}>…</div>
+  );
 
   if (alreadyDone && !done) return (
     <div style={{ maxWidth:480 }}>
