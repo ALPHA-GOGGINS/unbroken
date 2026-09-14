@@ -9,11 +9,42 @@ import PageResults   from "./pages/PageResults";
 import PageManifesto from "./pages/PageManifesto";
 import PagePlan      from "./pages/PagePlan";
 import PageLogin     from "./pages/PageLogin";
+import PageAdmin     from "./pages/PageAdmin";
 
 const P = {
   bg:"#20241C", panel:"#2A2F22", border:"#3D4530",
   text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227",
 };
+
+// Hier die echten Links eintragen
+const SOCIAL = {
+  youtube: "https://www.youtube.com/@UNBROKEN-t4h",
+  discord: "https://discord.gg/gdCeKhA5xe",
+};
+
+function SocialLinks() {
+  const icon = { width:18, height:18, display:"block" };
+  const wrap = {
+    display:"flex", alignItems:"center", justifyContent:"center",
+    width:34, height:34, borderRadius:4,
+    border:`1px solid ${P.border}`, background:"transparent",
+    transition:"border-color 0.2s",
+  };
+  return (
+    <div style={{ display:"flex", gap:8 }}>
+      <a href={SOCIAL.youtube} target="_blank" rel="noopener noreferrer" style={wrap} aria-label="YouTube">
+        <svg viewBox="0 0 24 24" style={icon} fill={P.dim}>
+          <path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.6 12 3.6 12 3.6s-7.5 0-9.4.5A3 3 0 0 0 .5 6.2C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.5 9.4.5 9.4.5s7.5 0 9.4-.5a3 3 0 0 0 2.1-2.1c.5-1.9.5-5.8.5-5.8s0-3.9-.5-5.8zM9.6 15.6V8.4l6.2 3.6-6.2 3.6z"/>
+        </svg>
+      </a>
+      <a href={SOCIAL.discord} target="_blank" rel="noopener noreferrer" style={wrap} aria-label="Discord">
+        <svg viewBox="0 0 24 24" style={icon} fill={P.dim}>
+          <path d="M20.3 4.4A19.8 19.8 0 0 0 15.4 3l-.2.5c1.6.4 3 1 4.3 1.9a16.6 16.6 0 0 0-15 0A15.4 15.4 0 0 1 8.8 3.5L8.6 3a19.8 19.8 0 0 0-4.9 1.4C.6 9 0 13.5.3 17.9a19.9 19.9 0 0 0 6 3l1.2-1.7c-1-.4-1.9-.8-2.7-1.4l.7-.5a14.2 14.2 0 0 0 12.2 0l.7.5c-.9.6-1.8 1-2.8 1.4l1.3 1.7a19.8 19.8 0 0 0 6-3c.4-5.1-.6-9.5-2.6-13.5zM8.1 15.3c-1.2 0-2.1-1.1-2.1-2.4S6.9 10.5 8 10.5s2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4zm7.8 0c-1.2 0-2.1-1.1-2.1-2.4s.9-2.4 2.1-2.4 2.2 1.1 2.1 2.4c0 1.3-.9 2.4-2.1 2.4z"/>
+        </svg>
+      </a>
+    </div>
+  );
+}
 
 export default function AppRouter({ session, profile, showIntro, onIntroDone }) {
   const [lang, setLang]         = useState("de");
@@ -48,7 +79,7 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
         UNBROKEN
       </div>
       <div style={{ fontSize:11, color:P.dim, marginBottom:40, letterSpacing:"0.04em" }}>
-        {lang==="de"?"Early Alpha · Disziplin. Kein Puder.":"Early Alpha · Discipline. No Sugarcoat."}
+        {lang==="de"?"Disziplin. Kein Puder.":"Discipline. No Sugarcoat."}
       </div>
 
       <nav style={{ display:"flex", flexDirection:"column", gap:2, flex:1 }}>
@@ -67,7 +98,26 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
         ))}
       </nav>
 
+      {profile?.is_admin && (
+        <div style={{ marginBottom:16, paddingTop:16, borderTop:`1px solid ${P.border}` }}>
+          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:10, color:P.dim, letterSpacing:"0.14em", marginBottom:8, paddingLeft:14 }}>
+            ADMIN
+          </div>
+          <NavLink to="/admin" style={({ isActive }) => ({
+            display:"block", padding:"11px 14px", borderRadius:4,
+            fontFamily:"Oswald, sans-serif", fontSize:15, letterSpacing:"0.04em",
+            textDecoration:"none",
+            background: isActive ? "rgba(201,162,39,0.15)" : "transparent",
+            color: isActive ? P.accent : P.dim,
+            border:`1px solid ${isActive ? "rgba(201,162,39,0.4)" : P.border}`,
+          })}>
+            {lang==="de" ? "Baukasten" : "Builder"}
+          </NavLink>
+        </div>
+      )}
+
       <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
+        <SocialLinks />
         <div style={{ display:"flex", gap:6 }}>
           {["de","en"].map(l => (
             <button key={l} onClick={() => setLang(l)} style={{
@@ -166,12 +216,13 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/manifesto"  element={<PageManifesto lang={lang} />} />
             <Route path="/plan"       element={<PagePlan     lang={lang} session={session} profile={profile} />} />
             <Route path="/login"      element={<PageLogin    lang={lang} />} />
+            <Route path="/admin"      element={<PageAdmin    lang={lang} session={session} profile={profile} />} />
           </Routes>
         </div>
 
         <div className="ub-footer">
           <div style={{ fontSize:11, color:P.dim, fontFamily:"Oswald, sans-serif", letterSpacing:"0.06em" }}>
-            © {new Date().getFullYear()} UNBROKEN · EARLY ALPHA
+            © {new Date().getFullYear()} UNBROKEN
           </div>
           <div style={{ fontSize:11, color:P.dim }}>
             {lang==="de"?"Alle Rechte vorbehalten.":"All rights reserved."}
