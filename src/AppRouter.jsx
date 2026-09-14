@@ -144,19 +144,21 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
         <div style={{ flex:1, display:"flex", flexDirection:"column", minHeight:"100vh" }}>
           {/* Header mit Hamburger – immer sichtbar */}
           <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", padding: desktop ? "20px 48px" : "16px 20px", borderBottom:`1px solid ${P.border}`, position:"sticky", top:0, background:P.bg, zIndex:50 }}>
-            <button
-              onClick={() => setMenu(m => !m)}
-              style={{ background:"transparent", border:`1px solid ${P.border}`, borderRadius:4, padding:"8px 10px", cursor:"pointer", color:P.text, display:"flex", flexDirection:"column", gap:4, transition:"border-color 0.2s" }}
-            >
-              <div style={{ width:18, height:2, background:menuOpen ? P.accent : P.text, borderRadius:1, transition:"background 0.2s" }}/>
-              <div style={{ width:18, height:2, background:menuOpen ? P.accent : P.text, borderRadius:1, transition:"background 0.2s" }}/>
-              <div style={{ width:18, height:2, background:menuOpen ? P.accent : P.text, borderRadius:1, transition:"background 0.2s" }}/>
-            </button>
-            <div
-              onClick={() => { navigate("/"); setMenu(false); }}
-              style={{ fontFamily:"Oswald, sans-serif", fontWeight:700, fontSize: desktop ? 22 : 20, color:P.text, letterSpacing:"0.05em", cursor:"pointer" }}
-            >
-              UNBROKEN
+            <div style={{ display:"flex", alignItems:"center", gap:16 }}>
+              <button
+                onClick={() => setMenu(m => !m)}
+                style={{ background:"transparent", border:`1px solid ${menuOpen?P.accent:P.border}`, borderRadius:4, padding:"8px 10px", cursor:"pointer", display:"flex", flexDirection:"column", gap:4 }}
+              >
+                <div style={{ width:18, height:2, background:menuOpen?P.accent:P.text, borderRadius:1, transition:"all 0.2s" }}/>
+                <div style={{ width:18, height:2, background:menuOpen?P.accent:P.text, borderRadius:1, transition:"all 0.2s" }}/>
+                <div style={{ width:18, height:2, background:menuOpen?P.accent:P.text, borderRadius:1, transition:"all 0.2s" }}/>
+              </button>
+              <div
+                onClick={() => { navigate("/"); setMenu(false); }}
+                style={{ fontFamily:"Oswald, sans-serif", fontWeight:700, fontSize: desktop ? 22 : 18, color:P.text, letterSpacing:"0.05em", cursor:"pointer" }}
+              >
+                UNBROKEN
+              </div>
             </div>
           </div>
 
