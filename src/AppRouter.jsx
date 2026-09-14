@@ -158,8 +158,8 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/"           element={<PageStart    lang={lang} session={session} />} />
             <Route path="/konzept"    element={<PageConcept  lang={lang} />} />
             <Route path="/concept"    element={<PageConcept  lang={lang} />} />
-            <Route path="/umfrage"    element={<PageSurvey   lang={lang} session={session} />} />
-            <Route path="/survey"     element={<PageSurvey   lang={lang} session={session} />} />
+            <Route path="/umfrage"    element={<PageSurvey   lang={lang} session={session} profile={profile} />} />
+            <Route path="/survey"     element={<PageSurvey   lang={lang} session={session} profile={profile} />} />
             <Route path="/ergebnisse" element={<PageResults  lang={lang} />} />
             <Route path="/results"    element={<PageResults  lang={lang} />} />
             <Route path="/manifest"   element={<PageManifesto lang={lang} />} />
