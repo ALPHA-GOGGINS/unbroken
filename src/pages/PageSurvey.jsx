@@ -85,9 +85,14 @@ function OptionBtn({ label, selected, onClick }) {
   );
 }
 
-export default function PageSurvey({ lang, session }) {
+const DEVICE_KEY = "ub_survey_done";
+
+export default function PageSurvey({ lang, session, profile }) {
   const navigate  = useNavigate();
   const de        = lang === "de";
+  const deviceDone  = typeof localStorage !== "undefined" && localStorage.getItem(DEVICE_KEY) === "1";
+  const accountDone = !!profile?.survey_done;
+  const alreadyDone = deviceDone || accountDone;
   const [step, setStep]     = useState(0);
   const [q1, setQ1]         = useState(null);
   const [q1Other, setQ1Other] = useState("");
@@ -121,6 +126,7 @@ export default function PageSurvey({ lang, session }) {
     keys.push(`alter:${Q6.find(o=>o.id===age)?.sl}`);
     setDone(true);
     setSubmitting(false);
+    try { localStorage.setItem(DEVICE_KEY, "1"); } catch (e) { /* private mode */ }
     if (session) await supabase.from("profiles").update({ survey_done:true }).eq("id", session.user.id);
     recordBatch(keys);
   };
@@ -133,6 +139,28 @@ export default function PageSurvey({ lang, session }) {
     de?"Was hat dir bisher am meisten geholfen – falls überhaupt etwas?":"What has helped you most so far, if anything?",
     de?"Wie alt bist du ungefähr?":"About how old are you?",
   ];
+
+  if (alreadyDone && !done) return (
+    <div style={{ maxWidth:480 }}>
+      <div style={{ fontFamily:"Oswald, sans-serif", fontSize:32, color:P.text, marginBottom:12 }}>
+        {de?"Schon erledigt.":"Already done."}
+      </div>
+      <div style={{ width:40, height:2, background:P.accent, marginBottom:20 }}/>
+      <div style={{ fontSize:14, color:P.dim, marginBottom:28, lineHeight:1.7 }}>
+        {de
+          ? "Die Umfrage kann pro Konto und Gerät nur einmal ausgefüllt werden. So bleiben die Ergebnisse aussagekräftig."
+          : "The survey can only be filled out once per account and device. That keeps the results meaningful."}
+      </div>
+      <div style={{ display:"flex", gap:10, flexWrap:"wrap" }}>
+        <button onClick={() => navigate(de?"/ergebnisse":"/results")} style={{ background:P.accent, border:"none", color:"#1B1E15", padding:"12px 22px", borderRadius:4, fontSize:14, fontWeight:700, fontFamily:"Inter, sans-serif", cursor:"pointer" }}>
+          {de?"Ergebnisse ansehen":"View results"}
+        </button>
+        <button onClick={() => navigate("/plan")} style={{ background:"transparent", border:`1px solid ${P.border}`, color:P.dim, padding:"12px 22px", borderRadius:4, fontSize:14, fontFamily:"Inter, sans-serif", cursor:"pointer" }}>
+          {de?"Zu meinem Plan":"Go to my plan"}
+        </button>
+      </div>
+    </div>
+  );
 
   if (done) return (
     <div style={{ maxWidth:480 }}>
