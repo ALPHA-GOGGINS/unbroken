@@ -19,15 +19,8 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
   const [lang, setLang]         = useState("de");
   const [menuOpen, setMenu]     = useState(false);
   const [introVisible, setIntroVisible] = useState(showIntro);
-  const [desktop, setDesktop]   = useState(window.innerWidth >= 900);
   const navigate  = useNavigate();
   const location  = useLocation();
-
-  useEffect(() => {
-    const fn = () => setDesktop(window.innerWidth >= 900);
-    window.addEventListener("resize", fn);
-    return () => window.removeEventListener("resize", fn);
-  }, []);
 
   useEffect(() => { setMenu(false); }, [location.pathname]);
 
@@ -101,34 +94,42 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
 
   return (
     <>
+      <style>{`
+        .ub-shell   { min-height:100vh; background:${P.bg}; color:${P.text};
+                      font-family: Inter, system-ui, sans-serif; }
+        .ub-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:100; }
+        .ub-nav     { position:fixed; top:0; left:0; bottom:0; width:280px;
+                      background:${P.panel}; border-right:1px solid ${P.border};
+                      z-index:101; overflow-y:auto;
+                      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1); }
+        .ub-header  { display:flex; align-items:center; gap:14px;
+                      padding:14px 20px; border-bottom:1px solid ${P.border};
+                      position:sticky; top:0; background:${P.bg}; z-index:50; }
+        .ub-main    { padding:24px 20px; width:100%; box-sizing:border-box; }
+        .ub-footer  { padding:16px 20px; border-top:1px solid ${P.border};
+                      display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
+        .ub-logo    { font-family:Oswald,sans-serif; font-weight:700; font-size:18px;
+                      color:${P.text}; letter-spacing:0.05em; cursor:pointer; }
+
+        @media (min-width: 900px) {
+          .ub-header { padding: 18px 48px; }
+          .ub-main   { padding: 56px 48px; max-width: 1100px; }
+          .ub-footer { padding: 20px 48px; }
+          .ub-logo   { font-size: 20px; }
+          .ub-nav    { width: 260px; }
+        }
+      `}</style>
+
       {introVisible && <CinematicIntro onDone={() => { setIntroVisible(false); onIntroDone(); }} />}
 
-      <div style={{ minHeight:"100vh", background:P.bg, color:P.text, fontFamily:"Inter, system-ui, sans-serif" }}>
+      <div className="ub-shell">
+        {menuOpen && <div className="ub-overlay" onClick={() => setMenu(false)} />}
 
-        {/* Overlay */}
-        {menuOpen && (
-          <div onClick={() => setMenu(false)} style={{ position:"fixed", inset:0, background:"rgba(0,0,0,0.55)", zIndex:100 }} />
-        )}
-
-        {/* Slide-in Nav */}
-        <div style={{
-          position:"fixed", top:0, left:0, bottom:0,
-          width: desktop ? 260 : 280,
-          background:P.panel, borderRight:`1px solid ${P.border}`,
-          zIndex:101, overflowY:"auto",
-          transform: menuOpen ? "translateX(0)" : "translateX(-100%)",
-          transition:"transform 0.28s cubic-bezier(0.4,0,0.2,1)",
-        }}>
+        <div className="ub-nav" style={{ transform: menuOpen ? "translateX(0)" : "translateX(-100%)" }}>
           <Sidebar />
         </div>
 
-        {/* Header */}
-        <div style={{
-          display:"flex", alignItems:"center", gap:14,
-          padding: desktop ? "18px 48px" : "14px 20px",
-          borderBottom:`1px solid ${P.border}`,
-          position:"sticky", top:0, background:P.bg, zIndex:50,
-        }}>
+        <div className="ub-header">
           <button onClick={() => setMenu(m => !m)} style={{
             background:"transparent",
             border:`1px solid ${menuOpen ? P.accent : P.border}`,
@@ -139,13 +140,10 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <div style={{ width:18, height:2, background:menuOpen?P.accent:P.text, borderRadius:1, transition:"background 0.2s" }}/>
             <div style={{ width:18, height:2, background:menuOpen?P.accent:P.text, borderRadius:1, transition:"background 0.2s" }}/>
           </button>
-          <div onClick={() => navigate("/")} style={{ fontFamily:"Oswald, sans-serif", fontWeight:700, fontSize: desktop?20:18, color:P.text, letterSpacing:"0.05em", cursor:"pointer" }}>
-            UNBROKEN
-          </div>
+          <div className="ub-logo" onClick={() => navigate("/")}>UNBROKEN</div>
         </div>
 
-        {/* Content */}
-        <div style={{ padding: desktop ? "48px 48px" : "24px 20px", maxWidth:960, boxSizing:"border-box" }}>
+        <div className="ub-main">
           <Routes>
             <Route path="/"           element={<PageStart    lang={lang} session={session} />} />
             <Route path="/konzept"    element={<PageConcept  lang={lang} />} />
@@ -161,8 +159,7 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
           </Routes>
         </div>
 
-        {/* Footer */}
-        <div style={{ padding: desktop?"20px 48px":"16px 20px", borderTop:`1px solid ${P.border}`, display:"flex", justifyContent:"space-between", flexWrap:"wrap", gap:8 }}>
+        <div className="ub-footer">
           <div style={{ fontSize:11, color:P.dim, fontFamily:"Oswald, sans-serif", letterSpacing:"0.06em" }}>
             © {new Date().getFullYear()} UNBROKEN · EARLY ALPHA
           </div>
@@ -174,3 +171,4 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
     </>
   );
 }
+
