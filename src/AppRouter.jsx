@@ -95,25 +95,35 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
   return (
     <>
       <style>{`
-        .ub-shell   { min-height:100vh; background:${P.bg}; color:${P.text};
+        @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+        html, body, #root {
+          margin: 0; padding: 0; width: 100%; min-height: 100%;
+          background: ${P.bg};
+        }
+        * { box-sizing: border-box; }
+
+        .ub-shell   { min-height:100dvh; display:flex; flex-direction:column;
+                      background:${P.bg}; color:${P.text};
                       font-family: Inter, system-ui, sans-serif; }
         .ub-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.55); z-index:100; }
         .ub-nav     { position:fixed; top:0; left:0; bottom:0; width:280px;
                       background:${P.panel}; border-right:1px solid ${P.border};
                       z-index:101; overflow-y:auto;
                       transition: transform 0.28s cubic-bezier(0.4,0,0.2,1); }
-        .ub-header  { display:flex; align-items:center; gap:14px;
+        .ub-header  { display:flex; align-items:center; gap:14px; flex-shrink:0;
                       padding:14px 20px; border-bottom:1px solid ${P.border};
-                      position:sticky; top:0; background:${P.bg}; z-index:50; }
-        .ub-main    { padding:24px 20px; width:100%; box-sizing:border-box; }
-        .ub-footer  { padding:16px 20px; border-top:1px solid ${P.border};
+                      background:${P.bg}; }
+        .ub-main    { flex:1; display:flex; align-items:center;
+                      padding:32px 20px; width:100%; }
+        .ub-footer  { flex-shrink:0; padding:16px 20px; border-top:1px solid ${P.border};
                       display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px; }
         .ub-logo    { font-family:Oswald,sans-serif; font-weight:700; font-size:18px;
                       color:${P.text}; letter-spacing:0.05em; cursor:pointer; }
 
         @media (min-width: 900px) {
           .ub-header { padding: 18px 48px; }
-          .ub-main   { padding: 56px 48px; max-width: 1100px; }
+          .ub-main   { padding: 48px; }
           .ub-footer { padding: 20px 48px; }
           .ub-logo   { font-size: 20px; }
           .ub-nav    { width: 260px; }
@@ -171,4 +181,3 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
     </>
   );
 }
-
