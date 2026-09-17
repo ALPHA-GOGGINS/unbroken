@@ -44,8 +44,8 @@ export default function PagePlan({ lang, session }) {
 
       <div style={{ fontSize:15, color:P.dim, lineHeight:1.7, marginBottom:32, maxWidth:460 }}>
         {de
-          ? "Der Trainingsplan wird gerade fertiggestellt. Sobald das Startdatum feststeht, läuft hier der Countdown bis zum Launch."
-          : "The training plan is being finalised. Once the launch date is set, the countdown will run right here."}
+          ? "Der Trainingspläne werden gerade fertiggestellt. Sobald das Startdatum feststeht, läuft hier der Countdown bis zum Launch."
+          : "The training plans are being finalised. Once the launch date is set, the countdown will run right here."}
       </div>
 
       <div style={{ display:"flex", gap:10, marginBottom:16, flexWrap:"wrap" }}>
