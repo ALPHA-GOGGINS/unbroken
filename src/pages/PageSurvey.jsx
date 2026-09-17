@@ -153,16 +153,10 @@ export default function PageSurvey({ lang, session, profile }) {
     try { localStorage.setItem(DEVICE_KEY, "1"); } catch (e) { /* private mode */ }
 
     if (session?.user?.id) {
-      const { data, error } = await supabase
+      await supabase
         .from("profiles")
         .update({ survey_done: true })
-        .eq("id", session.user.id)
-        .select();
-      console.log("[UMFRAGE] user:", session.user.id);
-      console.log("[UMFRAGE] fehler:", error);
-      console.log("[UMFRAGE] geaenderte zeilen:", data);
-    } else {
-      console.log("[UMFRAGE] keine session beim absenden");
+        .eq("id", session.user.id);
     }
 
     recordBatch(keys);
