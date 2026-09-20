@@ -130,13 +130,21 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             }}>{l.toUpperCase()}</button>
           ))}
         </div>
-        {session && (
+        {session ? (
           <button onClick={() => supabase.auth.signOut()} style={{
             background:"transparent", border:`1px solid ${P.border}`, color:P.dim,
             padding:"9px 0", borderRadius:4, fontSize:12,
             fontFamily:"Inter, sans-serif", cursor:"pointer",
           }}>
             {lang==="de"?"Abmelden":"Sign out"}
+          </button>
+        ) : (
+          <button onClick={() => { navigate("/login"); setMenu(false); }} style={{
+            background:"transparent", border:`1px solid ${P.accent}`, color:P.accent,
+            padding:"9px 0", borderRadius:4, fontSize:12, fontWeight:600,
+            fontFamily:"Inter, sans-serif", cursor:"pointer",
+          }}>
+            {lang==="de"?"Anmelden / Registrieren":"Sign in / Register"}
           </button>
         )}
       </div>
