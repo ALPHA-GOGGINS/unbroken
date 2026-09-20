@@ -1,5 +1,5 @@
 import WaitlistForm from "../WaitlistForm";
 
-export default function PageWaitlist({ lang }) {
-  return <WaitlistForm lang={lang} />;
+export default function PageWaitlist({ lang, session }) {
+  return <WaitlistForm lang={lang} session={session} />;
 }
