@@ -61,7 +61,7 @@ export default function PagePlan({ lang, session }) {
       </div>
 
       <div style={{ borderTop:`1px solid ${P.border}`, paddingTop:32, marginTop:8 }}>
-        <WaitlistForm lang={lang} compact />
+        <WaitlistForm lang={lang} session={session} compact />
       </div>
     </div>
   );
