@@ -30,6 +30,7 @@ export default function WaitlistForm({ lang, session, compact }) {
   const loadPosition = async (mail) => {
     const { data } = await supabase.rpc("waitlist_position", { p_email: mail });
     if (typeof data === "number" && data > 0) setPosition(data);
+    return typeof data === "number" && data > 0 ? data : null;
   };
 
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim());
@@ -50,10 +51,20 @@ export default function WaitlistForm({ lang, session, compact }) {
       return;
     }
 
-    await loadPosition(mail);
+    const pos = await loadPosition(mail);
     const { data: cnt } = await supabase.rpc("waitlist_count");
     if (typeof cnt === "number") setTotal(cnt);
     setLoading(false);
+
+    // Bestaetigungsmail im Hintergrund ausloesen — Fehler hier duerfen
+    // den erfolgreichen Wartelisten-Eintrag nicht kaputt machen.
+    if (!insErr) {
+      fetch("/api/send-confirmation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: mail, lang, position: pos }),
+      }).catch(() => {});
+    }
   };
 
   // ── Erfolgs-Ansicht ────────────────────────────────────────────────────────
