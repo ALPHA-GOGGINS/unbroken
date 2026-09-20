@@ -10,6 +10,7 @@ import PageManifesto from "./pages/PageManifesto";
 import PagePlan      from "./pages/PagePlan";
 import PageLogin     from "./pages/PageLogin";
 import PageAdmin     from "./pages/PageAdmin";
+import PageWaitlist  from "./pages/PageWaitlist";
 
 const P = {
   bg:"#20241C", panel:"#2A2F22", border:"#3D4530",
@@ -18,8 +19,8 @@ const P = {
 
 // Hier die echten Links eintragen
 const SOCIAL = {
-  youtube: "https://www.youtube.com/@UNBROKEN-t4h",
-  discord: "https://discord.gg/gdCeKhA5xe",
+  youtube: "https://www.youtube.com/",
+  discord: "https://discord.gg/",
 };
 
 function SocialLinks() {
@@ -217,6 +218,8 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/plan"       element={<PagePlan     lang={lang} session={session} profile={profile} />} />
             <Route path="/login"      element={<PageLogin    lang={lang} />} />
             <Route path="/admin"      element={<PageAdmin    lang={lang} session={session} profile={profile} />} />
+            <Route path="/warteliste" element={<PageWaitlist lang={lang} />} />
+            <Route path="/waitlist"   element={<PageWaitlist lang={lang} />} />
           </Routes>
         </div>
 
