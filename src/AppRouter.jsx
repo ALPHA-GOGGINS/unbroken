@@ -226,8 +226,8 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/plan"       element={<PagePlan     lang={lang} session={session} profile={profile} />} />
             <Route path="/login"      element={<PageLogin    lang={lang} />} />
             <Route path="/admin"      element={<PageAdmin    lang={lang} session={session} profile={profile} />} />
-            <Route path="/warteliste" element={<PageWaitlist lang={lang} />} />
-            <Route path="/waitlist"   element={<PageWaitlist lang={lang} />} />
+            <Route path="/warteliste" element={<PageWaitlist lang={lang} session={session} />} />
+            <Route path="/waitlist"   element={<PageWaitlist lang={lang} session={session} />} />
           </Routes>
         </div>
 
