@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import WaitlistForm from "../WaitlistForm";
 
 const P = { text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227", panel:"#2A2F22", border:"#3D4530" };
 
@@ -22,7 +22,6 @@ function CountdownBox({ value, label }) {
 }
 
 export default function PagePlan({ lang, session }) {
-  const navigate = useNavigate();
   const de = lang === "de";
 
   const units = de
@@ -44,8 +43,8 @@ export default function PagePlan({ lang, session }) {
 
       <div style={{ fontSize:15, color:P.dim, lineHeight:1.7, marginBottom:32, maxWidth:460 }}>
         {de
-          ? "Der Trainingspläne werden gerade fertiggestellt. Sobald das Startdatum feststeht, läuft hier der Countdown bis zum Launch."
-          : "The training plans are being finalised. Once the launch date is set, the countdown will run right here."}
+          ? "Der Trainingsplan wird gerade fertiggestellt. Sobald das Startdatum feststeht, läuft hier der Countdown bis zum Launch."
+          : "The training plan is being finalised. Once the launch date is set, the countdown will run right here."}
       </div>
 
       <div style={{ display:"flex", gap:10, marginBottom:16, flexWrap:"wrap" }}>
@@ -61,22 +60,9 @@ export default function PagePlan({ lang, session }) {
         {de ? "COUNTDOWN GEHT BALD LIVE" : "COUNTDOWN GOES LIVE SOON"}
       </div>
 
-      {!session && (
-        <div>
-          <div style={{ fontSize:14, color:P.dim, lineHeight:1.7, marginBottom:16, maxWidth:440 }}>
-            {de
-              ? "Erstelle jetzt ein kostenloses Konto – dann bist du dabei, sobald es losgeht."
-              : "Create a free account now — then you're in the moment it launches."}
-          </div>
-          <button onClick={() => navigate("/login")} style={{
-            background:P.accent, border:"none", color:"#1B1E15",
-            padding:"14px 28px", borderRadius:4, fontSize:14, fontWeight:700,
-            fontFamily:"Inter, sans-serif", cursor:"pointer", letterSpacing:"0.04em",
-          }}>
-            {de ? "KONTO ERSTELLEN / ANMELDEN" : "CREATE ACCOUNT / SIGN IN"}
-          </button>
-        </div>
-      )}
+      <div style={{ borderTop:`1px solid ${P.border}`, paddingTop:32, marginTop:8 }}>
+        <WaitlistForm lang={lang} compact />
+      </div>
     </div>
   );
 }
