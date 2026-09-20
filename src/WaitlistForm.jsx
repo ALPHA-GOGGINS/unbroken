@@ -2,12 +2,11 @@ import { useState, useEffect } from "react";
 import { supabase } from "./supabase";
 
 const P = { text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227", panel:"#2A2F22", border:"#3D4530", bar:"#8FA06B" };
-const JOINED_KEY = "ub_waitlist_email";
 
 const COUNTRIES_DE = ["Deutschland","Österreich","Schweiz","Anderes Land"];
 const COUNTRIES_EN = ["Germany","Austria","Switzerland","Other country"];
 
-export default function WaitlistForm({ lang, compact }) {
+export default function WaitlistForm({ lang, session, compact }) {
   const de = lang === "de";
 
   const [email, setEmail]       = useState("");
@@ -17,13 +16,16 @@ export default function WaitlistForm({ lang, compact }) {
   const [position, setPosition] = useState(null);
   const [total, setTotal]       = useState(null);
 
-  // Bereits eingetragen? Position nachladen
+  // Position haengt am Konto: abgemeldet gibt es keine gespeicherte Position
   useEffect(() => {
-    let saved = null;
-    try { saved = localStorage.getItem(JOINED_KEY); } catch (e) {}
-    if (saved) loadPosition(saved);
+    setPosition(null);
+    const mail = session?.user?.email;
+    if (mail) {
+      setEmail(mail);
+      loadPosition(mail);
+    }
     supabase.rpc("waitlist_count").then(({ data }) => { if (typeof data === "number") setTotal(data); });
-  }, []);
+  }, [session]);
 
   const loadPosition = async (mail) => {
     const { data } = await supabase.rpc("waitlist_position", { p_email: mail });
@@ -48,7 +50,6 @@ export default function WaitlistForm({ lang, compact }) {
       return;
     }
 
-    try { localStorage.setItem(JOINED_KEY, mail); } catch (e) {}
     await loadPosition(mail);
     const { data: cnt } = await supabase.rpc("waitlist_count");
     if (typeof cnt === "number") setTotal(cnt);
