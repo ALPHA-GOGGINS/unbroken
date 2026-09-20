@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { supabase } from "./supabase";
 import CalendarView from "./CalendarView";
+import InstallPrompt, { shouldShowInstall } from "./InstallPrompt";
 
 const P = {
   bg:"#20241C", panel:"#2A2F22", border:"#3D4530",
@@ -198,6 +199,7 @@ export default function PlanView({ profile, lang, isAdmin }) {
   const [loading,      setLoading]      = useState(true);
   const [saving,       setSaving]       = useState(false);
   const [dbProgress,   setDbProgress]   = useState({ month:0, year:0 });
+  const [showInstall,  setShowInstall]  = useState(false);
 
   // Monat/Jahr Fortschritt laden und bei jedem Workout-Abschluss neu laden
   const loadProgress = () => {
@@ -313,6 +315,12 @@ export default function PlanView({ profile, lang, isAdmin }) {
   const handleToggle = async (dayKey, exId) => {
     const current     = allChecked[dayKey]||{};
     const next        = { ...current, [exId]: !current[exId] };
+
+    // Nach dem ersten gesetzten Haken den Install-Hinweis zeigen
+    if (!current[exId] && shouldShowInstall()) {
+      setTimeout(() => setShowInstall(true), 900);
+    }
+
     const exerciseIds = activeSplit.days[dayKey]||[];
     const done        = exerciseIds.every(id => next[id]);
     setAllChecked(prev => ({ ...prev, [dayKey]:next }));
@@ -334,6 +342,8 @@ export default function PlanView({ profile, lang, isAdmin }) {
   if (loading) return <div style={{color:P.dim,fontSize:13,padding:16}}>…</div>;
 
   return (
+    <>
+    {showInstall && <InstallPrompt lang={lang} onClose={() => setShowInstall(false)} />}
     <div style={{display:"grid",gridTemplateColumns:"minmax(0,1fr)"}} className="plan-grid">
       <style>{`@media(min-width:900px){.plan-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr)!important;gap:24px!important;align-items:start;}}`}</style>
 
@@ -409,5 +419,6 @@ export default function PlanView({ profile, lang, isAdmin }) {
         />
       </div>
     </div>
+    </>
   );
 }
