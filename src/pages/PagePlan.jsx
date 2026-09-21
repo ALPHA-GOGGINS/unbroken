@@ -1,68 +1,123 @@
-import WaitlistForm from "../WaitlistForm";
+import { useState } from "react";
+import PlanView from "../PlanView";
+import { supabase } from "../supabase";
+import { TIERS } from "../tiers";
 
 const P = { text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227", panel:"#2A2F22", border:"#3D4530" };
 
-function CountdownBox({ value, label }) {
+function SimulateUserView({ profile, lang }) {
+  const de = lang === "de";
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState(null);
+  const activeTier = profile?.tier || 0;
+
+  const startSimulation = async (level) => {
+    const warn = de
+      ? "Das setzt deine eigenen Onboarding-Antworten (Trainingslevel, Ziel, Tage/Woche) auf diesem Account zurück, damit du den echten Ablauf durchläufst. Fortfahren?"
+      : "This resets your own onboarding answers (training level, goal, days/week) on this account so you go through the real flow. Continue?";
+    if (!window.confirm(warn)) return;
+
+    setBusy(true); setErr(null);
+    const { error } = await supabase.from("profiles").update({
+      tier: level,
+      training_level: null,
+      equipment: null,
+      days_per_week: null,
+      goal: null,
+    }).eq("id", profile.id);
+    setBusy(false);
+    if (error) { setErr(error.message); return; }
+    // Harter Reload, damit main.jsx das Profil neu laedt und den Onboarding-Flow zeigt
+    window.location.href = "/";
+  };
+
+  const endSimulation = async () => {
+    setBusy(true); setErr(null);
+    const { error } = await supabase.from("profiles").update({ tier: 0 }).eq("id", profile.id);
+    setBusy(false);
+    if (error) { setErr(error.message); return; }
+    window.location.href = "/admin";
+  };
+
   return (
-    <div style={{
-      background:P.panel, border:`1px solid ${P.border}`, borderRadius:6,
-      padding:"18px 12px", textAlign:"center", minWidth:78, flex:"1 1 78px", maxWidth:120,
-    }}>
-      <div style={{
-        fontFamily:"Oswald, sans-serif", fontWeight:700,
-        fontSize:"clamp(26px, 5vw, 38px)", lineHeight:1,
-        color:P.dim, opacity:0.45, marginBottom:6,
-      }}>{value}</div>
-      <div style={{
-        fontFamily:"Oswald, sans-serif", fontSize:10, letterSpacing:"0.12em",
-        color:P.dim, opacity:0.6,
-      }}>{label}</div>
+    <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20, marginBottom:24 }}>
+      <div style={{ fontFamily:"Oswald, sans-serif", fontSize:11, color:P.accent, letterSpacing:"0.12em", marginBottom:4 }}>
+        {de ? "NUTZER-ANSICHT SIMULIEREN" : "SIMULATE USER VIEW"}
+      </div>
+      <div style={{ fontSize:12, color:P.dim, lineHeight:1.6, marginBottom:16 }}>
+        {de
+          ? "Simuliert komplett, wie ein frisch abonnierter Nutzer die App erlebt: Tier wählen → echter Onboarding-Flow → normale Oberfläche mit den für dieses Tier freigeschalteten Inhalten."
+          : "Fully simulates how a freshly subscribed user experiences the app: pick a tier → real onboarding flow → normal interface with the content unlocked for that tier."}
+      </div>
+
+      {activeTier > 0 ? (
+        <div>
+          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, letterSpacing:"0.04em", marginBottom:12 }}>
+            {de ? `AKTIVE SIMULATION: TIER ${activeTier}` : `ACTIVE SIMULATION: TIER ${activeTier}`}
+          </div>
+          <button onClick={endSimulation} disabled={busy} style={{
+            padding:"10px 18px", borderRadius:4, cursor: busy ? "default" : "pointer",
+            border:`1px solid ${P.border}`, background:"transparent", color:P.dim,
+            fontFamily:"Inter, sans-serif", fontSize:13, opacity: busy ? 0.6 : 1,
+          }}>
+            {de ? "Simulation beenden" : "End simulation"}
+          </button>
+        </div>
+      ) : (
+        <div style={{ display:"flex", gap:8, flexWrap:"wrap" }}>
+          {TIERS.map((t) => (
+            <button key={t.level} disabled={busy} onClick={() => startSimulation(t.level)} style={{
+              padding:"10px 16px", borderRadius:4, cursor: busy ? "default" : "pointer",
+              border:`1px solid ${P.accent}`, background:"transparent", color:P.accent,
+              fontFamily:"Inter, sans-serif", fontSize:13, fontWeight:600,
+              opacity: busy ? 0.6 : 1,
+            }}>
+              {de ? "Simulieren als" : "Simulate as"} {t.name}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {err && <div style={{ marginTop:12, fontSize:12, color:"#E05252" }}>{err}</div>}
     </div>
   );
 }
 
-export default function PagePlan({ lang, session }) {
+export default function PageAdmin({ lang, session, profile }) {
   const de = lang === "de";
 
-  const units = de
-    ? [["--","TAGE"],["--","STUNDEN"],["--","MINUTEN"]]
-    : [["--","DAYS"],["--","HOURS"],["--","MINUTES"]];
+  if (!session || !profile?.is_admin) {
+    return (
+      <div style={{ maxWidth:480 }}>
+        <div style={{ fontFamily:"Oswald, sans-serif", fontSize:28, color:P.text, marginBottom:12 }}>
+          {de ? "Kein Zugriff" : "No access"}
+        </div>
+        <div style={{ fontSize:14, color:P.dim, lineHeight:1.7 }}>
+          {de ? "Dieser Bereich ist nicht öffentlich." : "This area is not public."}
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div style={{ maxWidth:600, width:"100%" }}>
+    <div style={{ width:"100%" }}>
       <div style={{
-        fontFamily:"Oswald, sans-serif", fontWeight:700, letterSpacing:"0.06em",
-        fontSize:"clamp(40px, 8vw, 64px)", lineHeight:1, color:P.accent,
-      }}>COMING</div>
-      <div style={{
-        fontFamily:"Oswald, sans-serif", fontWeight:700, letterSpacing:"0.06em",
-        fontSize:"clamp(40px, 8vw, 64px)", lineHeight:1, color:P.text, marginBottom:24,
-      }}>SOON.</div>
-
-      <div style={{ width:56, height:3, background:P.accent, marginBottom:28 }}/>
-
-      <div style={{ fontSize:15, color:P.dim, lineHeight:1.7, marginBottom:32, maxWidth:460 }}>
-        {de
-          ? "Der Trainingsplan wird gerade fertiggestellt. Sobald das Startdatum feststeht, läuft hier der Countdown bis zum Launch."
-          : "The training plan is being finalised. Once the launch date is set, the countdown will run right here."}
-      </div>
-
-      <div style={{ display:"flex", gap:10, marginBottom:16, flexWrap:"wrap" }}>
-        {units.map(([v,l]) => <CountdownBox key={l} value={v} label={l} />)}
-      </div>
-
-      <div style={{
-        display:"inline-block", padding:"8px 16px", borderRadius:4,
-        border:`1px solid ${P.border}`, background:"rgba(201,162,39,0.06)",
-        fontFamily:"Oswald, sans-serif", fontSize:11, letterSpacing:"0.1em", color:P.accent,
-        marginBottom:32,
+        background:"rgba(201,162,39,0.08)", border:`1px solid ${P.accent}`,
+        borderRadius:6, padding:"12px 16px", marginBottom:24,
       }}>
-        {de ? "COUNTDOWN GEHT BALD LIVE" : "COUNTDOWN GOES LIVE SOON"}
+        <div style={{ fontFamily:"Oswald, sans-serif", fontSize:11, color:P.accent, letterSpacing:"0.12em", marginBottom:4 }}>
+          ADMIN – BAUKASTEN
+        </div>
+        <div style={{ fontSize:12, color:P.dim, lineHeight:1.6 }}>
+          {de
+            ? "Testbereich für Pläne und Splits. Normale Nutzer sehen unter „Mein Bereich\" den Countdown."
+            : "Test area for plans and splits. Regular users see the countdown under \"My Area\"."}
+        </div>
       </div>
 
-      <div style={{ borderTop:`1px solid ${P.border}`, paddingTop:32, marginTop:8 }}>
-        <WaitlistForm lang={lang} session={session} compact />
-      </div>
+      <SimulateUserView profile={profile} lang={lang} />
+
+      <PlanView profile={profile} lang={lang} isAdmin={true} />
     </div>
   );
 }
