@@ -11,6 +11,7 @@ import PagePlan      from "./pages/PagePlan";
 import PageLogin     from "./pages/PageLogin";
 import PageAdmin     from "./pages/PageAdmin";
 import PageWaitlist  from "./pages/PageWaitlist";
+import PagePricing   from "./pages/PagePricing";
 
 const P = {
   bg:"#20241C", panel:"#2A2F22", border:"#3D4530",
@@ -63,6 +64,7 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
         { path:"/umfrage",    label:"Umfrage" },
         { path:"/ergebnisse", label:"Ergebnisse" },
         { path:"/manifest",   label:"Manifest" },
+        { path:"/preise",     label:"Preise" },
         { path:"/plan",       label:"Mein Plan",   highlight:true },
       ]
     : [
@@ -71,6 +73,7 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
         { path:"/survey",     label:"Survey" },
         { path:"/results",    label:"Results" },
         { path:"/manifesto",  label:"Manifesto" },
+        { path:"/pricing",    label:"Pricing" },
         { path:"/plan",       label:"My Plan",     highlight:true },
       ];
 
@@ -223,6 +226,8 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/results"    element={<PageResults  lang={lang} />} />
             <Route path="/manifest"   element={<PageManifesto lang={lang} />} />
             <Route path="/manifesto"  element={<PageManifesto lang={lang} />} />
+            <Route path="/preise"     element={<PagePricing  lang={lang} />} />
+            <Route path="/pricing"    element={<PagePricing  lang={lang} />} />
             <Route path="/plan"       element={<PagePlan     lang={lang} session={session} profile={profile} />} />
             <Route path="/login"      element={<PageLogin    lang={lang} />} />
             <Route path="/admin"      element={<PageAdmin    lang={lang} session={session} profile={profile} />} />
