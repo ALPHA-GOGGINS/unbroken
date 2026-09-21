@@ -12,6 +12,7 @@ import PageLogin     from "./pages/PageLogin";
 import PageAdmin     from "./pages/PageAdmin";
 import PageWaitlist  from "./pages/PageWaitlist";
 import PagePricing   from "./pages/PagePricing";
+import PageSettings  from "./pages/PageSettings";
 
 const P = {
   bg:"#20241C", panel:"#2A2F22", border:"#3D4530",
@@ -49,7 +50,7 @@ function SocialLinks() {
 }
 
 export default function AppRouter({ session, profile, showIntro, onIntroDone }) {
-  const [lang, setLang]         = useState("de");
+  const [lang, setLang]         = useState(profile?.language || "de");
   const [menuOpen, setMenu]     = useState(false);
   const [introVisible, setIntroVisible] = useState(showIntro);
   const navigate  = useNavigate();
@@ -65,7 +66,7 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
         { path:"/ergebnisse", label:"Ergebnisse" },
         { path:"/manifest",   label:"Manifest" },
         { path:"/preise",     label:"Preise" },
-        { path:"/plan",       label:"Mein Plan",   highlight:true },
+        { path:"/plan",       label:"Mein Bereich", highlight:true },
       ]
     : [
         { path:"/",           label:"Start",       exact:true },
@@ -74,7 +75,7 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
         { path:"/results",    label:"Results" },
         { path:"/manifesto",  label:"Manifesto" },
         { path:"/pricing",    label:"Pricing" },
-        { path:"/plan",       label:"My Plan",     highlight:true },
+        { path:"/plan",       label:"My Area",     highlight:true },
       ];
 
   const Sidebar = () => (
@@ -100,6 +101,17 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             })}
           >{item.label}</NavLink>
         ))}
+
+        <NavLink to={lang==="de" ? "/einstellungen" : "/settings"} style={({ isActive }) => ({
+          display:"block", padding:"11px 14px", borderRadius:4, marginTop:8,
+          fontFamily:"Oswald, sans-serif", fontSize:14, letterSpacing:"0.04em",
+          textDecoration:"none",
+          background: isActive ? "rgba(201,162,39,0.15)" : "transparent",
+          color: isActive ? P.accent : P.dim,
+          border: "1px solid transparent",
+        })}>
+          {lang==="de" ? "Einstellungen" : "Settings"}
+        </NavLink>
       </nav>
 
       {profile?.is_admin && (
@@ -117,22 +129,20 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
           })}>
             {lang==="de" ? "Baukasten" : "Builder"}
           </NavLink>
+          {profile?.tier > 0 && (
+            <div style={{
+              marginTop:8, padding:"8px 14px", borderRadius:4,
+              border:`1px solid ${P.accent}`, background:"rgba(201,162,39,0.08)",
+              fontFamily:"Oswald, sans-serif", fontSize:11, color:P.accent, letterSpacing:"0.06em",
+            }}>
+              {lang==="de" ? `SIMULATION: TIER ${profile.tier}` : `SIMULATION: TIER ${profile.tier}`}
+            </div>
+          )}
         </div>
       )}
 
       <div style={{ display:"flex", flexDirection:"column", gap:8 }}>
         <SocialLinks />
-        <div style={{ display:"flex", gap:6 }}>
-          {["de","en"].map(l => (
-            <button key={l} onClick={() => setLang(l)} style={{
-              flex:1, padding:"8px 0", borderRadius:4, fontSize:12, fontWeight:600,
-              fontFamily:"Inter, sans-serif", cursor:"pointer",
-              background: lang===l ? P.accent : "transparent",
-              color: lang===l ? "#1B1E15" : P.dim,
-              border: `1px solid ${lang===l ? P.accent : P.border}`,
-            }}>{l.toUpperCase()}</button>
-          ))}
-        </div>
         {session ? (
           <button onClick={() => supabase.auth.signOut()} style={{
             background:"transparent", border:`1px solid ${P.border}`, color:P.dim,
@@ -233,6 +243,8 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/admin"      element={<PageAdmin    lang={lang} session={session} profile={profile} />} />
             <Route path="/warteliste" element={<PageWaitlist lang={lang} session={session} />} />
             <Route path="/waitlist"   element={<PageWaitlist lang={lang} session={session} />} />
+            <Route path="/einstellungen" element={<PageSettings lang={lang} setLang={setLang} session={session} />} />
+            <Route path="/settings"      element={<PageSettings lang={lang} setLang={setLang} session={session} />} />
           </Routes>
         </div>
 
