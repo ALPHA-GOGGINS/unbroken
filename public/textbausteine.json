@@ -1,0 +1,273 @@
+{
+  "tier": 3,
+  "bausteine": [
+    {
+      "id": "DH01",
+      "kategorie": "durchhaenger",
+      "anlass": "Wochenmitte, mehrere Einheiten offen",
+      "standard": "Die Woche ist noch nicht gelaufen. {offene_einheiten} Einheiten offen – eine davon heute, und du bist wieder im Plan.",
+      "knallhart": "{offene_einheiten} Einheiten offen. Die Woche entscheidet sich nicht am Sonntag, sondern heute.",
+      "platzhalter": [
+        "offene_einheiten"
+      ]
+    },
+    {
+      "id": "DH02",
+      "kategorie": "durchhaenger",
+      "anlass": "Mental-Aufgabe 3 Tage offen",
+      "standard": "Drei Tage ohne Mental-Aufgabe. Kein Drama – nimm heute die kleinste Version, fünf Minuten reichen.",
+      "knallhart": "Drei Tage nichts abgehakt. Du musst nicht groß anfangen. Nur anfangen. Fünf Minuten, jetzt.",
+      "platzhalter": []
+    },
+    {
+      "id": "DH03",
+      "kategorie": "durchhaenger",
+      "anlass": "Woche unter 50 Prozent (Wochenende)",
+      "standard": "Diese Woche lief nur die Hälfte. Schau kurz hin, was dazwischenkam – und leg für die nächste Einheit eine feste Uhrzeit fest.",
+      "knallhart": "Halbe Woche, halbe Ergebnisse. Uhrzeit für die nächste Einheit festlegen. Nicht „irgendwann“.",
+      "platzhalter": []
+    },
+    {
+      "id": "DH04",
+      "kategorie": "durchhaenger",
+      "anlass": "App 5 Tage nicht geöffnet",
+      "standard": "Lange nichts von dir gehört. Dein Plan ist noch da, genau an der Stelle, an der du aufgehört hast.",
+      "knallhart": "Fünf Tage weg. Der Plan hat gewartet. Die Frage ist, worauf du wartest.",
+      "platzhalter": []
+    },
+    {
+      "id": "DH05",
+      "kategorie": "durchhaenger",
+      "anlass": "Mehrfach „zu schwer“ gemeldet",
+      "standard": "Wenn sich gerade alles schwer anfühlt, ist das eine Information, kein Urteil. Wir nehmen Gewicht raus und bauen wieder auf.",
+      "knallhart": "Schwere Phase. Passiert jedem, der ernsthaft trainiert. Gewicht runter, Standards bleiben.",
+      "platzhalter": []
+    },
+    {
+      "id": "DH06",
+      "kategorie": "durchhaenger",
+      "anlass": "Einheit unvollständig",
+      "standard": "Nicht alles geschafft heute – aber du warst da. Eine halbe Einheit schlägt null Einheiten jedes Mal.",
+      "knallhart": "Halb durchgezogen ist trotzdem erschienen. Nächstes Mal bis zum letzten Satz.",
+      "platzhalter": []
+    },
+    {
+      "id": "DH07",
+      "kategorie": "durchhaenger",
+      "anlass": "Neue Woche nach schwacher Woche",
+      "standard": "Neue Woche, sauberer Start. Du musst die letzte nicht aufholen – nur die nächste Einheit machen.",
+      "knallhart": "Letzte Woche ist gelaufen. Nicht nachtrauern, nicht nachholen. Erste Einheit. Heute.",
+      "platzhalter": []
+    },
+    {
+      "id": "ST01",
+      "kategorie": "streak_meilenstein",
+      "anlass": "3 Tage Streak",
+      "standard": "Drei Tage am Stück. Der schwerste Teil – anfangen – liegt hinter dir.",
+      "knallhart": "Drei Tage. Das schaffen viele. Mal sehen, ob du zu den wenigen gehörst, die bei 30 noch da sind.",
+      "platzhalter": [
+        "streak"
+      ]
+    },
+    {
+      "id": "ST02",
+      "kategorie": "streak_meilenstein",
+      "anlass": "7 Tage Streak",
+      "standard": "Eine volle Woche nach Plan. Das ist die erste Woche, die wirklich zählt.",
+      "knallhart": "Sieben Tage ohne Ausrede. Mach daraus zwei Wochen.",
+      "platzhalter": [
+        "streak"
+      ]
+    },
+    {
+      "id": "ST03",
+      "kategorie": "streak_meilenstein",
+      "anlass": "14 Tage Streak",
+      "standard": "14 Tage. Du baust gerade etwas auf, das nicht mehr von Motivation abhängt.",
+      "knallhart": "14 Tage. Ab hier hören die meisten auf, weil der Reiz des Neuen weg ist. Du nicht.",
+      "platzhalter": [
+        "streak"
+      ]
+    },
+    {
+      "id": "ST04",
+      "kategorie": "streak_meilenstein",
+      "anlass": "30 Tage Streak",
+      "standard": "30 Tage. Ein Monat, in dem du dich auf dich selbst verlassen konntest.",
+      "knallhart": "30 Tage. Das ist kein Zufall mehr. Das bist du.",
+      "platzhalter": [
+        "streak"
+      ]
+    },
+    {
+      "id": "ST05",
+      "kategorie": "streak_meilenstein",
+      "anlass": "40 Tage Streak / Challenge geschafft",
+      "standard": "40 Tage. Du hast bewiesen, dass du durchziehen kannst – schreib das in dein Cookie Jar.",
+      "knallhart": "40 Tage unbroken. Merk dir dieses Gefühl. Du wirst es brauchen, wenn es wieder hart wird.",
+      "platzhalter": [
+        "streak"
+      ]
+    },
+    {
+      "id": "ST06",
+      "kategorie": "streak_meilenstein",
+      "anlass": "66 Tage Streak",
+      "standard": "66 Tage. In einer bekannten Studie zur Gewohnheitsbildung war das im Schnitt die Zeit, bis Verhalten automatisch wird.",
+      "knallhart": "66 Tage. Statistisch ist das jetzt Gewohnheit. Das heißt nicht, dass es leicht wird. Es heißt, dass du nicht mehr verhandelst.",
+      "platzhalter": [
+        "streak"
+      ]
+    },
+    {
+      "id": "ST07",
+      "kategorie": "streak_meilenstein",
+      "anlass": "100 Tage Streak",
+      "standard": "100 Tage. Dreistellig. Die meisten Menschen schaffen das bei keiner einzigen Sache.",
+      "knallhart": "100. Dreistellig. Du bist nicht mehr derselbe wie an Tag 1.",
+      "platzhalter": [
+        "streak"
+      ]
+    },
+    {
+      "id": "CB01",
+      "kategorie": "comeback",
+      "anlass": "Ein Tag verpasst",
+      "standard": "Gestern ist ausgefallen. Heute zählt doppelt – nicht schwerer, sondern weil zweimal hintereinander der eigentliche Fehler wäre.",
+      "knallhart": "Einmal verpasst ist ein Ausrutscher. Zweimal ist ein Muster. Heute entscheidest du, welches von beiden.",
+      "platzhalter": []
+    },
+    {
+      "id": "CB02",
+      "kategorie": "comeback",
+      "anlass": "3 verpasste Einheiten / 5–13 Tage Pause",
+      "standard": "Willkommen zurück. Diese Woche läuft mit etwas weniger Volumen – nicht weil du Muskeln verloren hast (hast du nicht), sondern damit der Wiedereinstieg sitzt.",
+      "knallhart": "Zurück. Diese Woche 20 Prozent weniger Volumen. Kein Geschenk, ein Wiedereinstieg. Nächste Woche wieder voll.",
+      "platzhalter": [
+        "tage_pause"
+      ]
+    },
+    {
+      "id": "CB03",
+      "kategorie": "comeback",
+      "anlass": "7–13 Tage Pause",
+      "standard": "Eine Woche Pause ist für deinen Körper fast nichts – Kraft und Muskeln sind noch da. Wir fahren nur kurz kontrolliert hoch.",
+      "knallhart": "Eine Woche weg. Dein Körper hat es kaum gemerkt. Dein Kopf schon. Zeig ihm, wer entscheidet.",
+      "platzhalter": [
+        "tage_pause"
+      ]
+    },
+    {
+      "id": "CB04",
+      "kategorie": "comeback",
+      "anlass": "14–27 Tage Pause",
+      "standard": "Nach zwei bis vier Wochen Pause starten wir mit einer Comeback-Woche: etwas weniger Gewicht, ein Satz weniger. Dein Körper erinnert sich schneller, als du denkst.",
+      "knallhart": "Wochen weg, egal warum. Comeback-Woche: weniger Gewicht, gleiche Standards. Keine Diskussion über die Pause.",
+      "platzhalter": [
+        "tage_pause"
+      ]
+    },
+    {
+      "id": "CB05",
+      "kategorie": "comeback",
+      "anlass": "Ab 28 Tagen Pause",
+      "standard": "Neustart. Kein Grund für ein schlechtes Gewissen – das Wichtigste ist, dass du wieder da bist. Wir setzen den Block zurück und prüfen kurz, ob dein Profil noch passt.",
+      "knallhart": "Über einen Monat weg. Neustart bei Woche 1. Die Vergangenheit ist egal, die nächsten sieben Tage nicht.",
+      "platzhalter": [
+        "tage_pause"
+      ]
+    },
+    {
+      "id": "CB06",
+      "kategorie": "comeback",
+      "anlass": "Erste Einheit nach Pause erledigt",
+      "standard": "Erste Einheit nach der Pause: erledigt. Das war der schwerste Schritt.",
+      "knallhart": "Erste Einheit zurück. Der Kopf wollte nicht, du hast es trotzdem gemacht. Genau so.",
+      "platzhalter": []
+    },
+    {
+      "id": "CB07",
+      "kategorie": "comeback",
+      "anlass": "Challenge-Neustart nach Hardcore-Reset",
+      "standard": "Zurück auf Tag 1. Das tut weh – aber du weißt jetzt, wo es bei dir hakt. Das wissen die wenigsten beim ersten Versuch.",
+      "knallhart": "Tag 1. Wieder. Du hast den Hardcore-Modus gewählt, du kennst die Regeln. Diesmal weißt du, wo die Falle liegt.",
+      "platzhalter": []
+    },
+    {
+      "id": "SG01",
+      "kategorie": "stagnation",
+      "anlass": "Einzelne Übung stagniert",
+      "standard": "Bei {uebung} geht seit drei Einheiten nichts mehr voran. Völlig normal – Fortschritt ist keine gerade Linie. Wir setzen einen neuen Reiz mit einer Variante.",
+      "knallhart": "{uebung} steht. Drei Einheiten ohne Plus. Neue Variante, neuer Reiz. Kein Grund zur Panik, Grund zum Anpassen.",
+      "platzhalter": [
+        "uebung"
+      ]
+    },
+    {
+      "id": "SG02",
+      "kategorie": "stagnation",
+      "anlass": "Mehrere Übungen stagnieren",
+      "standard": "Mehrere Übungen stehen gleichzeitig. Das liegt selten am Plan, meistens an Schlaf, Essen oder Stress. Ehrliche Frage: Schläfst du gerade genug?",
+      "knallhart": "Alles steht gleichzeitig? Dann ist nicht der Plan das Problem. Schlaf, Essen, Stress – ehrlich prüfen.",
+      "platzhalter": []
+    },
+    {
+      "id": "SG03",
+      "kategorie": "stagnation",
+      "anlass": "Leistungseinbruch",
+      "standard": "Deine Wiederholungen sind deutlich eingebrochen. Das ist meistens ein Erholungsthema. Die nächsten Einheiten laufen mit einem Satz weniger.",
+      "knallhart": "Leistung runter. Kein Charakterfehler, ein Erholungsproblem. Ein Satz weniger, mehr Schlaf, dann wieder angreifen.",
+      "platzhalter": [
+        "uebung"
+      ]
+    },
+    {
+      "id": "SG04",
+      "kategorie": "stagnation",
+      "anlass": "Maximalgewicht / letzte Stufe erreicht",
+      "standard": "Bei {uebung} bist du am Ende dessen, was dein Equipment hergibt. Ab jetzt wird über Tempo gesteigert: drei Sekunden ablassen, kurz halten, kontrolliert hoch.",
+      "knallhart": "Zu leicht geworden? Gut. Jetzt Tempo: drei Sekunden runter. Das Gewicht bleibt gleich, die Anstrengung nicht.",
+      "platzhalter": [
+        "uebung"
+      ]
+    },
+    {
+      "id": "SG05",
+      "kategorie": "stagnation",
+      "anlass": "Körpergewicht: Stufe festgefahren",
+      "standard": "Du hängst bei {uebung} auf Stufe {stufe} fest. Zwischenschritt: gleiche Übung, aber zwei Sekunden Pause im schwersten Punkt.",
+      "knallhart": "Festgefahren auf Stufe {stufe}. Zwei Sekunden Pause unten. Dann weiter.",
+      "platzhalter": [
+        "uebung",
+        "stufe"
+      ]
+    },
+    {
+      "id": "SG06",
+      "kategorie": "stagnation",
+      "anlass": "Deload-Woche startet",
+      "standard": "Diese Woche ist Deload: weniger Sätze, gleiche Gewichte. Kein Rückschritt – das ist die Woche, in der dein Körper den Fortschritt der letzten Wochen einsammelt.",
+      "knallhart": "Deload. Weniger machen fällt manchen schwerer als mehr machen. Trotzdem durchziehen – Erholung ist Teil des Plans.",
+      "platzhalter": []
+    },
+    {
+      "id": "SG07",
+      "kategorie": "stagnation",
+      "anlass": "Gefühlte Stagnation, Zahlen steigen",
+      "standard": "Es fühlt sich an, als würde nichts passieren? Deine Zahlen sagen etwas anderes: {uebung} ist seit dem Start um {steigerung} gestiegen. Fortschritt ist leiser, als man denkt.",
+      "knallhart": "Du siehst keinen Fortschritt? Deine Zahlen schon: {uebung} plus {steigerung}. Gefühle lügen, Logbücher nicht.",
+      "platzhalter": [
+        "uebung",
+        "steigerung"
+      ]
+    }
+  ],
+  "vorlagen": {
+    "wochenauswertung": {
+      "standard": "**Woche {woche}**\n{erledigt}/{geplant} Einheiten · Streak {streak} Tage · {progressionen} Übungen gesteigert\n\n{textbaustein}",
+      "knallhart": "**WOCHE {woche}**\n{erledigt}/{geplant} Einheiten · Streak {streak} · {progressionen} Übungen gesteigert\n\n{textbaustein}"
+    },
+    "hinweis": "Pro Wochenbericht wird genau ein Textbaustein eingesetzt. Reihenfolge der Priorität: Sicherheit > Comeback > Stagnation > Durchhänger > Meilenstein."
+  },
+  "hinweis": "Platzhalter in geschweiften Klammern werden zur Laufzeit ersetzt. Der Ton (standard/knallhart) kommt aus den Einstellungen."
+}

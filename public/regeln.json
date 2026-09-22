@@ -1,0 +1,975 @@
+{
+  "tier": 3,
+  "auswertungsreihenfolge": "Nach 'prioritaet' aufsteigend. Niedrigere Zahl gewinnt. Eine Übung, die in dieser Woche bereits von einer Regel mit höherer Priorität verändert wurde, wird von Progressionsregeln (R10–R14) nicht mehr angefasst.",
+  "regeln": [
+    {
+      "id": "R01",
+      "name": "Schmerz gemeldet",
+      "kategorie": "sicherheit",
+      "prioritaet": 1,
+      "ausloeser": "feedback_uebung",
+      "bedingung_text": "Nutzer meldet bei einer Übung „Schmerz“ (Gelenk, stechend) und wählt eine Körperstelle.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "uebung.feedback",
+            "op": "==",
+            "wert": "schmerz"
+          }
+        ]
+      },
+      "aktion_text": "Übung sofort gegen die nächste Alternative aus dem Rotationspool desselben Slots tauschen. Für diesen Slot 14 Tage keine Progression. Hinweis anzeigen. Bei zweiter Meldung derselben Körperstelle innerhalb von 14 Tagen: Slot pausieren und deutlicher Hinweis auf Arzt/Physio.",
+      "aktion": {
+        "typ": "uebung_tauschen",
+        "progression_sperren_tage": 14,
+        "eskalation_bei_wiederholung": true
+      },
+      "textbausteine": [],
+      "mental_modul": "M13",
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Schmerz in Gelenken ist ein Warnsignal, kein Trainingsreiz. Ausweichen statt durchziehen erhält die Trainierbarkeit.",
+      "nachricht": {
+        "standard": "Wir tauschen die Übung aus und steigern hier erstmal nicht weiter. Wenn der Schmerz länger als eine Woche bleibt, nachts auftritt oder etwas anschwillt: bitte ärztlich abklären lassen.",
+        "knallhart": "Wir tauschen die Übung aus und steigern hier erstmal nicht weiter. Wenn der Schmerz länger als eine Woche bleibt, nachts auftritt oder etwas anschwillt: bitte ärztlich abklären lassen."
+      }
+    },
+    {
+      "id": "R02",
+      "name": "Pause 5–13 Tage / 3 verpasste Einheiten",
+      "kategorie": "comeback",
+      "prioritaet": 2,
+      "ausloeser": "plan_geladen",
+      "bedingung_text": "3 geplante Einheiten in Folge verpasst ODER 5 bis 13 Tage keine Einheit.",
+      "bedingung": {
+        "eines": [
+          {
+            "metrik": "einheiten_verpasst_in_folge",
+            "op": ">=",
+            "wert": 3
+          },
+          {
+            "metrik": "tage_seit_letzter_einheit",
+            "op": "zwischen",
+            "wert": [
+              5,
+              13
+            ]
+          }
+        ]
+      },
+      "aktion_text": "Nächste 7 Tage: Satzzahl × 0,8 (abrunden, mindestens 2 bei main/sec), Gewichte unverändert, keine Progression in dieser Woche.",
+      "aktion": {
+        "typ": "volumen_anpassen",
+        "saetze_faktor": 0.8,
+        "dauer_tage": 7,
+        "progression": false
+      },
+      "textbausteine": [
+        "CB02"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 7,
+      "begruendung": "Nach so kurzer Pause ist kaum Kraft verloren. Das reduzierte Volumen dient dem Wiedereinstieg und weniger Muskelkater, nicht dem Muskelerhalt.",
+      "nachricht": null
+    },
+    {
+      "id": "R03",
+      "name": "Pause 14–27 Tage",
+      "kategorie": "comeback",
+      "prioritaet": 2,
+      "ausloeser": "plan_geladen",
+      "bedingung_text": "14 bis 27 Tage keine Einheit.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "tage_seit_letzter_einheit",
+            "op": "zwischen",
+            "wert": [
+              14,
+              27
+            ]
+          }
+        ]
+      },
+      "aktion_text": "Comeback-Woche: 1 Satz weniger pro Übung, Gewichte −10 % (Körpergewicht: eine Stufe zurück), Ziel-RIR 3. Danach normaler Blockverlauf.",
+      "aktion": {
+        "typ": "comeback_woche",
+        "saetze_delta": -1,
+        "gewicht_faktor": 0.9,
+        "stufe_delta": -1,
+        "rir": "3",
+        "dauer_tage": 7
+      },
+      "textbausteine": [
+        "CB04"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 14,
+      "begruendung": "Nach zwei bis vier Wochen Pause sinkt vor allem die Belastungstoleranz, weniger die Muskelmasse. Reduzierter Wiedereinstieg senkt Verletzungs- und Abbruchrisiko.",
+      "nachricht": null
+    },
+    {
+      "id": "R04",
+      "name": "Pause ab 28 Tagen",
+      "kategorie": "comeback",
+      "prioritaet": 2,
+      "ausloeser": "plan_geladen",
+      "bedingung_text": "28 Tage oder länger keine Einheit.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "tage_seit_letzter_einheit",
+            "op": ">=",
+            "wert": 28
+          }
+        ]
+      },
+      "aktion_text": "Block auf Woche 1 zurücksetzen, Gewichte −20 % bzw. eine Stufe zurück, Onboarding-Check anbieten („Hat sich etwas an Zeit, Ausstattung oder Zielen geändert?“).",
+      "aktion": {
+        "typ": "neustart",
+        "block_woche": 1,
+        "gewicht_faktor": 0.8,
+        "stufe_delta": -1,
+        "onboarding_check": true
+      },
+      "textbausteine": [
+        "CB05"
+      ],
+      "mental_modul": "M09",
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Nach über einem Monat ist ein sauberer Wiedereinstieg sinnvoller als das alte Pensum. Muskelgedächtnis bringt die Leistung schnell zurück.",
+      "nachricht": null
+    },
+    {
+      "id": "R05",
+      "name": "Erste Einheit nach Pause erledigt",
+      "kategorie": "motivation",
+      "prioritaet": 9,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Letzte Pause war ≥ 5 Tage und die erste Einheit danach ist abgeschlossen.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "letzte_pause_tage",
+            "op": ">=",
+            "wert": 5
+          }
+        ]
+      },
+      "aktion_text": "Textbaustein anzeigen.",
+      "aktion": {
+        "typ": "nur_text"
+      },
+      "textbausteine": [
+        "CB06"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 5,
+      "begruendung": "",
+      "nachricht": null
+    },
+    {
+      "id": "R06",
+      "name": "Deload fällig",
+      "kategorie": "planstruktur",
+      "prioritaet": 3,
+      "ausloeser": "woche_beginnt",
+      "bedingung_text": "Aktuelle Blockwoche ist die Deload-Woche (Anfänger Woche 8, Fortgeschritten Woche 5).",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "block_woche",
+            "op": "==",
+            "wert": "deload_woche"
+          }
+        ]
+      },
+      "aktion_text": "Satzzahl × 0,5 (aufrunden, min. 1), gleiche Gewichte, Ziel-RIR 4, keine Progression in dieser Woche.",
+      "aktion": {
+        "typ": "deload",
+        "saetze_faktor": 0.5,
+        "rir": "4",
+        "progression": false
+      },
+      "textbausteine": [
+        "SG06"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Geplante Entlastung gibt Gelenken, Sehnen und Nervensystem Zeit, nachzuziehen. Muskelmasse geht in einer Woche mit halbem Volumen nicht verloren.",
+      "nachricht": null
+    },
+    {
+      "id": "R07",
+      "name": "Leistungseinbruch",
+      "kategorie": "erholung",
+      "prioritaet": 4,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Bei gleichem Gewicht fallen die Wiederholungen einer Übung in 2 Einheiten in Folge um ≥ 20 % ODER mindestens 2 Übungen einer Einheit brechen gleichzeitig ein.",
+      "bedingung": {
+        "eines": [
+          {
+            "metrik": "uebung.wdh_einbruch_prozent_in_folge",
+            "op": ">=",
+            "wert": 20
+          },
+          {
+            "metrik": "einheit.uebungen_mit_einbruch",
+            "op": ">=",
+            "wert": 2
+          }
+        ]
+      },
+      "aktion_text": "Nächste 3 Einheiten: 1 Satz weniger pro Übung, keine Progression. Hinweis auf Schlaf und Essen.",
+      "aktion": {
+        "typ": "volumen_anpassen",
+        "saetze_delta": -1,
+        "dauer_einheiten": 3,
+        "progression": false
+      },
+      "textbausteine": [
+        "SG03"
+      ],
+      "mental_modul": "M15",
+      "user_bestaetigung": false,
+      "cooldown_tage": 10,
+      "begruendung": "Sinkende Leistung bei gleichem Gewicht ist meist ein Erholungsproblem, kein Motivationsproblem. Volumen senken statt Willen erhöhen.",
+      "nachricht": null
+    },
+    {
+      "id": "R08",
+      "name": "Stagnation: mehrere Übungen",
+      "kategorie": "stagnation",
+      "prioritaet": 5,
+      "ausloeser": "woche_endet",
+      "bedingung_text": "In derselben Woche stagnieren 3 oder mehr Übungen (keine Steigerung in Wiederholungen oder Gewicht seit 3 Einheiten).",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "anzahl_uebungen_stagnierend",
+            "op": ">=",
+            "wert": 3
+          }
+        ]
+      },
+      "aktion_text": "Keine Übungswechsel. Stattdessen Hinweis auf Schlaf/Ernährung/Stress und Modul 15 freischalten. Regel R09 in dieser Woche unterdrücken.",
+      "aktion": {
+        "typ": "nur_text",
+        "unterdrueckt": [
+          "R09"
+        ]
+      },
+      "textbausteine": [
+        "SG02"
+      ],
+      "mental_modul": "M15",
+      "user_bestaetigung": false,
+      "cooldown_tage": 14,
+      "begruendung": "Wenn alles gleichzeitig steht, liegt es fast nie an der Übungsauswahl.",
+      "nachricht": null
+    },
+    {
+      "id": "R09",
+      "name": "Stagnation: einzelne Übung",
+      "kategorie": "stagnation",
+      "prioritaet": 5,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Eine Übung wurde 3 Einheiten in Folge nicht gesteigert (weder Wiederholungen noch Gewicht/Stufe).",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "uebung.einheiten_ohne_steigerung",
+            "op": ">=",
+            "wert": 3
+          }
+        ]
+      },
+      "aktion_text": "Vorschlag: Übung gegen die nächste Alternative aus dem Rotationspool des Slots tauschen (mit Bestätigung). Bei Körpergewichtsübungen stattdessen Zwischenstufe: 2 Sek Pause im schwersten Punkt.",
+      "aktion": {
+        "typ": "uebung_rotieren",
+        "quelle": "slots.json → rotation",
+        "bodyweight_alternative": "pause_2_sek"
+      },
+      "textbausteine": [
+        "SG01",
+        "SG05"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": true,
+      "cooldown_tage": 14,
+      "begruendung": "Ein neuer Reiz durch Variation ist wirksamer als ewig dieselbe stehende Übung.",
+      "nachricht": null
+    },
+    {
+      "id": "R10",
+      "name": "Doppelte Progression (Gewicht)",
+      "kategorie": "progression",
+      "prioritaet": 6,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Alle Sätze einer Übung haben das obere Ende der Wiederholungsspanne erreicht (Profil Gym oder Home-Gym, schwerste Hantel noch nicht erreicht).",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "uebung.alle_saetze_oberes_ende",
+            "op": "==",
+            "wert": true
+          },
+          {
+            "metrik": "profil",
+            "op": "in",
+            "wert": [
+              "gym",
+              "homegym"
+            ]
+          },
+          {
+            "metrik": "uebung.ist_max_gewicht",
+            "op": "==",
+            "wert": false
+          }
+        ]
+      },
+      "aktion_text": "Nächste Einheit: Gewicht erhöhen (Unterkörper-Grundübung +2,5–5 kg, Oberkörper +1–2,5 kg, Isolation kleinste verfügbare Stufe), Wiederholungen zurück auf das untere Ende der Spanne.",
+      "aktion": {
+        "typ": "gewicht_erhoehen",
+        "unterkoerper_kg": [
+          2.5,
+          5
+        ],
+        "oberkoerper_kg": [
+          1,
+          2.5
+        ],
+        "wdh_reset": "unteres_ende"
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Leistungsbasierte Progression statt fester Zeitformel: Die Last steigt erst, wenn die Leistung es zeigt.",
+      "nachricht": null
+    },
+    {
+      "id": "R11",
+      "name": "Stufen-Progression (Körpergewicht)",
+      "kategorie": "progression",
+      "prioritaet": 6,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Alle Sätze einer Stufen-Übung haben das obere Ende der Wiederholungsspanne erreicht und es gibt eine höhere Stufe.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "uebung.alle_saetze_oberes_ende",
+            "op": "==",
+            "wert": true
+          },
+          {
+            "metrik": "uebung.hat_naechste_stufe",
+            "op": "==",
+            "wert": true
+          }
+        ]
+      },
+      "aktion_text": "Nächste Einheit: eine Stufe höher, Wiederholungen zurück auf das untere Ende.",
+      "aktion": {
+        "typ": "stufe_erhoehen",
+        "wdh_reset": "unteres_ende"
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Ohne Gewichte läuft Progression über schwerere Varianten (Hebel, Einbeinigkeit, Bewegungsweg).",
+      "nachricht": null
+    },
+    {
+      "id": "R12",
+      "name": "Kein Gewicht / keine Stufe mehr übrig",
+      "kategorie": "progression",
+      "prioritaet": 6,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Obere Wiederholungsgrenze erreicht UND schwerste Hantel bzw. letzte Stufe erreicht.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "uebung.alle_saetze_oberes_ende",
+            "op": "==",
+            "wert": true
+          },
+          {
+            "eines": [
+              {
+                "metrik": "uebung.ist_max_gewicht",
+                "op": "==",
+                "wert": true
+              },
+              {
+                "metrik": "uebung.hat_naechste_stufe",
+                "op": "==",
+                "wert": false
+              }
+            ]
+          }
+        ]
+      },
+      "aktion_text": "Intensitätstechnik in dieser Reihenfolge freischalten: 1) Tempo 3-1-1, 2) zusätzlich 2 Sek Pause im schwersten Punkt, 3) Wiederholungsspanne um 5 erhöhen (Obergrenze 30).",
+      "aktion": {
+        "typ": "intensitaetstechnik",
+        "stufen": [
+          "tempo_3_1_1",
+          "pause_2_sek",
+          "wdh_spanne_plus_5"
+        ],
+        "wdh_max": 30
+      },
+      "textbausteine": [
+        "SG04"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Wiederholungsbereiche von etwa 5 bis 30 wirken ähnlich gut für Muskelaufbau, solange nah am Muskelversagen trainiert wird.",
+      "nachricht": null
+    },
+    {
+      "id": "R13",
+      "name": "Einstufung bei Körpergewichtsübung",
+      "kategorie": "progression",
+      "prioritaet": 6,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Erste Einheit mit einer Stufen-Übung: erster Satz liegt unter dem unteren Ende (zu schwer) oder mehr als 5 Wiederholungen über dem oberen Ende (zu leicht).",
+      "bedingung": {
+        "eines": [
+          {
+            "metrik": "uebung.erste_einheit_wdh",
+            "op": "<",
+            "wert": "unteres_ende"
+          },
+          {
+            "metrik": "uebung.erste_einheit_wdh",
+            "op": ">",
+            "wert": "oberes_ende_plus_5"
+          }
+        ]
+      },
+      "aktion_text": "Stufe automatisch um 1 nach unten bzw. oben korrigieren und Nutzer kurz informieren.",
+      "aktion": {
+        "typ": "stufe_korrigieren",
+        "delta": [
+          -1,
+          1
+        ]
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Die richtige Startstufe entscheidet, ob Körpergewichtstraining überhaupt im wirksamen Bereich landet.",
+      "nachricht": null
+    },
+    {
+      "id": "R14",
+      "name": "Feedback „zu leicht“",
+      "kategorie": "progression",
+      "prioritaet": 6,
+      "ausloeser": "feedback_uebung",
+      "bedingung_text": "Nutzer meldet bei derselben Übung 2 Einheiten in Folge „zu leicht“ (geschätzte RIR ≥ 4).",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "uebung.feedback_zu_leicht_in_folge",
+            "op": ">=",
+            "wert": 2
+          }
+        ]
+      },
+      "aktion_text": "Nächste Einheit: Gewicht eine Stufe hoch bzw. Stufe +1, auch wenn das obere Wiederholungsende noch nicht erreicht ist.",
+      "aktion": {
+        "typ": "gewicht_erhoehen",
+        "erzwungen": true
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Zu weit vom Muskelversagen entfernt zu trainieren kostet Wachstumsreiz.",
+      "nachricht": null
+    },
+    {
+      "id": "R15",
+      "name": "Feedback „zu schwer“",
+      "kategorie": "sicherheit",
+      "prioritaet": 4,
+      "ausloeser": "feedback_uebung",
+      "bedingung_text": "Nutzer meldet bei derselben Übung 2 Einheiten in Folge „zu schwer“ oder schafft das untere Wiederholungsende nicht.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "uebung.feedback_zu_schwer_in_folge",
+            "op": ">=",
+            "wert": 2
+          }
+        ]
+      },
+      "aktion_text": "Gewicht −5 bis −10 % bzw. eine Stufe zurück, Technik-Hinweis einblenden.",
+      "aktion": {
+        "typ": "gewicht_senken",
+        "faktor": 0.925,
+        "stufe_delta": -1
+      },
+      "textbausteine": [
+        "DH05"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Zu schwere Lasten verschlechtern Technik und erhöhen das Verletzungsrisiko, ohne mehr Wachstum zu bringen.",
+      "nachricht": null
+    },
+    {
+      "id": "R16",
+      "name": "Wochentag wird regelmäßig verpasst",
+      "kategorie": "planstruktur",
+      "prioritaet": 8,
+      "ausloeser": "woche_endet",
+      "bedingung_text": "Derselbe Wochentag wurde in 3 der letzten 4 Wochen verpasst.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "wochentag_verpasst_anzahl_4wochen",
+            "op": ">=",
+            "wert": 3
+          }
+        ]
+      },
+      "aktion_text": "Vorschlag: diesen Wochentag dauerhaft zum Ruhetag machen und die Einheit auf einen anderen Tag legen. Reihenfolge der Tagesprofile bleibt gleich.",
+      "aktion": {
+        "typ": "wochenmuster_anpassen",
+        "bestaetigung_noetig": true
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": true,
+      "cooldown_tage": 28,
+      "begruendung": "Ein Plan, der zum echten Wochenablauf passt, wird eher eingehalten als einer, der gegen ihn arbeitet.",
+      "nachricht": {
+        "standard": "Dienstags klappt es bei dir selten. Sollen wir den Tag fest zum Ruhetag machen und die Einheit verschieben?",
+        "knallhart": "Dienstag verlierst du regelmäßig. Entweder du gewinnst ihn zurück oder wir machen ihn offiziell zum Ruhetag. Deine Wahl."
+      }
+    },
+    {
+      "id": "R17",
+      "name": "Zeitbudget zu knapp",
+      "kategorie": "planstruktur",
+      "prioritaet": 7,
+      "ausloeser": "plan_erstellt",
+      "bedingung_text": "Geschätzte Dauer einer Einheit überschreitet das im Profil hinterlegte Zeitbudget.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "einheit.dauer_geschaetzt_min",
+            "op": ">",
+            "wert": "profil.zeitbudget_min"
+          }
+        ]
+      },
+      "aktion_text": "1) Antagonisten-Supersätze bilden (Drücken + Ziehen, Quadrizeps + Beinbeuger), 2) falls immer noch zu lang: Übungen mit Rolle „acc“ von hinten streichen, Rumpfübung zuletzt. Übungen mit Rolle „main“ und „sec“ bleiben immer erhalten.",
+      "aktion": {
+        "typ": "einheit_kuerzen",
+        "reihenfolge": [
+          "supersaetze",
+          "acc_streichen",
+          "core_streichen"
+        ],
+        "nie_streichen": [
+          "main",
+          "sec"
+        ]
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Grundübungen liefern den größten Teil des Reizes. Lieber kurz und vollständig als lang und ausgelassen.",
+      "nachricht": null
+    },
+    {
+      "id": "R18",
+      "name": "Streak-Meilenstein",
+      "kategorie": "motivation",
+      "prioritaet": 9,
+      "ausloeser": "tag_abgeschlossen",
+      "bedingung_text": "Streak erreicht 3, 7, 14, 30, 40, 66 oder 100 Tage.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "streak_tage",
+            "op": "in",
+            "wert": [
+              3,
+              7,
+              14,
+              30,
+              40,
+              66,
+              100
+            ]
+          }
+        ]
+      },
+      "aktion_text": "Passenden Meilenstein-Textbaustein anzeigen, Eintrag automatisch fürs Cookie Jar vorschlagen.",
+      "aktion": {
+        "typ": "meilenstein",
+        "cookie_jar_vorschlag": true
+      },
+      "textbausteine": [
+        "ST01",
+        "ST02",
+        "ST03",
+        "ST04",
+        "ST05",
+        "ST06",
+        "ST07"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Sichtbare Erfolge stärken die Selbstwirksamkeit – die stärkste Quelle für Durchhaltevermögen.",
+      "nachricht": null
+    },
+    {
+      "id": "R19",
+      "name": "14er-Streak: Steigerung prüfen",
+      "kategorie": "progression",
+      "prioritaet": 6,
+      "ausloeser": "tag_abgeschlossen",
+      "bedingung_text": "Streak = 14 Tage UND mindestens die Hälfte der Übungen wurde in den letzten 14 Tagen gesteigert UND keine Schmerzmeldung in diesem Zeitraum.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "streak_tage",
+            "op": "==",
+            "wert": 14
+          },
+          {
+            "metrik": "anteil_uebungen_mit_progression_14t",
+            "op": ">=",
+            "wert": 0.5
+          },
+          {
+            "metrik": "schmerzmeldungen_14t",
+            "op": "==",
+            "wert": 0
+          }
+        ]
+      },
+      "aktion_text": "Angebot (mit Bestätigung): +1 Satz bei der ersten Übung jeder Einheit für den Rest des Blocks, oder – nach mindestens einem abgeschlossenen Block – Wechsel auf Level „Fortgeschritten“.",
+      "aktion": {
+        "typ": "steigerung_anbieten",
+        "optionen": [
+          "saetze_plus_1_main",
+          "level_upgrade"
+        ]
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": true,
+      "cooldown_tage": 0,
+      "begruendung": "Eine Streak zeigt Konsistenz, nicht Belastbarkeit. Mehr Volumen nur, wenn auch die Leistungsdaten mitziehen.",
+      "nachricht": null
+    },
+    {
+      "id": "R20",
+      "name": "Mental-Aufgabe mehrfach offen",
+      "kategorie": "motivation",
+      "prioritaet": 9,
+      "ausloeser": "tag_abgeschlossen",
+      "bedingung_text": "Mental-Aufgabe an 3 Tagen in Folge nicht erledigt (nur wenn Mental-Modul aktiviert ist).",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "mental_offen_in_folge",
+            "op": ">=",
+            "wert": 3
+          }
+        ]
+      },
+      "aktion_text": "Textbaustein anzeigen und für den nächsten Tag die Mini-Version der Aufgabe vorschlagen (max. 5 Minuten).",
+      "aktion": {
+        "typ": "aufgabe_verkleinern",
+        "dauer_max_min": 5
+      },
+      "textbausteine": [
+        "DH02"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 7,
+      "begruendung": "",
+      "nachricht": null
+    },
+    {
+      "id": "R21",
+      "name": "Woche unter 50 Prozent",
+      "kategorie": "motivation",
+      "prioritaet": 9,
+      "ausloeser": "woche_endet",
+      "bedingung_text": "Weniger als die Hälfte der geplanten Einheiten der Woche erledigt.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "woche.erledigt_anteil",
+            "op": "<",
+            "wert": 0.5
+          }
+        ]
+      },
+      "aktion_text": "Wochenabschluss-Text anzeigen, zum Wochenstart Neustart-Text.",
+      "aktion": {
+        "typ": "nur_text"
+      },
+      "textbausteine": [
+        "DH03",
+        "DH07"
+      ],
+      "mental_modul": "M04",
+      "user_bestaetigung": false,
+      "cooldown_tage": 7,
+      "begruendung": "",
+      "nachricht": null
+    },
+    {
+      "id": "R22",
+      "name": "Wochenmitte, Woche hängt",
+      "kategorie": "motivation",
+      "prioritaet": 9,
+      "ausloeser": "tag_beginnt",
+      "bedingung_text": "Mitte der Woche (Tag 4 des Wochenmusters) und mindestens 2 Einheiten der Woche noch offen.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "woche.tag_index",
+            "op": "==",
+            "wert": 4
+          },
+          {
+            "metrik": "woche.offene_einheiten",
+            "op": ">=",
+            "wert": 2
+          }
+        ]
+      },
+      "aktion_text": "Textbaustein anzeigen.",
+      "aktion": {
+        "typ": "nur_text"
+      },
+      "textbausteine": [
+        "DH01"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 7,
+      "begruendung": "",
+      "nachricht": null
+    },
+    {
+      "id": "R23",
+      "name": "App länger nicht geöffnet",
+      "kategorie": "motivation",
+      "prioritaet": 9,
+      "ausloeser": "taeglich",
+      "bedingung_text": "App seit 5 Tagen nicht geöffnet (nur wenn Benachrichtigungen erlaubt sind).",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "app_nicht_geoeffnet_tage",
+            "op": ">=",
+            "wert": 5
+          }
+        ]
+      },
+      "aktion_text": "Eine Erinnerung senden, danach 14 Tage Ruhe.",
+      "aktion": {
+        "typ": "nur_text"
+      },
+      "textbausteine": [
+        "DH04"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 14,
+      "begruendung": "",
+      "nachricht": null
+    },
+    {
+      "id": "R24",
+      "name": "Einheit unvollständig",
+      "kategorie": "motivation",
+      "prioritaet": 9,
+      "ausloeser": "einheit_abgeschlossen",
+      "bedingung_text": "Weniger als die Hälfte der geplanten Sätze geloggt, Einheit aber beendet.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "einheit.saetze_anteil",
+            "op": "<",
+            "wert": 0.5
+          }
+        ]
+      },
+      "aktion_text": "Einheit zählt als erledigt (Streak bleibt), für die nicht geloggten Übungen greift keine Progression.",
+      "aktion": {
+        "typ": "teilweise_werten",
+        "progression_nur_geloggte": true
+      },
+      "textbausteine": [
+        "DH06"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "",
+      "nachricht": null
+    },
+    {
+      "id": "R25",
+      "name": "Keine Gewichte geloggt",
+      "kategorie": "system",
+      "prioritaet": 8,
+      "ausloeser": "woche_endet",
+      "bedingung_text": "Seit 14 Tagen wurden keine Gewichte oder Wiederholungen eingetragen.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "tage_ohne_leistungslog",
+            "op": ">=",
+            "wert": 14
+          }
+        ]
+      },
+      "aktion_text": "Hinweis anzeigen: Ohne Logs kann die automatische Progression nicht greifen.",
+      "aktion": {
+        "typ": "nur_text"
+      },
+      "textbausteine": [],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 21,
+      "begruendung": "",
+      "nachricht": {
+        "standard": "Du hakst ab, trägst aber keine Gewichte ein. Ohne diese Zahlen kann dein Plan nicht automatisch steigern – zwei Sekunden pro Satz reichen.",
+        "knallhart": "Abhaken allein bringt dich nicht weiter. Ohne Zahlen keine Progression. Trag die Sätze ein."
+      }
+    },
+    {
+      "id": "R26",
+      "name": "Challenge: Tag verpasst",
+      "kategorie": "challenge",
+      "prioritaet": 2,
+      "ausloeser": "tag_endet",
+      "bedingung_text": "40-Tage-Challenge läuft und der freigeschaltete Tag wurde bis Ende des Kalendertags nicht abgeschlossen.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "challenge.aktiv",
+            "op": "==",
+            "wert": true
+          },
+          {
+            "metrik": "challenge.tag_offen_am_tagesende",
+            "op": "==",
+            "wert": true
+          }
+        ]
+      },
+      "aktion_text": "Soft-Modus (Standard): Streak zurück auf 0, der Tag bleibt offen und wird nachgeholt. Hardcore-Modus (nur wenn vorher aktiviert): Challenge startet wieder bei Tag 1.",
+      "aktion": {
+        "typ": "challenge_verpasst",
+        "soft": {
+          "streak": 0,
+          "tag_bleibt_offen": true
+        },
+        "hardcore": {
+          "reset_auf_tag": 1
+        }
+      },
+      "textbausteine": [
+        "CB01",
+        "CB07"
+      ],
+      "mental_modul": "M04",
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Harte Resets erzeugen den Alles-oder-nichts-Effekt und damit Abbrüche. Deshalb ist der weiche Modus Standard und Härte eine freiwillige Entscheidung.",
+      "nachricht": null
+    },
+    {
+      "id": "R27",
+      "name": "Challenge abgeschlossen",
+      "kategorie": "challenge",
+      "prioritaet": 3,
+      "ausloeser": "tag_abgeschlossen",
+      "bedingung_text": "Tag 40 der Challenge abgeschlossen.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "challenge.tag",
+            "op": "==",
+            "wert": 40
+          }
+        ]
+      },
+      "aktion_text": "Abzeichen „40 Days Unbroken“ vergeben, Cookie-Jar-Eintrag vorschlagen, Übergang in den regulären 4-Tage-Plan anbieten (Gewichte und Stufen werden übernommen), Level und Trainingstage neu abfragen.",
+      "aktion": {
+        "typ": "challenge_abschluss",
+        "badge": "40_days_unbroken",
+        "uebergang": "4tage_plan"
+      },
+      "textbausteine": [
+        "ST05"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "",
+      "nachricht": null
+    },
+    {
+      "id": "R28",
+      "name": "Wochenauswertung",
+      "kategorie": "system",
+      "prioritaet": 9,
+      "ausloeser": "woche_endet",
+      "bedingung_text": "Jede Woche zum Wochenende, sobald mindestens eine Woche Daten vorliegt.",
+      "bedingung": {
+        "alle": [
+          {
+            "metrik": "woche.abgeschlossen",
+            "op": "==",
+            "wert": true
+          }
+        ]
+      },
+      "aktion_text": "Wochenbericht bauen: Kennzahlen + genau ein Textbaustein nach Priorität (Sicherheit > Comeback > Stagnation > Durchhänger > Meilenstein).",
+      "aktion": {
+        "typ": "wochenbericht",
+        "vorlage": "wochenauswertung",
+        "max_textbausteine": 1
+      },
+      "textbausteine": [
+        "SG07"
+      ],
+      "mental_modul": null,
+      "user_bestaetigung": false,
+      "cooldown_tage": 0,
+      "begruendung": "Ein Feedback pro Woche wird gelesen. Fünf Hinweise gleichzeitig werden ignoriert.",
+      "nachricht": null
+    }
+  ]
+}

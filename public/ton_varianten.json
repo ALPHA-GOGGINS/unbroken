@@ -1,0 +1,50 @@
+{
+  "hinweis": "Der Ton wird in den Einstellungen gewählt und ändert ausschließlich Texte, niemals Übungen, Sätze, Wiederholungen oder Regeln. Sicherheitshinweise sind in beiden Tönen identisch.",
+  "texte": {
+    "plan_intro": {
+      "standard": "Das ist dein Plan. Er wächst mit dir. Auftauchen, ausführen, der Rest kommt von selbst.",
+      "knallhart": "Der Plan steht. Niemand macht ihn für dich. Du entscheidest jeden Tag neu, ob du ihn benutzt oder dir eine Ausrede suchst."
+    },
+    "satz_anweisung": {
+      "standard": "{saetze} Sätze, {wdh} Wiederholungen. Sauber ausführen – lieber weniger Gewicht als schlechte Technik.",
+      "knallhart": "{saetze}×{wdh}. Keine halben Wiederholungen. Wenn die letzten zwei nicht brennen, war das Gewicht Deko."
+    },
+    "workout_abschluss": {
+      "standard": "Erledigt. Wieder ein Tag, an dem du drangeblieben bist.",
+      "knallhart": "Fertig. Die meisten hätten heute nach einem Grund gesucht, es kleiner zu machen. Du nicht."
+    },
+    "ruhetag": {
+      "standard": "Heute ist Ruhetag. Erholung ist der Teil, in dem der Muskel tatsächlich wächst.",
+      "knallhart": "Ruhetag. Nicht dein Wunsch, sondern der Plan. Erholung ist kein Urlaub, sie ist Teil der Arbeit."
+    },
+    "verpasster_tag": {
+      "standard": "Gestern ist ausgefallen. Kein Weltuntergang – mach heute die nächste Einheit.",
+      "knallhart": "Verpasst ist verpasst. Erklärungen ändern nichts. Heute zählt."
+    },
+    "deload_woche": {
+      "standard": "Deload-Woche: halbe Satzzahl, gleiche Gewichte. Dein Körper holt sich zurück, was die letzten Wochen gekostet haben.",
+      "knallhart": "Deload. Halbe Sätze, gleiche Gewichte, volle Konzentration. Wer hier überzieht, zahlt nächsten Monat."
+    },
+    "block_abgeschlossen": {
+      "standard": "Block abgeschlossen. Der nächste startet mit den Gewichten, die du dir erarbeitet hast.",
+      "knallhart": "Block durch. Neuer Block, gleiche Übungen, mehr Gewicht. So läuft das."
+    },
+    "level_up_angebot": {
+      "standard": "Deine Zahlen steigen konstant. Willst du auf Fortgeschritten wechseln? Mehr Volumen, näher ans Limit.",
+      "knallhart": "Du bist dem Anfängerplan entwachsen. Fortgeschritten heißt mehr Volumen und weniger Puffer. Bereit?"
+    },
+    "streak_verloren": {
+      "standard": "Streak zurück auf null. Die Arbeit der letzten Wochen bleibt trotzdem deine.",
+      "knallhart": "Streak weg. Die Zahl ist neu bei null, du nicht. Bau sie wieder auf."
+    },
+    "onboarding_willkommen": {
+      "standard": "Willkommen bei unbroken. Ein paar Fragen, dann steht dein Plan.",
+      "knallhart": "Willkommen bei unbroken. Ein paar Fragen, dann gibt es keine Ausreden mehr."
+    },
+    "sicherheitshinweis_schmerz": {
+      "standard": "Stechender Schmerz, Schwindel oder Druck in der Brust heißt: sofort abbrechen. Das gilt in jedem Ton.",
+      "knallhart": "Stechender Schmerz, Schwindel oder Druck in der Brust heißt: sofort abbrechen. Das gilt in jedem Ton."
+    }
+  },
+  "tier": 1
+}

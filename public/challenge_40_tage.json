@@ -1,0 +1,515 @@
+{
+  "id": "challenge_40_tage",
+  "tier": 1,
+  "name": "40 Days Unbroken",
+  "beschreibung": "40 Tage am Stück, Tag für Tag freigeschaltet. Trainingsstruktur wie der 4-Tage-Plan (Oberkörper/Unterkörper), zusätzlich jeden Tag eine Pflicht-Mental-Aufgabe – auch an Ruhetagen.",
+  "nutzt_split": "4tage",
+  "hinweis_plaene": "Die Trainingsinhalte kommen aus dem 4-Tage-Plan des jeweiligen Profils und Levels (fertige_plaene/<profil>/<level>_4tage.json). Die Challenge liefert nur Reihenfolge, Mental-Aufgaben und Meilensteine.",
+  "einstellungen": {
+    "verpasster_tag_modus": {
+      "standard": "soft",
+      "optionen": [
+        "soft",
+        "hardcore"
+      ],
+      "soft": "Streak zurück auf 0, der Tag bleibt offen und wird nachgeholt.",
+      "hardcore": "Zurück auf Tag 1. Muss vor dem Start bewusst aktiviert werden und kann während der Challenge nicht mehr eingeschaltet werden."
+    },
+    "mental_aufgaben": "In der Challenge Pflicht, nicht abschaltbar. Ein Tag gilt erst als abgeschlossen, wenn Training (oder Ruhetag) und Mental-Aufgabe erledigt sind.",
+    "block_modifikatoren": "Die Wochenparameter (RIR, Deload) kommen aus dem Level. Bei Fortgeschritten fällt Woche 5 (Tag 29–35) auf die Deload-Woche – das ist so gewollt und wird im Text erklärt."
+  },
+  "tage": [
+    {
+      "tag": 1,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "U1",
+      "mental_aufgabe": {
+        "text": "Schreib in drei Sätzen auf, warum du diese 40 Tage machst. Zettel aufheben – du brauchst ihn an Tag 20.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 2,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "L1",
+      "mental_aufgabe": {
+        "text": "Die ersten 30 Minuten nach dem Aufwachen: kein Handy.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 3,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Leg heute Abend alles für die nächste Einheit bereit: Klamotten, Flasche, Tasche.",
+        "kategorie": "vorbereitung",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 4,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "U2",
+      "mental_aufgabe": {
+        "text": "Bett machen, direkt nach dem Aufstehen, vor allem anderen.",
+        "kategorie": "ordnung",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 5,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "L2",
+      "mental_aufgabe": {
+        "text": "Schreib die Ausrede auf, die du diese Woche am häufigsten gedacht hast. Nur aufschreiben.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 6,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "20 Minuten gehen – ohne Kopfhörer, ohne Handy in der Hand.",
+        "kategorie": "unbequem",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 7,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Accountability Mirror, Woche 1: eine Sache, die gut lief, eine, die schlecht lief, eine Ausrede.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 8,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "U1",
+      "mental_aufgabe": {
+        "text": "Letzte 30 Sekunden der Dusche kalt (nur wenn du gesund bist).",
+        "kategorie": "unbequem",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 9,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "L1",
+      "mental_aufgabe": {
+        "text": "Handy ab 22 Uhr außerhalb des Zimmers.",
+        "kategorie": "schlaf",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 10,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "MEILENSTEIN – Cookie Jar: Schreib drei Dinge auf, die du in diesen 10 Tagen geschafft hast.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": {
+        "standard": "Tag 10 geschafft. Die ersten zehn Tage sind die, an denen die meisten aussteigen – du nicht.",
+        "knallhart": "Tag 10. Der Reiz des Neuen ist jetzt weg. Ab hier trennt sich, wer es ernst meint."
+      }
+    },
+    {
+      "tag": 11,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "U2",
+      "mental_aufgabe": {
+        "text": "Erledige eine Aufgabe, die seit über einer Woche liegen bleibt.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 12,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "L2",
+      "mental_aufgabe": {
+        "text": "Keine Social-Media-App vor 12 Uhr.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 13,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Sprich heute eine Sache an, die du sonst runterschluckst – freundlich, aber klar.",
+        "kategorie": "unbequem",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 14,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Accountability Mirror, Woche 2: Was hat sich seit Woche 1 verändert?",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 15,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "U1",
+      "mental_aufgabe": {
+        "text": "Letzte 45 Sekunden der Dusche kalt.",
+        "kategorie": "unbequem",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 16,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "L1",
+      "mental_aufgabe": {
+        "text": "Schreib eine Wenn-Dann-Regel für deinen größten Stolperstein und häng sie sichtbar auf.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 17,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Mach 15 Minuten lang etwas, bei dem du schlecht bist.",
+        "kategorie": "unbequem",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 18,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "U2",
+      "mental_aufgabe": {
+        "text": "Heute keine Beschwerde laut aussprechen. Jedes Mal, wenn doch: 10 Kniebeugen.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 19,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "L2",
+      "mental_aufgabe": {
+        "text": "Räum eine Ecke oder Schublade auf, die dich seit Wochen nervt.",
+        "kategorie": "ordnung",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 20,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "MEILENSTEIN – Halbzeit: Lies deinen Zettel von Tag 1 und schreib darunter, was sich verändert hat.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": {
+        "standard": "Halbzeit. 20 Tage hinter dir, 20 vor dir. Du weißt jetzt, dass du es kannst.",
+        "knallhart": "Halbzeit. Die Hälfte ist kein Erfolg, sondern die Hälfte. Weiter."
+      }
+    },
+    {
+      "tag": 21,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "30 Minuten ohne Bildschirm lesen oder etwas lernen.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 22,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "U1",
+      "mental_aufgabe": {
+        "text": "Steh heute exakt zur geplanten Zeit auf. Kein Snooze.",
+        "kategorie": "schlaf",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 23,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "L1",
+      "mental_aufgabe": {
+        "text": "Hilf heute jemandem ungefragt – ohne es zu erwähnen.",
+        "kategorie": "charakter",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 24,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "15 Minuten Mobility, ruhig und ohne Schmerz.",
+        "kategorie": "erholung",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 25,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "U2",
+      "mental_aufgabe": {
+        "text": "Beim Training heute: Handy nur für den Plan, kein Scrollen zwischen den Sätzen.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 26,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "L2",
+      "mental_aufgabe": {
+        "text": "Schreib drei Dinge auf, die dir zuletzt Energie gezogen haben. Streich eines davon diese Woche.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 27,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Letzte 60 Sekunden der Dusche kalt.",
+        "kategorie": "unbequem",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 28,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Accountability Mirror, Woche 4: Wo bist du ehrlich gewesen, wo nicht?",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 29,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "U1",
+      "mental_aufgabe": {
+        "text": "Letzter Satz der letzten Übung: zwei saubere Wiederholungen mehr als geplant – nur solange die Technik hält.",
+        "kategorie": "unbequem",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 30,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "L1",
+      "mental_aufgabe": {
+        "text": "MEILENSTEIN – Letzte 10 Tage: Schreib auf, wie du dich an Tag 40 fühlen willst.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": {
+        "standard": "30 Tage. Nur noch zehn. Ab hier ziehst du es zu Ende, weil du angefangen hast.",
+        "knallhart": "30 Tage. Zehn übrig. Jetzt aufhören wäre die schlechteste Entscheidung der letzten fünf Wochen."
+      }
+    },
+    {
+      "tag": 31,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Einen ganzen Tag ohne Social Media.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 32,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "U2",
+      "mental_aufgabe": {
+        "text": "Mach heute die unangenehmste Aufgabe des Tages zuerst.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 33,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "L2",
+      "mental_aufgabe": {
+        "text": "Schreib einer Person, die dich unterstützt hat, eine ehrliche Nachricht.",
+        "kategorie": "charakter",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 34,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "30 Minuten spazieren, danach fünf Minuten notieren, was dir durch den Kopf ging.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 35,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Accountability Mirror, Woche 5: Was machst du nach der Challenge weiter?",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 36,
+      "woche": 6,
+      "typ": "training",
+      "vorlage": "U1",
+      "mental_aufgabe": {
+        "text": "Cookie Jar: drei neue Einträge aus den letzten zwei Wochen.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 37,
+      "woche": 6,
+      "typ": "training",
+      "vorlage": "L1",
+      "mental_aufgabe": {
+        "text": "Handy ab 21:30 Uhr aus dem Zimmer.",
+        "kategorie": "schlaf",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 38,
+      "woche": 6,
+      "typ": "ruhe",
+      "vorlage": null,
+      "mental_aufgabe": {
+        "text": "Bereite dein Finale vor: Zeit festlegen, Sachen bereitlegen, einer Person sagen, wann du Tag 40 trainierst.",
+        "kategorie": "vorbereitung",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 39,
+      "woche": 6,
+      "typ": "training",
+      "vorlage": "U2",
+      "mental_aufgabe": {
+        "text": "Kein Snooze, kein Handy am Morgen, Bett gemacht – alle drei.",
+        "kategorie": "fokus",
+        "pflicht": true
+      },
+      "meilenstein": null
+    },
+    {
+      "tag": 40,
+      "woche": 6,
+      "typ": "training",
+      "vorlage": "L2",
+      "mental_aufgabe": {
+        "text": "FINALE – Nach dem Training: Schreib einen Brief an dein Ich von Tag 1.",
+        "kategorie": "reflexion",
+        "pflicht": true
+      },
+      "meilenstein": {
+        "standard": "40 Tage. Abgeschlossen. Was du hier gelernt hast, gehört dir – schreib es in dein Cookie Jar.",
+        "knallhart": "40 Tage unbroken. Fertig. Und jetzt der eigentliche Test: Was machst du morgen?"
+      }
+    }
+  ]
+}
