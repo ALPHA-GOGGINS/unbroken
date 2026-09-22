@@ -69,7 +69,7 @@ function ComingSoonPage({ lang }) {
 }
 
 // ADMIN-MODUL – nur für Admin sichtbar
-function AdminModule({ lang }) {
+function AdminModule({ lang, profile }) {
   const de = lang === "de";
 
   return (
@@ -100,7 +100,7 @@ function AdminModule({ lang }) {
           <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:16, letterSpacing:"0.06em" }}>
             📋 TRAININGSPLAN — CONTENT-PAKET V3
           </div>
-          <TrainingsplanView lang={lang} />
+          <TrainingsplanView lang={lang} profile={profile} />
         </div>
 
         <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
@@ -157,7 +157,7 @@ export default function PagePlan({ lang, session, profile }) {
 
   // Admin sieht Baukasten, alle anderen sehen Coming Soon
   if (isAdmin) {
-    return <AdminModule lang={lang} />;
+    return <AdminModule lang={lang} profile={profile} />;
   }
 
   return <ComingSoonPage lang={lang} />;
