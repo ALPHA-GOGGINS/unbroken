@@ -1,175 +1,167 @@
-import { useState } from "react";
-import { supabase } from "../supabase";
-import { TIERS } from "../tiers";
+import WaitlistForm from "../WaitlistForm";
 
 const P = { text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227", panel:"#2A2F22", border:"#3D4530" };
 
-// Admin-Panel oben
-function AdminToggle({ profile, viewTier, setViewTier, lang }) {
-  const de = lang === "de";
-  if (!profile?.is_admin) return null;
-
-  const isPreview = viewTier !== (profile.tier || 0);
-
+function CountdownBox({ value, label }) {
   return (
     <div style={{
-      background: isPreview ? "rgba(201,162,39,0.12)" : "transparent",
-      border: `1px solid ${isPreview ? P.accent : P.border}`,
-      borderRadius: 6, padding: 16, marginBottom: 24,
+      background:P.panel, border:`1px solid ${P.border}`, borderRadius:6,
+      padding:"18px 12px", textAlign:"center", minWidth:78, flex:"1 1 78px", maxWidth:120,
     }}>
       <div style={{
-        fontFamily: "Oswald, sans-serif", fontSize: 11, letterSpacing: "0.12em",
-        color: isPreview ? P.accent : P.dim, marginBottom: 12,
-      }}>
-        {de ? "ADMIN-MODUS" : "ADMIN MODE"}
-      </div>
-      <div style={{ display: "flex", gap: 8, flexWrap: "wrap", alignItems: "center" }}>
-        <button onClick={() => setViewTier(profile.tier || 0)} style={{
-          padding: "8px 14px", borderRadius: 4, fontSize: 12, fontWeight: 600,
-          fontFamily: "Inter, sans-serif", cursor: "pointer",
-          background: !isPreview ? P.accent : "transparent",
-          color: !isPreview ? "#1B1E15" : P.dim,
-          border: `1px solid ${!isPreview ? P.accent : P.border}`,
-        }}>
-          {de ? "Aktueller Stand" : "Current Status"}
-        </button>
-        <span style={{ color: P.dim, fontSize: 12 }}>|</span>
-        <button onClick={() => setViewTier(-1)} style={{
-          padding: "8px 14px", borderRadius: 4, fontSize: 12, fontWeight: 600,
-          fontFamily: "Inter, sans-serif", cursor: "pointer",
-          background: isPreview ? P.accent : "transparent",
-          color: isPreview ? "#1B1E15" : P.dim,
-          border: `1px solid ${isPreview ? P.accent : P.border}`,
-        }}>
-          {de ? "Admin-Vorschau" : "Admin Preview"}
-        </button>
+        fontFamily:"Oswald, sans-serif", fontWeight:700,
+        fontSize:"clamp(26px, 5vw, 38px)", lineHeight:1,
+        color:P.dim, opacity:0.45, marginBottom:6,
+      }}>{value}</div>
+      <div style={{
+        fontFamily:"Oswald, sans-serif", fontSize:10, letterSpacing:"0.12em",
+        color:P.dim, opacity:0.6,
+      }}>{label}</div>
+    </div>
+  );
+}
 
-        {isPreview && (
-          <>
-            <span style={{ color: P.dim, fontSize: 12 }}>→</span>
-            <div style={{ display: "flex", gap: 6 }}>
-              {TIERS.map((t) => (
-                <button key={t.level} onClick={() => setViewTier(t.level)} style={{
-                  padding: "6px 10px", borderRadius: 3, fontSize: 11, fontWeight: 600,
-                  fontFamily: "Inter, sans-serif", cursor: "pointer",
-                  background: viewTier === t.level ? P.accent : "transparent",
-                  color: viewTier === t.level ? "#1B1E15" : P.dim,
-                  border: `1px solid ${viewTier === t.level ? P.accent : P.border}`,
-                }}>
-                  T{t.level}
-                </button>
-              ))}
-            </div>
-          </>
-        )}
+// COMING SOON – für alle außer Admin
+function ComingSoonPage({ lang }) {
+  const de = lang === "de";
+  const units = de
+    ? [["--","TAGE"],["--","STUNDEN"],["--","MINUTEN"]]
+    : [["--","DAYS"],["--","HOURS"],["--","MINUTES"]];
+
+  return (
+    <div style={{ maxWidth:600, width:"100%" }}>
+      <div style={{
+        fontFamily:"Oswald, sans-serif", fontWeight:700, letterSpacing:"0.06em",
+        fontSize:"clamp(40px, 8vw, 64px)", lineHeight:1, color:P.accent,
+      }}>COMING</div>
+      <div style={{
+        fontFamily:"Oswald, sans-serif", fontWeight:700, letterSpacing:"0.06em",
+        fontSize:"clamp(40px, 8vw, 64px)", lineHeight:1, color:P.text, marginBottom:24,
+      }}>SOON.</div>
+
+      <div style={{ width:56, height:3, background:P.accent, marginBottom:28 }}/>
+
+      <div style={{ fontSize:15, color:P.dim, lineHeight:1.7, marginBottom:32, maxWidth:460 }}>
+        {de
+          ? "Der Trainingsplan wird gerade fertiggestellt. Sobald das Startdatum feststeht, läuft hier der Countdown bis zum Launch."
+          : "The training plan is being finalised. Once the launch date is set, the countdown will run right here."}
+      </div>
+
+      <div style={{ display:"flex", gap:10, marginBottom:16, flexWrap:"wrap" }}>
+        {units.map(([v,l]) => <CountdownBox key={l} value={v} label={l} />)}
+      </div>
+
+      <div style={{
+        display:"inline-block", padding:"8px 16px", borderRadius:4,
+        border:`1px solid ${P.border}`, background:"rgba(201,162,39,0.06)",
+        fontFamily:"Oswald, sans-serif", fontSize:11, letterSpacing:"0.1em", color:P.accent,
+        marginBottom:32,
+      }}>
+        {de ? "COUNTDOWN GEHT BALD LIVE" : "COUNTDOWN GOES LIVE SOON"}
+      </div>
+
+      <div style={{ borderTop:`1px solid ${P.border}`, paddingTop:32, marginTop:8 }}>
+        <WaitlistForm lang={lang} compact />
       </div>
     </div>
   );
 }
 
-// Klickbare Content-Cards
-function ContentCard({ icon, label, locked, onClick }) {
+// ADMIN-MODUL – nur für Admin sichtbar
+function AdminModule({ lang }) {
+  const de = lang === "de";
+
   return (
-    <button onClick={onClick} disabled={locked} style={{
-      flex: "1 1 calc(50% - 8px)", minWidth: 140, maxWidth: 200,
-      padding: 20, borderRadius: 8,
-      background: locked ? "rgba(0,0,0,0.2)" : P.panel,
-      border: `1px solid ${locked ? "rgba(169,173,156,0.3)" : P.border}`,
-      display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
-      gap: 8, cursor: locked ? "not-allowed" : "pointer",
-      opacity: locked ? 0.5 : 1,
-      transition: "all 0.2s",
-    }}>
-      <div style={{ fontSize: 28 }}>{icon}</div>
+    <div style={{ width:"100%" }}>
       <div style={{
-        fontFamily: "Oswald, sans-serif", fontSize: 13, letterSpacing: "0.04em",
-        color: P.text, textAlign: "center",
+        background:"rgba(201,162,39,0.08)", border:`1px solid #C9A227`,
+        borderRadius:6, padding:"12px 16px", marginBottom:24,
       }}>
-        {label}
-      </div>
-      {locked && (
-        <div style={{
-          fontSize: 10, color: P.dim, marginTop: 4,
-        }}>
-          Tier 2+
+        <div style={{ fontFamily:"Oswald, sans-serif", fontSize:11, color:"#C9A227", letterSpacing:"0.12em", marginBottom:4 }}>
+          ADMIN – BAUKASTEN
         </div>
-      )}
-    </button>
+        <div style={{ fontSize:12, color:P.dim, lineHeight:1.6 }}>
+          {de
+            ? "Testbereich für die App-Struktur. Normale Nutzer sehen nur die Coming-Soon-Seite mit Warteliste."
+            : "Testing area for app structure. Regular users see only the Coming Soon page with waitlist."}
+        </div>
+      </div>
+
+      <div style={{
+        fontFamily:"Oswald, sans-serif", fontWeight:700, letterSpacing:"0.05em",
+        fontSize:"clamp(28px,5vw,40px)", color:P.text, marginBottom:20,
+      }}>
+        {de ? "STRUKTURPLANUNG" : "STRUCTURE PLANNING"}
+      </div>
+
+      <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
+        <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
+          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:8, letterSpacing:"0.06em" }}>
+            📋 TRAININGSPLAN
+          </div>
+          <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
+            {de
+              ? "Hier werden später die Trainingspläne geladen aus der Datenbank. Funktionen: Plan anschauen, absolvierte Sessions tracken, PDF-Export dieser Sessions."
+              : "Training plans will load here from the database. Features: view plan, track completed sessions, export sessions as PDF."}
+          </div>
+        </div>
+
+        <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
+          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:8, letterSpacing:"0.06em" }}>
+            🧠 MENTAL MODULE (TIER 2+)
+          </div>
+          <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
+            {de
+              ? "Motivational-Content und Wenn-Dann-Regeln. Liste der Module, Click → öffnet Content, Fortschritt wird gespeichert."
+              : "Motivational content and if-then rules. List of modules, click to open content, progress is saved."}
+          </div>
+        </div>
+
+        <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
+          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:8, letterSpacing:"0.06em" }}>
+            📊 MEIN RÜCKBLICK (TIER 2+)
+          </div>
+          <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
+            {de
+              ? "Statistiken: Compliance (% Sessions gemacht), Streak (aktuelle Tage), Trends (Leistung über Zeit)."
+              : "Stats: compliance (% sessions completed), streak (current days), trends (performance over time)."}
+          </div>
+        </div>
+
+        <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
+          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:8, letterSpacing:"0.06em" }}>
+            ⚙️ EINSTELLUNGEN
+          </div>
+          <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
+            {de
+              ? "Sprache, Benachrichtigungen, Account-Settings. (Sprache ist schon im separaten /settings-Bereich.)"
+              : "Language, notifications, account settings. (Language is already in the separate /settings area.)"}
+          </div>
+        </div>
+      </div>
+
+      <div style={{ marginTop:32, padding:20, background:"rgba(201,162,39,0.06)", borderRadius:6, border:`1px solid ${P.border}` }}>
+        <div style={{ fontFamily:"Oswald, sans-serif", fontSize:12, color:P.accent, marginBottom:8, letterSpacing:"0.06em" }}>
+          HINWEIS
+        </div>
+        <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
+          {de
+            ? "Datenstrukturen sind vorbereitet (siehe SCHEMA_DRAFT.md). Wenn der Content kommt (Trainingspläne, Mental-Module), landen diese über Supabase und werden automatisch hier angezeigt."
+            : "Data structures are prepared (see SCHEMA_DRAFT.md). When content arrives (training plans, mental modules), it will be added via Supabase and displayed automatically here."}
+        </div>
+      </div>
+    </div>
   );
 }
 
 export default function PagePlan({ lang, session, profile }) {
   const de = lang === "de";
-  const [viewTier, setViewTier] = useState(profile?.tier || 0);
-
-  // Entweder "Aktueller Stand" (viewTier = profile.tier) oder Admin-Vorschau (viewTier = 1/2/3)
-  const displayTier = viewTier === -1 ? 1 : viewTier; // -1 = Preview aktiv, default Tier 1 zeigen
   const isAdmin = profile?.is_admin;
 
-  // Nicht eingeloggt oder kein aktives Tier -> Coming Soon
-  if (!session || (displayTier === 0 && !isAdmin)) {
-    return (
-      <div style={{ maxWidth: 600, width: "100%" }}>
-        <div style={{
-          fontFamily: "Oswald, sans-serif", fontWeight: 700, letterSpacing: "0.06em",
-          fontSize: "clamp(40px, 8vw, 64px)", lineHeight: 1, color: P.accent,
-        }}>COMING</div>
-        <div style={{
-          fontFamily: "Oswald, sans-serif", fontWeight: 700, letterSpacing: "0.06em",
-          fontSize: "clamp(40px, 8vw, 64px)", lineHeight: 1, color: P.text, marginBottom: 24,
-        }}>SOON.</div>
-        <div style={{ width: 56, height: 3, background: P.accent, marginBottom: 28 }}/>
-        <div style={{ fontSize: 15, color: P.dim, lineHeight: 1.7, marginBottom: 32, maxWidth: 460 }}>
-          {de
-            ? "Der Trainingsplan wird gerade fertiggestellt. Sobald das Startdatum feststeht, läuft hier der Countdown bis zum Launch."
-            : "The training plan is being finalised. Once the launch date is set, the countdown will run right here."}
-        </div>
-      </div>
-    );
+  // Admin sieht Baukasten, alle anderen sehen Coming Soon
+  if (isAdmin) {
+    return <AdminModule lang={lang} />;
   }
 
-  // Eingeloggt + Tier > 0 (oder Admin mit Preview) -> echte Nutzer-Ansicht
-  return (
-    <div style={{ width: "100%" }}>
-      {isAdmin && <AdminToggle profile={profile} viewTier={viewTier} setViewTier={setViewTier} lang={lang} />}
-
-      <div style={{
-        fontFamily: "Oswald, sans-serif", fontWeight: 700, letterSpacing: "0.05em",
-        fontSize: "clamp(28px,5vw,40px)", color: P.text, marginBottom: 8,
-      }}>
-        {de ? "MEIN BEREICH" : "MY AREA"}
-      </div>
-      <div style={{
-        fontFamily: "Oswald, sans-serif", fontSize: 12, letterSpacing: "0.1em",
-        color: P.accent, marginBottom: 28,
-      }}>
-        {de ? `TIER ${displayTier}` : `TIER ${displayTier}`}
-      </div>
-
-      <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 32 }}>
-        <ContentCard icon="📋" label={de ? "Trainingsplan" : "Training Plan"} onClick={() => {}} />
-        <ContentCard icon="🧠" label={de ? "Mental Module" : "Mental Modules"} locked={displayTier < 2} onClick={() => {}} />
-        <ContentCard icon="📊" label={de ? "Mein Rückblick" : "My Review"} locked={displayTier < 2} onClick={() => {}} />
-        <ContentCard icon="📥" label={de ? "PDF-Export" : "PDF Export"} locked={displayTier < 2} onClick={() => {}} />
-        <ContentCard icon="⚙️" label={de ? "Einstellungen" : "Settings"} onClick={() => {}} />
-      </div>
-
-      <div style={{
-        background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6,
-        padding: 20, marginTop: 32,
-      }}>
-        <div style={{
-          fontFamily: "Oswald, sans-serif", fontSize: 13, color: P.accent, letterSpacing: "0.06em",
-          marginBottom: 12,
-        }}>
-          {de ? "INHALT WIRD GEBAUT" : "CONTENT IN PROGRESS"}
-        </div>
-        <div style={{ fontSize: 12, color: P.dim, lineHeight: 1.7 }}>
-          {de
-            ? "Trainingsplan, Mental-Module und alle Inhalte werden gerade fertiggestellt. In Kürze hier verfügbar."
-            : "Training plan, mental modules and all content are being finalised. Available here shortly."}
-        </div>
-      </div>
-    </div>
-  );
+  return <ComingSoonPage lang={lang} />;
 }
