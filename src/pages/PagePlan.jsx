@@ -88,7 +88,7 @@ function ContentCard({ icon, label, locked, onClick }) {
         {label}
       </div>
       {locked && (
-        <div style({
+        <div style={{
           fontSize: 10, color: P.dim, marginTop: 4,
         }}>
           Tier 2+
