@@ -1,4 +1,5 @@
 import WaitlistForm from "../WaitlistForm";
+import TrainingsplanView from "../TrainingsplanView";
 
 const P = { text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227", panel:"#2A2F22", border:"#3D4530" };
 
@@ -96,14 +97,10 @@ function AdminModule({ lang }) {
 
       <div style={{ display:"flex", flexDirection:"column", gap:16 }}>
         <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
-          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:8, letterSpacing:"0.06em" }}>
-            📋 TRAININGSPLAN
+          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:16, letterSpacing:"0.06em" }}>
+            📋 TRAININGSPLAN — CONTENT-PAKET V3
           </div>
-          <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
-            {de
-              ? "Hier werden später die Trainingspläne geladen aus der Datenbank. Funktionen: Plan anschauen, absolvierte Sessions tracken, PDF-Export dieser Sessions."
-              : "Training plans will load here from the database. Features: view plan, track completed sessions, export sessions as PDF."}
-          </div>
+          <TrainingsplanView lang={lang} />
         </div>
 
         <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
@@ -112,8 +109,8 @@ function AdminModule({ lang }) {
           </div>
           <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
             {de
-              ? "Motivational-Content und Wenn-Dann-Regeln. Liste der Module, Click → öffnet Content, Fortschritt wird gespeichert."
-              : "Motivational content and if-then rules. List of modules, click to open content, progress is saved."}
+              ? "15 fertige Texte sind da (Content-Paket v3). Anzeige + Freischalt-Logik kommt als nächster Schritt."
+              : "15 finished texts are ready (Content package v3). Display + unlock logic is the next step."}
           </div>
         </div>
 
@@ -146,8 +143,8 @@ function AdminModule({ lang }) {
         </div>
         <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
           {de
-            ? "Datenstrukturen sind vorbereitet (siehe SCHEMA_DRAFT.md). Wenn der Content kommt (Trainingspläne, Mental-Module), landen diese über Supabase und werden automatisch hier angezeigt."
-            : "Data structures are prepared (see SCHEMA_DRAFT.md). When content arrives (training plans, mental modules), it will be added via Supabase and displayed automatically here."}
+            ? "Trainingspläne (30x), Mental-Module (15x), Wenn-Dann-Regeln (28x) und Textbausteine sind als Content-Paket v3 eingebaut. Tag-für-Tag-Freischaltung, Logging und Regel-Engine folgen als nächste Schritte."
+            : "Training plans (30x), mental modules (15x), if-then rules (28x) and text blocks are built in as Content Package v3. Day-by-day unlocking, logging and the rules engine are the next steps."}
         </div>
       </div>
     </div>
