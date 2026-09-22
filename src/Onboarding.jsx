@@ -162,7 +162,7 @@ export default function Onboarding({ user, onDone }) {
         </div>
 
         <div style={{ background: P.panel, border: `1px solid ${P.border}`, borderRadius: 6, padding: 24 }}>
-          <div style={{ fontFamily: "Oswald, sans-serif", fontSize: 18, fontWeight: 600, marginBottom: 16, lineHeight: 1.3, color: P.text }}>
+          <div style={{ fontFamily: "Oswald, sans-serif", fontSize: "clamp(20px, 4vw, 26px)", fontWeight: 700, letterSpacing: "0.05em", marginBottom: 20, lineHeight: 1.3, color: P.text }}>
             {current.question}
           </div>
           <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
