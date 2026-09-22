@@ -110,8 +110,8 @@ export default function PagePricing({ lang }) {
 
       <div style={{ marginTop: 40, fontSize: 12, color: P.dim, lineHeight: 1.7, maxWidth: 620 }}>
         {de
-          ? "Preise und Funktionsumfang können sich bis zum Launch noch ändern. Wer sich früh einträgt, sichert sich als Founding Member dauerhaft 20% Rabatt."
-          : "Prices and features may still change before launch. Early sign-ups lock in a permanent 20% founding member discount."}
+          ? "Preise und Funktionsumfang können sich bis zum Launch noch ändern."
+          : "Prices and features may still change before launch."}
       </div>
     </div>
   );
