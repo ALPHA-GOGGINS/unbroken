@@ -9,7 +9,6 @@ import PageResults   from "./pages/PageResults";
 import PageManifesto from "./pages/PageManifesto";
 import PagePlan      from "./pages/PagePlan";
 import PageLogin     from "./pages/PageLogin";
-import PageAdmin     from "./pages/PageAdmin";
 import PageWaitlist  from "./pages/PageWaitlist";
 import PagePricing   from "./pages/PagePricing";
 import PageSettings  from "./pages/PageSettings";
@@ -119,25 +118,9 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
           <div style={{ fontFamily:"Oswald, sans-serif", fontSize:10, color:P.dim, letterSpacing:"0.14em", marginBottom:8, paddingLeft:14 }}>
             ADMIN
           </div>
-          <NavLink to="/admin" style={({ isActive }) => ({
-            display:"block", padding:"11px 14px", borderRadius:4,
-            fontFamily:"Oswald, sans-serif", fontSize:15, letterSpacing:"0.04em",
-            textDecoration:"none",
-            background: isActive ? "rgba(201,162,39,0.15)" : "transparent",
-            color: isActive ? P.accent : P.dim,
-            border:`1px solid ${isActive ? "rgba(201,162,39,0.4)" : P.border}`,
-          })}>
-            {lang==="de" ? "Baukasten" : "Builder"}
-          </NavLink>
-          {profile?.tier > 0 && (
-            <div style={{
-              marginTop:8, padding:"8px 14px", borderRadius:4,
-              border:`1px solid ${P.accent}`, background:"rgba(201,162,39,0.08)",
-              fontFamily:"Oswald, sans-serif", fontSize:11, color:P.accent, letterSpacing:"0.06em",
-            }}>
-              {lang==="de" ? `SIMULATION: TIER ${profile.tier}` : `SIMULATION: TIER ${profile.tier}`}
-            </div>
-          )}
+          <div style={{ padding:"8px 14px", borderRadius:4, border:`1px solid ${P.accent}`, background:"rgba(201,162,39,0.08)", fontFamily:"Oswald, sans-serif", fontSize:11, color:P.accent, letterSpacing:"0.06em" }}>
+            {lang==="de" ? "Baukasten unter ›Mein Bereich›" : "Builder in 'My Area'"}
+          </div>
         </div>
       )}
 
@@ -240,7 +223,6 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/pricing"    element={<PagePricing  lang={lang} />} />
             <Route path="/plan"       element={<PagePlan     lang={lang} session={session} profile={profile} />} />
             <Route path="/login"      element={<PageLogin    lang={lang} />} />
-            <Route path="/admin"      element={<PageAdmin    lang={lang} session={session} profile={profile} />} />
             <Route path="/warteliste" element={<PageWaitlist lang={lang} session={session} />} />
             <Route path="/waitlist"   element={<PageWaitlist lang={lang} session={session} />} />
             <Route path="/einstellungen" element={<PageSettings lang={lang} setLang={setLang} session={session} />} />
