@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://unbroken40.com/sitemap.xml
