@@ -48,6 +48,29 @@ function SocialLinks() {
   );
 }
 
+function PageNotFound({ lang }) {
+  const de = lang === "de";
+  const navigate = useNavigate();
+  return (
+    <div style={{ maxWidth:520 }}>
+      <div style={{ fontFamily:"Oswald, sans-serif", fontWeight:700, letterSpacing:"0.06em",
+                    fontSize:"clamp(40px,8vw,64px)", lineHeight:1, color:P.accent }}>404</div>
+      <div style={{ fontFamily:"Oswald, sans-serif", fontWeight:700, letterSpacing:"0.06em",
+                    fontSize:"clamp(24px,5vw,36px)", lineHeight:1, color:P.text, marginBottom:20 }}>
+        {de ? "SEITE NICHT GEFUNDEN." : "PAGE NOT FOUND."}
+      </div>
+      <div style={{ width:48, height:3, background:P.accent, marginBottom:24 }}/>
+      <p style={{ fontSize:15, color:P.dim, lineHeight:1.7, marginBottom:28 }}>
+        {de ? "Diese Adresse gibt es nicht. Zurück zum Anfang."
+            : "This address doesn't exist. Back to the start."}
+      </p>
+      <button className="ub-btn-primary" onClick={() => navigate("/")}>
+        {de ? "ZUR STARTSEITE" : "GO TO HOMEPAGE"}
+      </button>
+    </div>
+  );
+}
+
 export default function AppRouter({ session, profile, showIntro, onIntroDone }) {
   const [lang, setLang]         = useState(profile?.language || "de");
   const [menuOpen, setMenu]     = useState(false);
@@ -183,6 +206,52 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
           .ub-logo   { font-size: 20px; }
           .ub-nav    { width: 260px; }
         }
+
+        /* ---- Interaktion: ohne diese States fuehlt sich jede Seite tot an ---- */
+
+        button, a, input, [role="button"] { transition: background-color .15s ease,
+                                                        border-color .15s ease,
+                                                        color .15s ease,
+                                                        transform .08s ease,
+                                                        opacity .15s ease; }
+
+        button:not(:disabled):hover   { filter: brightness(1.12); }
+        button:not(:disabled):active  { transform: translateY(1px); }
+        button:disabled               { cursor: not-allowed; }
+
+        /* Sichtbarer Tastatur-Fokus (Pflicht fuer Barrierefreiheit,
+           stoert Maus-Nutzer dank :focus-visible nicht) */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        [tabindex]:focus-visible {
+          outline: 2px solid ${P.accent};
+          outline-offset: 2px;
+          border-radius: 4px;
+        }
+
+        input:focus { outline: none; border-color: ${P.accent} !important; }
+
+        /* Navigation */
+        .ub-nav a:hover      { background: rgba(201,162,39,0.08); }
+        .ub-logo:hover       { color: ${P.accent}; }
+
+        /* Footer-Links */
+        .ub-footer-link      { font-size: 11px; color: ${P.dim}; text-decoration: none;
+                               font-family: Oswald, sans-serif; letter-spacing: 0.06em; }
+        .ub-footer-link:hover{ color: ${P.accent}; }
+
+        /* Wiederverwendbarer Primaerbutton */
+        .ub-btn-primary      { background: ${P.accent}; border: none; color: #1B1E15;
+                               padding: 13px 26px; border-radius: 4px; cursor: pointer;
+                               font-family: Inter, sans-serif; font-size: 14px;
+                               font-weight: 700; letter-spacing: 0.04em; }
+
+        /* Respektiert System-Einstellung "weniger Bewegung" */
+        @media (prefers-reduced-motion: reduce) {
+          *, *::before, *::after { animation-duration: .01ms !important;
+                                   transition-duration: .01ms !important; }
+        }
       `}</style>
 
       {introVisible && <CinematicIntro onDone={() => { setIntroVisible(false); onIntroDone(); }} />}
@@ -227,6 +296,7 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
             <Route path="/waitlist"   element={<PageWaitlist lang={lang} session={session} />} />
             <Route path="/einstellungen" element={<PageSettings lang={lang} setLang={setLang} session={session} />} />
             <Route path="/settings"      element={<PageSettings lang={lang} setLang={setLang} session={session} />} />
+            <Route path="*"              element={<PageNotFound    lang={lang} />} />
           </Routes>
         </div>
 
@@ -234,8 +304,10 @@ export default function AppRouter({ session, profile, showIntro, onIntroDone }) 
           <div style={{ fontSize:11, color:P.dim, fontFamily:"Oswald, sans-serif", letterSpacing:"0.06em" }}>
             © {new Date().getFullYear()} UNBROKEN
           </div>
-          <div style={{ fontSize:11, color:P.dim }}>
-            {lang==="de"?"Alle Rechte vorbehalten.":"All rights reserved."}
+          <div style={{ display:"flex", gap:18, flexWrap:"wrap" }}>
+            <NavLink to={lang==="de" ? "/einstellungen" : "/settings"} className="ub-footer-link">
+              {lang==="de" ? "Einstellungen" : "Settings"}
+            </NavLink>
           </div>
         </div>
       </div>
