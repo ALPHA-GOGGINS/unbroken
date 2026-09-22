@@ -106,11 +106,13 @@ function TrainingstagCard({ tag, lang }) {
   );
 }
 
-export default function TrainingsplanView({ lang }) {
+export default function TrainingsplanView({ lang, profile }) {
   const de = lang === "de";
   const [equipment, setEquipment] = useState("gym");
-  const [level, setLevel] = useState("anfaenger");
-  const [tage, setTage] = useState(3);
+  const [level, setLevel] = useState(
+    profile?.training_level === "beginner" ? "anfaenger" : "fortgeschritten"
+  );
+  const [tage, setTage] = useState(profile?.days_per_week || 3);
   const [plan, setPlan] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
