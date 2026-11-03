@@ -1,0 +1,838 @@
+{
+  "plan_id": "gym_fortgeschritten_4tage",
+  "tier": 1,
+  "profil": "gym",
+  "profil_name": "Gym",
+  "level": "fortgeschritten",
+  "level_name": "Fortgeschritten",
+  "tage_pro_woche": 4,
+  "split": "4tage",
+  "split_name": "Oberkörper / Unterkörper (2×)",
+  "begruendung": "Zwei Oberkörper- und zwei Unterkörpertage – jede Muskelgruppe 2× pro Woche, gute Erholung dazwischen.",
+  "equipment_annahme": [
+    "ab_wheel",
+    "baender",
+    "bank",
+    "bank_schraeg",
+    "dipstation",
+    "glatter_boden",
+    "gym",
+    "handtuch",
+    "klimmzugstange",
+    "kurzhanteln",
+    "langhantel",
+    "rack",
+    "rucksack",
+    "sofa",
+    "springseil",
+    "stabiler_tisch",
+    "stuehle",
+    "stufe",
+    "tuer"
+  ],
+  "block": {
+    "wochen": 5,
+    "deload_woche": 5,
+    "wochen_modifikatoren": [
+      {
+        "woche": 1,
+        "rir": "3",
+        "saetze_faktor": 1.0,
+        "hinweis": "Einstieg in den Block, Technik und Gewichte festlegen."
+      },
+      {
+        "woche": 2,
+        "rir": "2",
+        "saetze_faktor": 1.0,
+        "hinweis": ""
+      },
+      {
+        "woche": 3,
+        "rir": "1-2",
+        "saetze_faktor": 1.0,
+        "hinweis": ""
+      },
+      {
+        "woche": 4,
+        "rir": "1 (Isolation 0-1)",
+        "saetze_faktor": 1.0,
+        "hinweis": "Härteste Woche. Technik bleibt trotzdem die Grenze."
+      },
+      {
+        "woche": 5,
+        "rir": "4",
+        "saetze_faktor": 0.5,
+        "deload": true,
+        "hinweis": "Deload: halbe Satzzahl, gleiche Gewichte."
+      }
+    ],
+    "hinweis": "Nach dem Block startet derselbe Block wieder bei Woche 1 – mit den Gewichten/Stufen, die du erreicht hast."
+  },
+  "wochenmuster": [
+    "U1",
+    "L1",
+    "R",
+    "U2",
+    "L2",
+    "R",
+    "R"
+  ],
+  "trainingstage": {
+    "U1": {
+      "id": "U1",
+      "name": "Oberkörper A",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "HPUSH",
+          "slot_name": "Horizontales Drücken",
+          "rolle": "main",
+          "uebung_id": "A1",
+          "uebung": "Bankdrücken mit Pause",
+          "saetze": 4,
+          "wdh": "5-7",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "1–2 Sek Pause auf der Brust, ohne Abfedern.",
+          "technik": null,
+          "benoetigt": [
+            "langhantel",
+            "bank",
+            "rack"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "HROW",
+          "slot_name": "Horizontales Ziehen (Rudern)",
+          "rolle": "sec",
+          "uebung_id": "L3",
+          "uebung": "Rudern am Kabel (sitzend)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Aufrecht sitzen, Griff zum Bauch, Schulterblätter zusammenziehen.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "VPUSH",
+          "slot_name": "Vertikales Drücken",
+          "rolle": "sec",
+          "uebung_id": "P5",
+          "uebung": "Kurzhantel-Schulterdrücken (sitzend)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Rücken an der Lehne, Hanteln bis Ohrhöhe ablassen, kein Hohlkreuz.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "VPULL",
+          "slot_name": "Vertikales Ziehen",
+          "rolle": "sec",
+          "uebung_id": "L1",
+          "uebung": "Latzug (weiter Griff)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Brust raus, Stange zur oberen Brust, Ellbogen nach unten ziehen.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "LAT",
+          "slot_name": "Seitheben (seitliche Schulter)",
+          "rolle": "acc",
+          "uebung_id": "P7",
+          "uebung": "Seitheben (Kurzhantel)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Minimal vorgebeugt, bis Schulterhöhe, kein Schwung aus dem Rücken.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "TRI",
+          "slot_name": "Trizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "P9",
+          "uebung": "Trizepsdrücken am Kabel",
+          "saetze": 3,
+          "wdh": "10-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ellbogen bleiben am Körper, unten komplett strecken.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 7,
+          "slot": "CORE_AE",
+          "slot_name": "Rumpf: Anti-Streckung",
+          "rolle": "core",
+          "uebung_id": "R1",
+          "uebung": "Unterarmstütz (Plank)",
+          "saetze": 3,
+          "wdh": "30-60",
+          "einheit": "sek",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Körper bildet eine Linie, Po und Bauch fest anspannen.",
+          "technik": null,
+          "benoetigt": []
+        }
+      ],
+      "dauer_min_geschaetzt": 55
+    },
+    "L1": {
+      "id": "L1",
+      "name": "Unterkörper A",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "SQ",
+          "slot_name": "Kniebeuge-Muster",
+          "rolle": "main",
+          "uebung_id": "A3",
+          "uebung": "Pause-Kniebeuge",
+          "saetze": 4,
+          "wdh": "5-7",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "2 Sek unten halten, Körperspannung behalten.",
+          "technik": null,
+          "benoetigt": [
+            "langhantel",
+            "rack"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "HINGE",
+          "slot_name": "Hüftbeugen (Hinge)",
+          "rolle": "sec",
+          "uebung_id": "B7",
+          "uebung": "Rumänisches Kreuzheben (Langhantel)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Hüfte nach hinten schieben, Rücken gerade, Stange nah am Bein.",
+          "technik": null,
+          "benoetigt": [
+            "langhantel"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "LUNGE",
+          "slot_name": "Ausfallschritt / einbeinig",
+          "rolle": "sec",
+          "uebung_id": "B4",
+          "uebung": "Ausfallschritte rückwärts (Kurzhantel)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Großer Schritt zurück, vorderes Knie stabil über dem Fuß.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "HCURL",
+          "slot_name": "Beinbeuger",
+          "rolle": "acc",
+          "uebung_id": "B6",
+          "uebung": "Beinbeuger (liegend oder sitzend)",
+          "saetze": 3,
+          "wdh": "10-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Hüfte bleibt am Polster, voller Bewegungsweg.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "CALF",
+          "slot_name": "Waden",
+          "rolle": "acc",
+          "uebung_id": "B9",
+          "uebung": "Wadenheben (stehend)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Unten eine Sekunde volle Dehnung, oben ganz hoch.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_FL",
+          "slot_name": "Rumpf: Beugung",
+          "rolle": "core",
+          "uebung_id": "R2",
+          "uebung": "Cable Crunch",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Wirbelsäule einrollen, Hüfte bleibt an Ort und Stelle.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        }
+      ],
+      "dauer_min_geschaetzt": 50
+    },
+    "U2": {
+      "id": "U2",
+      "name": "Oberkörper B",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "VPULL",
+          "slot_name": "Vertikales Ziehen",
+          "rolle": "main",
+          "uebung_id": "L6",
+          "uebung": "Klimmzüge (assistiert)",
+          "saetze": 4,
+          "wdh": "5-7",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Unten ganz strecken, Kinn über die Stange, ohne Schwung.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "IPUSH",
+          "slot_name": "Schräges Drücken",
+          "rolle": "sec",
+          "uebung_id": "P2",
+          "uebung": "Schrägbankdrücken (Kurzhantel, ca. 30°)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Bank flach anstellen, Hanteln tief ablassen, über der oberen Brust drücken.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank_schraeg"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "HROW",
+          "slot_name": "Horizontales Ziehen (Rudern)",
+          "rolle": "sec",
+          "uebung_id": "L5",
+          "uebung": "Brustgestütztes Rudern (Maschine/T-Bar)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Brust bleibt am Polster, Ellbogen eng nach hinten.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "FLY",
+          "slot_name": "Brust-Isolation",
+          "rolle": "acc",
+          "uebung_id": "P4",
+          "uebung": "Butterfly-Maschine",
+          "saetze": 3,
+          "wdh": "10-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ellbogen leicht gebeugt, in der Dehnung eine Sekunde halten.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "REAR",
+          "slot_name": "Hintere Schulter",
+          "rolle": "acc",
+          "uebung_id": "L7",
+          "uebung": "Face Pulls (Kabel)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Seil auf Augenhöhe, Hände neben die Ohren ziehen, Ellbogen hoch.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "BIC",
+          "slot_name": "Bizeps",
+          "rolle": "acc",
+          "uebung_id": "L8",
+          "uebung": "SZ-Curls",
+          "saetze": 3,
+          "wdh": "10-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ellbogen am Körper, kein Schwung aus dem Rücken.",
+          "technik": null,
+          "benoetigt": [
+            "langhantel"
+          ]
+        },
+        {
+          "nr": 7,
+          "slot": "CORE_HANG",
+          "slot_name": "Rumpf: hängend/liegend",
+          "rolle": "core",
+          "uebung_id": "R3",
+          "uebung": "Hängendes Knieheben",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Ohne Schwung, am Ende das Becken einrollen.",
+          "technik": null,
+          "benoetigt": [
+            "klimmzugstange"
+          ]
+        }
+      ],
+      "dauer_min_geschaetzt": 55
+    },
+    "L2": {
+      "id": "L2",
+      "name": "Unterkörper B",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "QUAD2",
+          "slot_name": "Zweite Quadrizeps-Übung",
+          "rolle": "main",
+          "uebung_id": "B3",
+          "uebung": "Beinpresse",
+          "saetze": 4,
+          "wdh": "5-7",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Rücken bleibt am Polster, tief, ohne dass das Becken abhebt.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "GLUTE",
+          "slot_name": "Po (Hip Thrust)",
+          "rolle": "sec",
+          "uebung_id": "B8",
+          "uebung": "Hip Thrust (Langhantel oder Maschine)",
+          "saetze": 3,
+          "wdh": "8-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Kinn Richtung Brust, oben Po fest anspannen, kein Hohlkreuz.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "QISO",
+          "slot_name": "Quadrizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "B5",
+          "uebung": "Beinstrecker",
+          "saetze": 3,
+          "wdh": "10-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Oben eine Sekunde halten, langsam ablassen.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "HCURL",
+          "slot_name": "Beinbeuger",
+          "rolle": "acc",
+          "uebung_id": "B6",
+          "uebung": "Beinbeuger (liegend oder sitzend)",
+          "saetze": 3,
+          "wdh": "10-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Hüfte bleibt am Polster, voller Bewegungsweg.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "CALF",
+          "slot_name": "Waden",
+          "rolle": "acc",
+          "uebung_id": "B10",
+          "uebung": "Wadenheben (sitzend)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Unten Dehnung halten, langsame Wiederholungen.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "LAT",
+          "slot_name": "Seitheben (seitliche Schulter)",
+          "rolle": "acc",
+          "uebung_id": "P7",
+          "uebung": "Seitheben (Kurzhantel)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Minimal vorgebeugt, bis Schulterhöhe, kein Schwung aus dem Rücken.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 7,
+          "slot": "CORE_ROT",
+          "slot_name": "Rumpf: Anti-Rotation / seitlich",
+          "rolle": "core",
+          "uebung_id": "R6",
+          "uebung": "Pallof Press (Kabel)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Griff vor die Brust, gegen den Zug nicht verdrehen.",
+          "technik": null,
+          "benoetigt": [
+            "gym"
+          ]
+        }
+      ],
+      "dauer_min_geschaetzt": 55
+    }
+  },
+  "sequenz": [
+    {
+      "tag": 1,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "U1"
+    },
+    {
+      "tag": 2,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "L1"
+    },
+    {
+      "tag": 3,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 4,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "U2"
+    },
+    {
+      "tag": 5,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "L2"
+    },
+    {
+      "tag": 6,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 7,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 8,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "U1"
+    },
+    {
+      "tag": 9,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "L1"
+    },
+    {
+      "tag": 10,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 11,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "U2"
+    },
+    {
+      "tag": 12,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "L2"
+    },
+    {
+      "tag": 13,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 14,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 15,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "U1"
+    },
+    {
+      "tag": 16,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "L1"
+    },
+    {
+      "tag": 17,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 18,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "U2"
+    },
+    {
+      "tag": 19,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "L2"
+    },
+    {
+      "tag": 20,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 21,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 22,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "U1"
+    },
+    {
+      "tag": 23,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "L1"
+    },
+    {
+      "tag": 24,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 25,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "U2"
+    },
+    {
+      "tag": 26,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "L2"
+    },
+    {
+      "tag": 27,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 28,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 29,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "U1"
+    },
+    {
+      "tag": 30,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "L1"
+    },
+    {
+      "tag": 31,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 32,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "U2"
+    },
+    {
+      "tag": 33,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "L2"
+    },
+    {
+      "tag": 34,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 35,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null
+    }
+  ]
+}

@@ -1,0 +1,1250 @@
+{
+  "plan_id": "homegym_fortgeschritten_7tage",
+  "tier": 1,
+  "profil": "homegym",
+  "profil_name": "Home-Gym",
+  "level": "fortgeschritten",
+  "level_name": "Fortgeschritten",
+  "tage_pro_woche": 7,
+  "split": "7tage",
+  "split_name": "Push / Pull / Beine (2×) + aktive Erholung",
+  "begruendung": "7 Krafttage wären kontraproduktiv – Muskeln wachsen in der Erholung. Tag 7 ist deshalb aktive Erholung: Bewegung ja, Krafttraining nein.",
+  "equipment_annahme": [
+    "kurzhanteln",
+    "bank",
+    "bank_schraeg",
+    "klimmzugstange",
+    "baender",
+    "stabiler_tisch",
+    "stuehle",
+    "tuer",
+    "handtuch",
+    "glatter_boden",
+    "stufe",
+    "rucksack",
+    "sofa"
+  ],
+  "block": {
+    "wochen": 5,
+    "deload_woche": 5,
+    "wochen_modifikatoren": [
+      {
+        "woche": 1,
+        "rir": "3",
+        "saetze_faktor": 1.0,
+        "hinweis": "Einstieg in den Block, Technik und Gewichte festlegen."
+      },
+      {
+        "woche": 2,
+        "rir": "2",
+        "saetze_faktor": 1.0,
+        "hinweis": ""
+      },
+      {
+        "woche": 3,
+        "rir": "1-2",
+        "saetze_faktor": 1.0,
+        "hinweis": ""
+      },
+      {
+        "woche": 4,
+        "rir": "1 (Isolation 0-1)",
+        "saetze_faktor": 1.0,
+        "hinweis": "Härteste Woche. Technik bleibt trotzdem die Grenze."
+      },
+      {
+        "woche": 5,
+        "rir": "4",
+        "saetze_faktor": 0.5,
+        "deload": true,
+        "hinweis": "Deload: halbe Satzzahl, gleiche Gewichte."
+      }
+    ],
+    "hinweis": "Nach dem Block startet derselbe Block wieder bei Woche 1 – mit den Gewichten/Stufen, die du erreicht hast."
+  },
+  "wochenmuster": [
+    "PA",
+    "ZA",
+    "BA",
+    "PB",
+    "ZB",
+    "BB",
+    "AE"
+  ],
+  "trainingstage": {
+    "PA": {
+      "id": "PA",
+      "name": "Push A",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "HPUSH",
+          "slot_name": "Horizontales Drücken",
+          "rolle": "main",
+          "uebung_id": "P3",
+          "uebung": "Kurzhantel-Bankdrücken (flach)",
+          "saetze": 4,
+          "wdh": "6-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Tiefer Bewegungsweg, Ellbogen etwa 45° zum Körper.",
+          "technik": "Tempo 3-1-1 (3 Sek ablassen, 1 Sek Pause unten)",
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "IPUSH",
+          "slot_name": "Schräges Drücken",
+          "rolle": "sec",
+          "uebung_id": "P2",
+          "uebung": "Schrägbankdrücken (Kurzhantel, ca. 30°)",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Bank flach anstellen, Hanteln tief ablassen, über der oberen Brust drücken.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank_schraeg"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "VPUSH",
+          "slot_name": "Vertikales Drücken",
+          "rolle": "sec",
+          "uebung_id": "P5",
+          "uebung": "Kurzhantel-Schulterdrücken (sitzend)",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Rücken an der Lehne, Hanteln bis Ohrhöhe ablassen, kein Hohlkreuz.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "LAT",
+          "slot_name": "Seitheben (seitliche Schulter)",
+          "rolle": "acc",
+          "uebung_id": "P7",
+          "uebung": "Seitheben (Kurzhantel)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Minimal vorgebeugt, bis Schulterhöhe, kein Schwung aus dem Rücken.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "TRI",
+          "slot_name": "Trizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "H07",
+          "uebung": "Kurzhantel-Überkopf-Trizepsstrecken",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Eine Hantel mit beiden Händen, Ellbogen nach vorn-oben, tief hinter den Kopf.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_AE",
+          "slot_name": "Rumpf: Anti-Streckung",
+          "rolle": "core",
+          "uebung_id": "BW80",
+          "uebung": "Long-Lever-Plank",
+          "saetze": 3,
+          "wdh": "30-60",
+          "einheit": "sek",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Ellbogen weiter vorn als die Schultern – deutlich härter.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "R1",
+              "name": "Unterarmstütz (Plank)",
+              "wdh": "30-60",
+              "hinweis": "Körper bildet eine Linie, Po und Bauch fest anspannen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW80",
+              "name": "Long-Lever-Plank",
+              "wdh": "30-60",
+              "hinweis": "Ellbogen weiter vorn als die Schultern – deutlich härter."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW81",
+              "name": "Handtuch-Rollouts (kniend)",
+              "wdh": "12-20",
+              "hinweis": "Hände auf Handtuch nach vorn gleiten lassen, Rücken bleibt gerade."
+            }
+          ],
+          "start_stufe": 2
+        }
+      ],
+      "dauer_min_geschaetzt": 50
+    },
+    "ZA": {
+      "id": "ZA",
+      "name": "Pull A",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "VPULL",
+          "slot_name": "Vertikales Ziehen",
+          "rolle": "main",
+          "uebung_id": "BW31",
+          "uebung": "Klimmzüge",
+          "saetze": 4,
+          "wdh": "6-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Unten ganz aushängen, Brust zur Stange, ohne Schwung.",
+          "technik": "Tempo 3-1-1 (3 Sek ablassen, 1 Sek Pause unten)",
+          "benoetigt": [
+            "klimmzugstange"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "H10",
+              "name": "Band-assistierte Klimmzüge",
+              "wdh": "6-10",
+              "hinweis": "Band an der Stange, Fuß oder Knie hinein – mit der Zeit dünneres Band."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW31",
+              "name": "Klimmzüge",
+              "wdh": "6-10",
+              "hinweis": "Unten ganz aushängen, Brust zur Stange, ohne Schwung."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW32",
+              "name": "Klimmzüge mit Zusatzgewicht",
+              "wdh": "6-10",
+              "hinweis": "Rucksack mit Büchern – erst ab 12 sauberen Klimmzügen."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 2,
+          "slot": "HROW",
+          "slot_name": "Horizontales Ziehen (Rudern)",
+          "rolle": "sec",
+          "uebung_id": "H12",
+          "uebung": "Einarmiges Kurzhantelrudern",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Hand und Knie auf der Bank, Hantel zur Hüfte ziehen, Rücken gerade.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "REAR",
+          "slot_name": "Hintere Schulter",
+          "rolle": "acc",
+          "uebung_id": "H14",
+          "uebung": "Band-Face-Pulls",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Band auf Augenhöhe, Hände neben die Ohren ziehen, Ellbogen hoch.",
+          "technik": null,
+          "benoetigt": [
+            "baender",
+            "tuer"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "BIC",
+          "slot_name": "Bizeps",
+          "rolle": "acc",
+          "uebung_id": "L9",
+          "uebung": "Kurzhantel-Curls (wechselnd)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Oben Handgelenk leicht nach außen drehen, langsam ablassen.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "BRA",
+          "slot_name": "Hammer-Curls",
+          "rolle": "acc",
+          "uebung_id": "L10",
+          "uebung": "Hammer-Curls",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Neutraler Griff, Ellbogen fix, langsam ablassen.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_HANG",
+          "slot_name": "Rumpf: hängend/liegend",
+          "rolle": "core",
+          "uebung_id": "R3",
+          "uebung": "Hängendes Knieheben",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Ohne Schwung, am Ende das Becken einrollen.",
+          "technik": null,
+          "benoetigt": [
+            "klimmzugstange"
+          ]
+        }
+      ],
+      "dauer_min_geschaetzt": 50
+    },
+    "BA": {
+      "id": "BA",
+      "name": "Beine A",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "SQ",
+          "slot_name": "Kniebeuge-Muster",
+          "rolle": "main",
+          "uebung_id": "H20",
+          "uebung": "Goblet Squat",
+          "saetze": 4,
+          "wdh": "6-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Hantel vor der Brust, Ellbogen zwischen die Knie, tief und aufrecht.",
+          "technik": "Tempo 3-1-1 (3 Sek ablassen, 1 Sek Pause unten)",
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "HINGE",
+          "slot_name": "Hüftbeugen (Hinge)",
+          "rolle": "sec",
+          "uebung_id": "H25",
+          "uebung": "Kurzhantel-Rumänisches Kreuzheben",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Hüfte nach hinten, Hanteln nah am Bein, Rücken gerade.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "LUNGE",
+          "slot_name": "Ausfallschritt / einbeinig",
+          "rolle": "sec",
+          "uebung_id": "B4",
+          "uebung": "Ausfallschritte rückwärts (Kurzhantel)",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Großer Schritt zurück, vorderes Knie stabil über dem Fuß.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "HCURL",
+          "slot_name": "Beinbeuger",
+          "rolle": "acc",
+          "uebung_id": "BW67",
+          "uebung": "Gleitende Beinbeuger (einbeinig)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ein Bein angehoben, Hüfte bleibt oben.",
+          "technik": null,
+          "benoetigt": [
+            "handtuch",
+            "glatter_boden"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW66",
+              "name": "Gleitende Beinbeuger (beidbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Rückenlage, Fersen auf Handtuch, Hüfte oben halten, Fersen zum Po ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW67",
+              "name": "Gleitende Beinbeuger (einbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Ein Bein angehoben, Hüfte bleibt oben."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW68",
+              "name": "Nordic Curl (negativ)",
+              "wdh": "3-6 (so langsam wie möglich)",
+              "hinweis": "Füße unter Sofa fixiert, so langsam wie möglich nach vorn absenken, Hände fangen ab."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 5,
+          "slot": "CALF",
+          "slot_name": "Waden",
+          "rolle": "acc",
+          "uebung_id": "H27",
+          "uebung": "Einbeiniges Kurzhantel-Wadenheben",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Auf Stufe, freie Hand hält sich fest, unten volle Dehnung.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "stufe"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_FL",
+          "slot_name": "Rumpf: Beugung",
+          "rolle": "core",
+          "uebung_id": "BW83",
+          "uebung": "Reverse Crunch",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Knie Richtung Brust, Becken einrollen, langsam ablassen.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW82",
+              "name": "Crunch",
+              "wdh": "12-20",
+              "hinweis": "Unterer Rücken bleibt am Boden, Oberkörper einrollen, nicht am Nacken ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW83",
+              "name": "Reverse Crunch",
+              "wdh": "12-20",
+              "hinweis": "Knie Richtung Brust, Becken einrollen, langsam ablassen."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW84",
+              "name": "Hollow Hold",
+              "wdh": "30-60",
+              "hinweis": "Rücken flach am Boden, Arme und Beine knapp über dem Boden."
+            }
+          ],
+          "start_stufe": 2
+        }
+      ],
+      "dauer_min_geschaetzt": 55
+    },
+    "PB": {
+      "id": "PB",
+      "name": "Push B",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "VPUSH",
+          "slot_name": "Vertikales Drücken",
+          "rolle": "main",
+          "uebung_id": "P5",
+          "uebung": "Kurzhantel-Schulterdrücken (sitzend)",
+          "saetze": 4,
+          "wdh": "6-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Rücken an der Lehne, Hanteln bis Ohrhöhe ablassen, kein Hohlkreuz.",
+          "technik": "Tempo 3-1-1 (3 Sek ablassen, 1 Sek Pause unten)",
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "HPUSH",
+          "slot_name": "Horizontales Drücken",
+          "rolle": "sec",
+          "uebung_id": "H02",
+          "uebung": "Kurzhantel-Floor-Press",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Rückenlage am Boden, Oberarme berühren kurz den Boden, dann drücken.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "DIP",
+          "slot_name": "Dips",
+          "rolle": "sec",
+          "uebung_id": "BW23",
+          "uebung": "Stuhl-Dips (Beine frei)",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Nur mit rutschfesten, stabilen Stühlen – vorher Stabilität testen.",
+          "technik": null,
+          "benoetigt": [
+            "stuehle"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW22",
+              "name": "Stuhl-Dips (Füße am Boden)",
+              "wdh": "8-12",
+              "hinweis": "Zwei wirklich stabile Stühle, Füße helfen mit, Schultern unten halten."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW23",
+              "name": "Stuhl-Dips (Beine frei)",
+              "wdh": "8-12",
+              "hinweis": "Nur mit rutschfesten, stabilen Stühlen – vorher Stabilität testen."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 4,
+          "slot": "FLY",
+          "slot_name": "Brust-Isolation",
+          "rolle": "acc",
+          "uebung_id": "H05",
+          "uebung": "Kurzhantel-Flys",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ellbogen leicht gebeugt, weit öffnen bis zur Dehnung, kontrolliert zurück.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "LAT",
+          "slot_name": "Seitheben (seitliche Schulter)",
+          "rolle": "acc",
+          "uebung_id": "P7",
+          "uebung": "Seitheben (Kurzhantel)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Minimal vorgebeugt, bis Schulterhöhe, kein Schwung aus dem Rücken.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "TRI",
+          "slot_name": "Trizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "H09",
+          "uebung": "Band-Trizepsdrücken",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Band oben fixiert, Ellbogen am Körper, unten voll strecken.",
+          "technik": null,
+          "benoetigt": [
+            "baender",
+            "tuer"
+          ]
+        }
+      ],
+      "dauer_min_geschaetzt": 50
+    },
+    "ZB": {
+      "id": "ZB",
+      "name": "Pull B",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "HROW",
+          "slot_name": "Horizontales Ziehen (Rudern)",
+          "rolle": "main",
+          "uebung_id": "H13",
+          "uebung": "Kurzhantelrudern vorgebeugt",
+          "saetze": 4,
+          "wdh": "6-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Hüfte nach hinten, Rücken gerade, beide Hanteln Richtung Bauch.",
+          "technik": "Tempo 3-1-1 (3 Sek ablassen, 1 Sek Pause unten)",
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "VPULL",
+          "slot_name": "Vertikales Ziehen",
+          "rolle": "sec",
+          "uebung_id": "BW31",
+          "uebung": "Klimmzüge",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Unten ganz aushängen, Brust zur Stange, ohne Schwung.",
+          "technik": null,
+          "benoetigt": [
+            "klimmzugstange"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "H10",
+              "name": "Band-assistierte Klimmzüge",
+              "wdh": "8-12",
+              "hinweis": "Band an der Stange, Fuß oder Knie hinein – mit der Zeit dünneres Band."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW31",
+              "name": "Klimmzüge",
+              "wdh": "8-12",
+              "hinweis": "Unten ganz aushängen, Brust zur Stange, ohne Schwung."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW32",
+              "name": "Klimmzüge mit Zusatzgewicht",
+              "wdh": "8-12",
+              "hinweis": "Rucksack mit Büchern – erst ab 12 sauberen Klimmzügen."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 3,
+          "slot": "REAR",
+          "slot_name": "Hintere Schulter",
+          "rolle": "acc",
+          "uebung_id": "H14",
+          "uebung": "Band-Face-Pulls",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Band auf Augenhöhe, Hände neben die Ohren ziehen, Ellbogen hoch.",
+          "technik": null,
+          "benoetigt": [
+            "baender",
+            "tuer"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "BIC",
+          "slot_name": "Bizeps",
+          "rolle": "acc",
+          "uebung_id": "H18",
+          "uebung": "Konzentrations-Curls",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Sitzend, Ellbogen innen am Oberschenkel, oben kurz halten.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "BRA",
+          "slot_name": "Hammer-Curls",
+          "rolle": "acc",
+          "uebung_id": "L10",
+          "uebung": "Hammer-Curls",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Neutraler Griff, Ellbogen fix, langsam ablassen.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_ROT",
+          "slot_name": "Rumpf: Anti-Rotation / seitlich",
+          "rolle": "core",
+          "uebung_id": "H33",
+          "uebung": "Band-Pallof-Press",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Band seitlich auf Brusthöhe, Arme nach vorn strecken, Oberkörper nicht verdrehen.",
+          "technik": null,
+          "benoetigt": [
+            "baender",
+            "tuer"
+          ]
+        }
+      ],
+      "dauer_min_geschaetzt": 55
+    },
+    "BB": {
+      "id": "BB",
+      "name": "Beine B",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "HINGE",
+          "slot_name": "Hüftbeugen (Hinge)",
+          "rolle": "main",
+          "uebung_id": "H25",
+          "uebung": "Kurzhantel-Rumänisches Kreuzheben",
+          "saetze": 4,
+          "wdh": "6-10",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Hüfte nach hinten, Hanteln nah am Bein, Rücken gerade.",
+          "technik": "Tempo 3-1-1 (3 Sek ablassen, 1 Sek Pause unten)",
+          "benoetigt": [
+            "kurzhanteln"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "QUAD2",
+          "slot_name": "Zweite Quadrizeps-Übung",
+          "rolle": "sec",
+          "uebung_id": "A4",
+          "uebung": "Bulgarian Split Squat (Kurzhantel)",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Hinterer Fuß auf der Bank, Oberkörper leicht nach vorn.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 3,
+          "slot": "GLUTE",
+          "slot_name": "Po (Hip Thrust)",
+          "rolle": "sec",
+          "uebung_id": "H26",
+          "uebung": "Kurzhantel-Hip-Thrust",
+          "saetze": 3,
+          "wdh": "8-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Schultern auf der Bank, Hantel auf der Hüfte (Handtuch drunter), oben Po fest.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "bank"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "QISO",
+          "slot_name": "Quadrizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "BW64",
+          "uebung": "Sissy Squat (am Türrahmen)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Festhalten, auf die Zehen, Knie nach vorn, Oberkörper zurück – nur schmerzfrei.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW63",
+              "name": "Wandsitzen",
+              "wdh": "30-60",
+              "hinweis": "Oberschenkel parallel zum Boden, Rücken flach an der Wand."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW64",
+              "name": "Sissy Squat (am Türrahmen)",
+              "wdh": "12-20",
+              "hinweis": "Festhalten, auf die Zehen, Knie nach vorn, Oberkörper zurück – nur schmerzfrei."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW65",
+              "name": "Reverse Nordic (Teilbewegung)",
+              "wdh": "6-10",
+              "hinweis": "Kniend auf Kissen, Oberkörper gerade nach hinten lehnen."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 5,
+          "slot": "HCURL",
+          "slot_name": "Beinbeuger",
+          "rolle": "acc",
+          "uebung_id": "BW67",
+          "uebung": "Gleitende Beinbeuger (einbeinig)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ein Bein angehoben, Hüfte bleibt oben.",
+          "technik": null,
+          "benoetigt": [
+            "handtuch",
+            "glatter_boden"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW66",
+              "name": "Gleitende Beinbeuger (beidbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Rückenlage, Fersen auf Handtuch, Hüfte oben halten, Fersen zum Po ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW67",
+              "name": "Gleitende Beinbeuger (einbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Ein Bein angehoben, Hüfte bleibt oben."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW68",
+              "name": "Nordic Curl (negativ)",
+              "wdh": "3-6 (so langsam wie möglich)",
+              "hinweis": "Füße unter Sofa fixiert, so langsam wie möglich nach vorn absenken, Hände fangen ab."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 6,
+          "slot": "CALF",
+          "slot_name": "Waden",
+          "rolle": "acc",
+          "uebung_id": "H27",
+          "uebung": "Einbeiniges Kurzhantel-Wadenheben",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Auf Stufe, freie Hand hält sich fest, unten volle Dehnung.",
+          "technik": null,
+          "benoetigt": [
+            "kurzhanteln",
+            "stufe"
+          ]
+        }
+      ],
+      "dauer_min_geschaetzt": 55
+    },
+    "AE": {
+      "id": "AE",
+      "name": "Aktive Erholung",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "CARDIO",
+          "slot_name": "Ausdauer (Zone 2)",
+          "rolle": "cardio",
+          "uebung_id": "C1",
+          "uebung": "Lockeres Joggen oder Radfahren (Zone 2)",
+          "saetze": 1,
+          "wdh": "20-30",
+          "einheit": "min",
+          "pro_seite": false,
+          "pause": "–",
+          "pause_sek": 0,
+          "hinweis": "Tempo, bei dem du noch in ganzen Sätzen sprechen kannst.",
+          "technik": null,
+          "benoetigt": []
+        },
+        {
+          "nr": 2,
+          "slot": "MOB",
+          "slot_name": "Mobility",
+          "rolle": "mob",
+          "uebung_id": "M1",
+          "uebung": "Mobility-Routine",
+          "saetze": 1,
+          "wdh": "15",
+          "einheit": "min",
+          "pro_seite": false,
+          "pause": "–",
+          "pause_sek": 0,
+          "hinweis": "Hüfte, Brustwirbelsäule, Schultern, Sprunggelenke – ruhig, ohne Schmerz.",
+          "technik": null,
+          "benoetigt": []
+        }
+      ],
+      "dauer_min_geschaetzt": 55
+    }
+  },
+  "sequenz": [
+    {
+      "tag": 1,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "PA"
+    },
+    {
+      "tag": 2,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "ZA"
+    },
+    {
+      "tag": 3,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "BA"
+    },
+    {
+      "tag": 4,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "PB"
+    },
+    {
+      "tag": 5,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "ZB"
+    },
+    {
+      "tag": 6,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "BB"
+    },
+    {
+      "tag": 7,
+      "woche": 1,
+      "typ": "aktive_erholung",
+      "vorlage": "AE"
+    },
+    {
+      "tag": 8,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "PA"
+    },
+    {
+      "tag": 9,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "ZA"
+    },
+    {
+      "tag": 10,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "BA"
+    },
+    {
+      "tag": 11,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "PB"
+    },
+    {
+      "tag": 12,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "ZB"
+    },
+    {
+      "tag": 13,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "BB"
+    },
+    {
+      "tag": 14,
+      "woche": 2,
+      "typ": "aktive_erholung",
+      "vorlage": "AE"
+    },
+    {
+      "tag": 15,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "PA"
+    },
+    {
+      "tag": 16,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "ZA"
+    },
+    {
+      "tag": 17,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "BA"
+    },
+    {
+      "tag": 18,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "PB"
+    },
+    {
+      "tag": 19,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "ZB"
+    },
+    {
+      "tag": 20,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "BB"
+    },
+    {
+      "tag": 21,
+      "woche": 3,
+      "typ": "aktive_erholung",
+      "vorlage": "AE"
+    },
+    {
+      "tag": 22,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "PA"
+    },
+    {
+      "tag": 23,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "ZA"
+    },
+    {
+      "tag": 24,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "BA"
+    },
+    {
+      "tag": 25,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "PB"
+    },
+    {
+      "tag": 26,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "ZB"
+    },
+    {
+      "tag": 27,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "BB"
+    },
+    {
+      "tag": 28,
+      "woche": 4,
+      "typ": "aktive_erholung",
+      "vorlage": "AE"
+    },
+    {
+      "tag": 29,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "PA"
+    },
+    {
+      "tag": 30,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "ZA"
+    },
+    {
+      "tag": 31,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "BA"
+    },
+    {
+      "tag": 32,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "PB"
+    },
+    {
+      "tag": 33,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "ZB"
+    },
+    {
+      "tag": 34,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "BB"
+    },
+    {
+      "tag": 35,
+      "woche": 5,
+      "typ": "aktive_erholung",
+      "vorlage": "AE"
+    }
+  ]
+}

@@ -1,3 +1,5 @@
 {
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/(concept|konzept|manifest|manifesto|survey|umfrage|results|ergebnisse|login|plan|admin|waitlist|warteliste|preise|pricing|einstellungen|settings|impressum|legal-notice|datenschutz|privacy)(/.*)?", "destination": "/index.html" }
+  ]
 }

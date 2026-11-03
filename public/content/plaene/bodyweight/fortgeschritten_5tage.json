@@ -1,0 +1,1466 @@
+{
+  "plan_id": "bodyweight_fortgeschritten_5tage",
+  "tier": 1,
+  "profil": "bodyweight",
+  "profil_name": "Nur Körpergewicht",
+  "level": "fortgeschritten",
+  "level_name": "Fortgeschritten",
+  "tage_pro_woche": 5,
+  "split": "5tage",
+  "split_name": "Push / Pull / Beine + Oberkörper / Unterkörper",
+  "begruendung": "PPL allein wäre bei 5 Tagen unausgeglichen. Der Hybrid hält jede Muskelgruppe bei 2× pro Woche.",
+  "equipment_annahme": [
+    "stabiler_tisch",
+    "stuehle",
+    "tuer",
+    "handtuch",
+    "glatter_boden",
+    "stufe",
+    "rucksack",
+    "sofa"
+  ],
+  "block": {
+    "wochen": 5,
+    "deload_woche": 5,
+    "wochen_modifikatoren": [
+      {
+        "woche": 1,
+        "rir": "3",
+        "saetze_faktor": 1.0,
+        "hinweis": "Einstieg in den Block, Technik und Gewichte festlegen."
+      },
+      {
+        "woche": 2,
+        "rir": "2",
+        "saetze_faktor": 1.0,
+        "hinweis": ""
+      },
+      {
+        "woche": 3,
+        "rir": "1-2",
+        "saetze_faktor": 1.0,
+        "hinweis": ""
+      },
+      {
+        "woche": 4,
+        "rir": "1 (Isolation 0-1)",
+        "saetze_faktor": 1.0,
+        "hinweis": "Härteste Woche. Technik bleibt trotzdem die Grenze."
+      },
+      {
+        "woche": 5,
+        "rir": "4",
+        "saetze_faktor": 0.5,
+        "deload": true,
+        "hinweis": "Deload: halbe Satzzahl, gleiche Gewichte."
+      }
+    ],
+    "hinweis": "Nach dem Block startet derselbe Block wieder bei Woche 1 – mit den Gewichten/Stufen, die du erreicht hast."
+  },
+  "wochenmuster": [
+    "PU",
+    "PL",
+    "LE",
+    "R",
+    "OK",
+    "UK",
+    "R"
+  ],
+  "trainingstage": {
+    "PU": {
+      "id": "PU",
+      "name": "Push",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "HPUSH",
+          "slot_name": "Horizontales Drücken",
+          "rolle": "main",
+          "uebung_id": "BW03",
+          "uebung": "Defizit-Liegestütze",
+          "saetze": 4,
+          "wdh": "6-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Hände auf zwei Bücherstapeln, Brust tiefer als die Hände.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW01",
+              "name": "Schräge Liegestütze (Hände erhöht)",
+              "wdh": "6-12",
+              "hinweis": "Hände auf Tisch, Bett oder Sofakante, Körper gerade wie ein Brett."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW02",
+              "name": "Liegestütze",
+              "wdh": "6-12",
+              "hinweis": "Hände etwas breiter als die Schultern, Brust bis kurz über den Boden."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW03",
+              "name": "Defizit-Liegestütze",
+              "wdh": "6-12",
+              "hinweis": "Hände auf zwei Bücherstapeln, Brust tiefer als die Hände."
+            },
+            {
+              "stufe": 4,
+              "uebung_id": "BW05",
+              "name": "Archer-Liegestütze",
+              "wdh": "6-12",
+              "hinweis": "Ein Arm arbeitet, der andere bleibt zur Seite gestreckt."
+            },
+            {
+              "stufe": 5,
+              "uebung_id": "BW06",
+              "name": "Pseudo-Planche-Liegestütze",
+              "wdh": "6-12",
+              "hinweis": "Hände auf Hüfthöhe, Schultern weit vor den Händen."
+            }
+          ],
+          "start_stufe": 3
+        },
+        {
+          "nr": 2,
+          "slot": "IPUSH",
+          "slot_name": "Schräges Drücken",
+          "rolle": "sec",
+          "uebung_id": "BW07",
+          "uebung": "Defizit-Liegestütze mit erhöhten Füßen",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Füße erhöht, Hände auf Büchern – maximale Dehnung.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW02",
+              "name": "Liegestütze",
+              "wdh": "8-15",
+              "hinweis": "Hände etwas breiter als die Schultern, Brust bis kurz über den Boden."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW04",
+              "name": "Liegestütze mit erhöhten Füßen",
+              "wdh": "8-15",
+              "hinweis": "Füße auf Stuhl oder Bett – mehr Last auf obere Brust und Schultern."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW07",
+              "name": "Defizit-Liegestütze mit erhöhten Füßen",
+              "wdh": "8-15",
+              "hinweis": "Füße erhöht, Hände auf Büchern – maximale Dehnung."
+            }
+          ],
+          "start_stufe": 3
+        },
+        {
+          "nr": 3,
+          "slot": "VPUSH",
+          "slot_name": "Vertikales Drücken",
+          "rolle": "sec",
+          "uebung_id": "BW11",
+          "uebung": "Pike-Liegestütze mit erhöhten Füßen",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Füße auf Stuhl, Hüfte über den Schultern.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW10",
+              "name": "Pike-Liegestütze",
+              "wdh": "8-15",
+              "hinweis": "Po hoch (umgedrehtes V), Kopf vor den Händen Richtung Boden senken."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW11",
+              "name": "Pike-Liegestütze mit erhöhten Füßen",
+              "wdh": "8-15",
+              "hinweis": "Füße auf Stuhl, Hüfte über den Schultern."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW12",
+              "name": "Handstand-Negativ an der Wand",
+              "wdh": "3-6 (je 5 Sek ablassen)",
+              "hinweis": "Freier Platz, Kissen unter dem Kopf, 5 Sek langsam absenken."
+            },
+            {
+              "stufe": 4,
+              "uebung_id": "BW13",
+              "name": "Handstand-Liegestütze an der Wand (Teilbewegung)",
+              "wdh": "8-15",
+              "hinweis": "Nur so tief, wie du kontrolliert wieder hochkommst."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 4,
+          "slot": "LAT",
+          "slot_name": "Seitheben (seitliche Schulter)",
+          "rolle": "acc",
+          "uebung_id": "BW16",
+          "uebung": "Seitheben mit Rucksack oder Wasserflaschen",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Gefüllte Flaschen oder Taschen, langsam bis Schulterhöhe.",
+          "technik": null,
+          "benoetigt": [
+            "rucksack"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "TRI",
+          "slot_name": "Trizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "BW19",
+          "uebung": "Diamant-Liegestütze",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Hände eng unter der Brust, Ellbogen nah am Körper.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW18",
+              "name": "Diamant-Liegestütze (Hände erhöht)",
+              "wdh": "12-20",
+              "hinweis": "Hände eng (Raute), auf Tisch oder Bett."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW19",
+              "name": "Diamant-Liegestütze",
+              "wdh": "12-20",
+              "hinweis": "Hände eng unter der Brust, Ellbogen nah am Körper."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW21",
+              "name": "Diamant-Liegestütze mit erhöhten Füßen",
+              "wdh": "12-20",
+              "hinweis": "Füße auf Stuhl, Hände eng."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_AE",
+          "slot_name": "Rumpf: Anti-Streckung",
+          "rolle": "core",
+          "uebung_id": "BW80",
+          "uebung": "Long-Lever-Plank",
+          "saetze": 3,
+          "wdh": "30-60",
+          "einheit": "sek",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Ellbogen weiter vorn als die Schultern – deutlich härter.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "R1",
+              "name": "Unterarmstütz (Plank)",
+              "wdh": "30-60",
+              "hinweis": "Körper bildet eine Linie, Po und Bauch fest anspannen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW80",
+              "name": "Long-Lever-Plank",
+              "wdh": "30-60",
+              "hinweis": "Ellbogen weiter vorn als die Schultern – deutlich härter."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW81",
+              "name": "Handtuch-Rollouts (kniend)",
+              "wdh": "12-20",
+              "hinweis": "Hände auf Handtuch nach vorn gleiten lassen, Rücken bleibt gerade."
+            }
+          ],
+          "start_stufe": 2
+        }
+      ],
+      "dauer_min_geschaetzt": 50
+    },
+    "PL": {
+      "id": "PL",
+      "name": "Pull",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "VPULL",
+          "slot_name": "Vertikales Ziehen",
+          "rolle": "main",
+          "uebung_id": "BW38",
+          "uebung": "Tisch-Rudern (breiter Obergriff)",
+          "saetze": 4,
+          "wdh": "6-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Hände weit, Ellbogen seitlich – Ersatz, wenn keine Klimmzugstange da ist.",
+          "technik": null,
+          "benoetigt": [
+            "stabiler_tisch"
+          ]
+        },
+        {
+          "nr": 2,
+          "slot": "HROW",
+          "slot_name": "Horizontales Ziehen (Rudern)",
+          "rolle": "sec",
+          "uebung_id": "BW36",
+          "uebung": "Tisch-Rudern (Füße erhöht)",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Füße auf Stuhl – deutlich mehr Last.",
+          "technik": null,
+          "benoetigt": [
+            "stabiler_tisch"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW34",
+              "name": "Tisch-Rudern (Knie gebeugt)",
+              "wdh": "8-15",
+              "hinweis": "Unter einen sehr stabilen Tisch legen, Kante greifen, Brust zur Kante ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW35",
+              "name": "Tisch-Rudern (Beine gestreckt)",
+              "wdh": "8-15",
+              "hinweis": "Körper bleibt eine gerade Linie, Fersen am Boden."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW36",
+              "name": "Tisch-Rudern (Füße erhöht)",
+              "wdh": "8-15",
+              "hinweis": "Füße auf Stuhl – deutlich mehr Last."
+            },
+            {
+              "stufe": 4,
+              "uebung_id": "BW37",
+              "name": "Archer-Tisch-Rudern",
+              "wdh": "8-15",
+              "hinweis": "Ein Arm zieht, der andere bleibt gestreckt."
+            }
+          ],
+          "start_stufe": 3
+        },
+        {
+          "nr": 3,
+          "slot": "REAR",
+          "slot_name": "Hintere Schulter",
+          "rolle": "acc",
+          "uebung_id": "BW41",
+          "uebung": "Reverse Flys mit Rucksack/Flaschen",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Vorgebeugt, Arme seitlich bis Schulterhöhe.",
+          "technik": null,
+          "benoetigt": [
+            "rucksack"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW40",
+              "name": "Y-T-W-Heben (Bauchlage)",
+              "wdh": "12-20",
+              "hinweis": "Arme als Y, T und W anheben, je 2 Sek halten = 1 Wiederholung."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW41",
+              "name": "Reverse Flys mit Rucksack/Flaschen",
+              "wdh": "12-20",
+              "hinweis": "Vorgebeugt, Arme seitlich bis Schulterhöhe."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 4,
+          "slot": "BIC",
+          "slot_name": "Bizeps",
+          "rolle": "acc",
+          "uebung_id": "BW43",
+          "uebung": "Rucksack-Curls",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Rucksack am Griff, mit Büchern schrittweise schwerer machen.",
+          "technik": null,
+          "benoetigt": [
+            "rucksack"
+          ]
+        },
+        {
+          "nr": 5,
+          "slot": "BRA",
+          "slot_name": "Hammer-Curls",
+          "rolle": "acc",
+          "uebung_id": "BW44",
+          "uebung": "Rucksack-Hammer-Curls",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Neutraler Griff, langsam ablassen.",
+          "technik": null,
+          "benoetigt": [
+            "rucksack"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_HANG",
+          "slot_name": "Rumpf: hängend/liegend",
+          "rolle": "core",
+          "uebung_id": "BW85",
+          "uebung": "Liegendes Beinheben",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Beine gestreckt heben, unterer Rücken bleibt am Boden.",
+          "technik": null,
+          "benoetigt": []
+        }
+      ],
+      "dauer_min_geschaetzt": 50
+    },
+    "LE": {
+      "id": "LE",
+      "name": "Beine",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "SQ",
+          "slot_name": "Kniebeuge-Muster",
+          "rolle": "main",
+          "uebung_id": "BW53",
+          "uebung": "Assistierte Pistol Squats",
+          "saetze": 4,
+          "wdh": "6-12",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Einbeinig, Hände am Türrahmen helfen mit.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW50",
+              "name": "Kniebeuge (Körpergewicht)",
+              "wdh": "6-12",
+              "hinweis": "Füße schulterbreit, tief und aufrecht, Knie Richtung Zehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW51",
+              "name": "Tempo-Kniebeuge (3-1-1)",
+              "wdh": "6-12",
+              "hinweis": "3 Sek runter, 1 Sek unten halten, zügig hoch."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW52",
+              "name": "Kniebeuge mit 1,5 Wiederholungen",
+              "wdh": "6-12",
+              "hinweis": "Ganz runter, halb hoch, wieder ganz runter, ganz hoch = 1 Wdh."
+            },
+            {
+              "stufe": 4,
+              "uebung_id": "BW53",
+              "name": "Assistierte Pistol Squats",
+              "wdh": "6-12",
+              "hinweis": "Einbeinig, Hände am Türrahmen helfen mit."
+            },
+            {
+              "stufe": 5,
+              "uebung_id": "BW54",
+              "name": "Box Pistol Squat",
+              "wdh": "6-12",
+              "hinweis": "Einbeinig auf Stuhl oder Bett absetzen und wieder hochdrücken."
+            },
+            {
+              "stufe": 6,
+              "uebung_id": "BW55",
+              "name": "Pistol Squat",
+              "wdh": "6-12",
+              "hinweis": "Einbeinig ganz tief, freies Bein nach vorn gestreckt."
+            }
+          ],
+          "start_stufe": 4
+        },
+        {
+          "nr": 2,
+          "slot": "HINGE",
+          "slot_name": "Hüftbeugen (Hinge)",
+          "rolle": "sec",
+          "uebung_id": "BW70",
+          "uebung": "Einbeiniges RDL mit Rucksack",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Rucksack vor dem Körper halten.",
+          "technik": null,
+          "benoetigt": [
+            "rucksack"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW69",
+              "name": "Einbeiniges Rumänisches Kreuzheben",
+              "wdh": "8-15",
+              "hinweis": "Hüfte nach hinten, Oberkörper und freies Bein bilden eine Linie."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW70",
+              "name": "Einbeiniges RDL mit Rucksack",
+              "wdh": "8-15",
+              "hinweis": "Rucksack vor dem Körper halten."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW71",
+              "name": "Einbeiniges RDL mit Rucksack (3 Sek ablassen)",
+              "wdh": "8-15",
+              "hinweis": "Sehr langsam ablassen, kurz unten halten."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 3,
+          "slot": "LUNGE",
+          "slot_name": "Ausfallschritt / einbeinig",
+          "rolle": "sec",
+          "uebung_id": "BW61",
+          "uebung": "Step-ups (Stuhl oder hohe Stufe)",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Ganzer Fuß oben, vorderes Bein drückt, nicht abspringen.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW60",
+              "name": "Ausfallschritte rückwärts",
+              "wdh": "8-15",
+              "hinweis": "Großer Schritt zurück, vorderes Knie stabil."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW61",
+              "name": "Step-ups (Stuhl oder hohe Stufe)",
+              "wdh": "8-15",
+              "hinweis": "Ganzer Fuß oben, vorderes Bein drückt, nicht abspringen."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW62",
+              "name": "Defizit-Ausfallschritte rückwärts",
+              "wdh": "8-15",
+              "hinweis": "Vorderer Fuß auf Buch oder Stufe – größerer Bewegungsweg."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 4,
+          "slot": "HCURL",
+          "slot_name": "Beinbeuger",
+          "rolle": "acc",
+          "uebung_id": "BW67",
+          "uebung": "Gleitende Beinbeuger (einbeinig)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ein Bein angehoben, Hüfte bleibt oben.",
+          "technik": null,
+          "benoetigt": [
+            "handtuch",
+            "glatter_boden"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW66",
+              "name": "Gleitende Beinbeuger (beidbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Rückenlage, Fersen auf Handtuch, Hüfte oben halten, Fersen zum Po ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW67",
+              "name": "Gleitende Beinbeuger (einbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Ein Bein angehoben, Hüfte bleibt oben."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW68",
+              "name": "Nordic Curl (negativ)",
+              "wdh": "3-6 (so langsam wie möglich)",
+              "hinweis": "Füße unter Sofa fixiert, so langsam wie möglich nach vorn absenken, Hände fangen ab."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 5,
+          "slot": "CALF",
+          "slot_name": "Waden",
+          "rolle": "acc",
+          "uebung_id": "BW77",
+          "uebung": "Wadenheben einbeinig (Stufe)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Freie Hand hält sich fest, volle Dehnung unten.",
+          "technik": null,
+          "benoetigt": [
+            "stufe"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW76",
+              "name": "Wadenheben beidbeinig (Stufe)",
+              "wdh": "12-20",
+              "hinweis": "Fersen unter Stufenhöhe senken, oben ganz hoch."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW77",
+              "name": "Wadenheben einbeinig (Stufe)",
+              "wdh": "12-20",
+              "hinweis": "Freie Hand hält sich fest, volle Dehnung unten."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW78",
+              "name": "Wadenheben einbeinig mit Rucksack",
+              "wdh": "12-20",
+              "hinweis": "Rucksack aufsetzen, langsam arbeiten."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_FL",
+          "slot_name": "Rumpf: Beugung",
+          "rolle": "core",
+          "uebung_id": "BW83",
+          "uebung": "Reverse Crunch",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Knie Richtung Brust, Becken einrollen, langsam ablassen.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW82",
+              "name": "Crunch",
+              "wdh": "12-20",
+              "hinweis": "Unterer Rücken bleibt am Boden, Oberkörper einrollen, nicht am Nacken ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW83",
+              "name": "Reverse Crunch",
+              "wdh": "12-20",
+              "hinweis": "Knie Richtung Brust, Becken einrollen, langsam ablassen."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW84",
+              "name": "Hollow Hold",
+              "wdh": "30-60",
+              "hinweis": "Rücken flach am Boden, Arme und Beine knapp über dem Boden."
+            }
+          ],
+          "start_stufe": 2
+        }
+      ],
+      "dauer_min_geschaetzt": 60
+    },
+    "OK": {
+      "id": "OK",
+      "name": "Oberkörper",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "HROW",
+          "slot_name": "Horizontales Ziehen (Rudern)",
+          "rolle": "main",
+          "uebung_id": "BW36",
+          "uebung": "Tisch-Rudern (Füße erhöht)",
+          "saetze": 4,
+          "wdh": "6-12",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Füße auf Stuhl – deutlich mehr Last.",
+          "technik": null,
+          "benoetigt": [
+            "stabiler_tisch"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW34",
+              "name": "Tisch-Rudern (Knie gebeugt)",
+              "wdh": "6-12",
+              "hinweis": "Unter einen sehr stabilen Tisch legen, Kante greifen, Brust zur Kante ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW35",
+              "name": "Tisch-Rudern (Beine gestreckt)",
+              "wdh": "6-12",
+              "hinweis": "Körper bleibt eine gerade Linie, Fersen am Boden."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW36",
+              "name": "Tisch-Rudern (Füße erhöht)",
+              "wdh": "6-12",
+              "hinweis": "Füße auf Stuhl – deutlich mehr Last."
+            },
+            {
+              "stufe": 4,
+              "uebung_id": "BW37",
+              "name": "Archer-Tisch-Rudern",
+              "wdh": "6-12",
+              "hinweis": "Ein Arm zieht, der andere bleibt gestreckt."
+            }
+          ],
+          "start_stufe": 3
+        },
+        {
+          "nr": 2,
+          "slot": "DIP",
+          "slot_name": "Dips",
+          "rolle": "sec",
+          "uebung_id": "BW23",
+          "uebung": "Stuhl-Dips (Beine frei)",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Nur mit rutschfesten, stabilen Stühlen – vorher Stabilität testen.",
+          "technik": null,
+          "benoetigt": [
+            "stuehle"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW22",
+              "name": "Stuhl-Dips (Füße am Boden)",
+              "wdh": "8-15",
+              "hinweis": "Zwei wirklich stabile Stühle, Füße helfen mit, Schultern unten halten."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW23",
+              "name": "Stuhl-Dips (Beine frei)",
+              "wdh": "8-15",
+              "hinweis": "Nur mit rutschfesten, stabilen Stühlen – vorher Stabilität testen."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 3,
+          "slot": "VPULL",
+          "slot_name": "Vertikales Ziehen",
+          "rolle": "sec",
+          "uebung_id": "BW38",
+          "uebung": "Tisch-Rudern (breiter Obergriff)",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Hände weit, Ellbogen seitlich – Ersatz, wenn keine Klimmzugstange da ist.",
+          "technik": null,
+          "benoetigt": [
+            "stabiler_tisch"
+          ]
+        },
+        {
+          "nr": 4,
+          "slot": "FLY",
+          "slot_name": "Brust-Isolation",
+          "rolle": "acc",
+          "uebung_id": "BW15",
+          "uebung": "Handtuch-Flys (gestreckt)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Wie kniend, aber in Liegestützposition – nur so weit wie kontrolliert.",
+          "technik": null,
+          "benoetigt": [
+            "handtuch",
+            "glatter_boden"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW14",
+              "name": "Handtuch-Flys (kniend)",
+              "wdh": "12-20",
+              "hinweis": "Hände auf Handtüchern, Arme langsam auseinander gleiten lassen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW15",
+              "name": "Handtuch-Flys (gestreckt)",
+              "wdh": "12-20",
+              "hinweis": "Wie kniend, aber in Liegestützposition – nur so weit wie kontrolliert."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 5,
+          "slot": "LAT",
+          "slot_name": "Seitheben (seitliche Schulter)",
+          "rolle": "acc",
+          "uebung_id": "BW16",
+          "uebung": "Seitheben mit Rucksack oder Wasserflaschen",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Gefüllte Flaschen oder Taschen, langsam bis Schulterhöhe.",
+          "technik": null,
+          "benoetigt": [
+            "rucksack"
+          ]
+        },
+        {
+          "nr": 6,
+          "slot": "TRI",
+          "slot_name": "Trizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "BW19",
+          "uebung": "Diamant-Liegestütze",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Hände eng unter der Brust, Ellbogen nah am Körper.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW18",
+              "name": "Diamant-Liegestütze (Hände erhöht)",
+              "wdh": "12-20",
+              "hinweis": "Hände eng (Raute), auf Tisch oder Bett."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW19",
+              "name": "Diamant-Liegestütze",
+              "wdh": "12-20",
+              "hinweis": "Hände eng unter der Brust, Ellbogen nah am Körper."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW21",
+              "name": "Diamant-Liegestütze mit erhöhten Füßen",
+              "wdh": "12-20",
+              "hinweis": "Füße auf Stuhl, Hände eng."
+            }
+          ],
+          "start_stufe": 2
+        }
+      ],
+      "dauer_min_geschaetzt": 50
+    },
+    "UK": {
+      "id": "UK",
+      "name": "Unterkörper",
+      "uebungen": [
+        {
+          "nr": 1,
+          "slot": "QUAD2",
+          "slot_name": "Zweite Quadrizeps-Übung",
+          "rolle": "main",
+          "uebung_id": "BW58",
+          "uebung": "Bulgarian Split Squat mit Rucksack",
+          "saetze": 4,
+          "wdh": "6-12",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "2–3 Min",
+          "pause_sek": 150,
+          "hinweis": "Rucksack mit Büchern beschweren.",
+          "technik": null,
+          "benoetigt": [
+            "rucksack"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW56",
+              "name": "Split Squat",
+              "wdh": "6-12",
+              "hinweis": "Schrittstellung, hinteres Knie Richtung Boden, vorderes Bein arbeitet."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW57",
+              "name": "Bulgarian Split Squat (Stuhl)",
+              "wdh": "6-12",
+              "hinweis": "Hinterer Fuß auf Stuhl oder Sofa, tief runter."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW58",
+              "name": "Bulgarian Split Squat mit Rucksack",
+              "wdh": "6-12",
+              "hinweis": "Rucksack mit Büchern beschweren."
+            },
+            {
+              "stufe": 4,
+              "uebung_id": "BW59",
+              "name": "Bulgarian Split Squat mit Rucksack + Pause",
+              "wdh": "6-12",
+              "hinweis": "2 Sek unten halten."
+            }
+          ],
+          "start_stufe": 3
+        },
+        {
+          "nr": 2,
+          "slot": "GLUTE",
+          "slot_name": "Po (Hip Thrust)",
+          "rolle": "sec",
+          "uebung_id": "BW74",
+          "uebung": "Einbeiniger Hip Thrust",
+          "saetze": 3,
+          "wdh": "8-15",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "90–120 Sek",
+          "pause_sek": 105,
+          "hinweis": "Ein Bein angehoben, Hüfte gerade halten.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW72",
+              "name": "Glute Bridge",
+              "wdh": "8-15",
+              "hinweis": "Füße nah am Po, Hüfte hoch, oben Po fest anspannen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW73",
+              "name": "Hip Thrust (Schultern auf dem Sofa)",
+              "wdh": "8-15",
+              "hinweis": "Schulterblätter auf der Kante, Kinn zur Brust, oben Po fest."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW74",
+              "name": "Einbeiniger Hip Thrust",
+              "wdh": "8-15",
+              "hinweis": "Ein Bein angehoben, Hüfte gerade halten."
+            },
+            {
+              "stufe": 4,
+              "uebung_id": "BW75",
+              "name": "Einbeiniger Hip Thrust mit Pause",
+              "wdh": "8-15",
+              "hinweis": "2 Sek oben halten."
+            }
+          ],
+          "start_stufe": 3
+        },
+        {
+          "nr": 3,
+          "slot": "QISO",
+          "slot_name": "Quadrizeps-Isolation",
+          "rolle": "acc",
+          "uebung_id": "BW64",
+          "uebung": "Sissy Squat (am Türrahmen)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": false,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Festhalten, auf die Zehen, Knie nach vorn, Oberkörper zurück – nur schmerzfrei.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW63",
+              "name": "Wandsitzen",
+              "wdh": "30-60",
+              "hinweis": "Oberschenkel parallel zum Boden, Rücken flach an der Wand."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW64",
+              "name": "Sissy Squat (am Türrahmen)",
+              "wdh": "12-20",
+              "hinweis": "Festhalten, auf die Zehen, Knie nach vorn, Oberkörper zurück – nur schmerzfrei."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW65",
+              "name": "Reverse Nordic (Teilbewegung)",
+              "wdh": "6-10",
+              "hinweis": "Kniend auf Kissen, Oberkörper gerade nach hinten lehnen."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 4,
+          "slot": "HCURL",
+          "slot_name": "Beinbeuger",
+          "rolle": "acc",
+          "uebung_id": "BW67",
+          "uebung": "Gleitende Beinbeuger (einbeinig)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Ein Bein angehoben, Hüfte bleibt oben.",
+          "technik": null,
+          "benoetigt": [
+            "handtuch",
+            "glatter_boden"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW66",
+              "name": "Gleitende Beinbeuger (beidbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Rückenlage, Fersen auf Handtuch, Hüfte oben halten, Fersen zum Po ziehen."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW67",
+              "name": "Gleitende Beinbeuger (einbeinig)",
+              "wdh": "12-20",
+              "hinweis": "Ein Bein angehoben, Hüfte bleibt oben."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW68",
+              "name": "Nordic Curl (negativ)",
+              "wdh": "3-6 (so langsam wie möglich)",
+              "hinweis": "Füße unter Sofa fixiert, so langsam wie möglich nach vorn absenken, Hände fangen ab."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 5,
+          "slot": "CALF",
+          "slot_name": "Waden",
+          "rolle": "acc",
+          "uebung_id": "BW77",
+          "uebung": "Wadenheben einbeinig (Stufe)",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "60–90 Sek",
+          "pause_sek": 75,
+          "hinweis": "Freie Hand hält sich fest, volle Dehnung unten.",
+          "technik": null,
+          "benoetigt": [
+            "stufe"
+          ],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW76",
+              "name": "Wadenheben beidbeinig (Stufe)",
+              "wdh": "12-20",
+              "hinweis": "Fersen unter Stufenhöhe senken, oben ganz hoch."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW77",
+              "name": "Wadenheben einbeinig (Stufe)",
+              "wdh": "12-20",
+              "hinweis": "Freie Hand hält sich fest, volle Dehnung unten."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW78",
+              "name": "Wadenheben einbeinig mit Rucksack",
+              "wdh": "12-20",
+              "hinweis": "Rucksack aufsetzen, langsam arbeiten."
+            }
+          ],
+          "start_stufe": 2
+        },
+        {
+          "nr": 6,
+          "slot": "CORE_ROT",
+          "slot_name": "Rumpf: Anti-Rotation / seitlich",
+          "rolle": "core",
+          "uebung_id": "BW87",
+          "uebung": "Seitstütz mit Hüftheben",
+          "saetze": 3,
+          "wdh": "12-20",
+          "einheit": "wdh",
+          "pro_seite": true,
+          "pause": "45–60 Sek",
+          "pause_sek": 50,
+          "hinweis": "Hüfte langsam absenken und wieder hochdrücken.",
+          "technik": null,
+          "benoetigt": [],
+          "stufen": [
+            {
+              "stufe": 1,
+              "uebung_id": "BW86",
+              "name": "Seitstütz",
+              "wdh": "30-60",
+              "hinweis": "Körper bildet eine Linie, Hüfte oben halten."
+            },
+            {
+              "stufe": 2,
+              "uebung_id": "BW87",
+              "name": "Seitstütz mit Hüftheben",
+              "wdh": "12-20",
+              "hinweis": "Hüfte langsam absenken und wieder hochdrücken."
+            },
+            {
+              "stufe": 3,
+              "uebung_id": "BW88",
+              "name": "Seitstütz mit Rotation",
+              "wdh": "12-20",
+              "hinweis": "Obere Hand unter dem Körper durchfädeln, wieder öffnen."
+            }
+          ],
+          "start_stufe": 2
+        }
+      ],
+      "dauer_min_geschaetzt": 60
+    }
+  },
+  "sequenz": [
+    {
+      "tag": 1,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "PU"
+    },
+    {
+      "tag": 2,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "PL"
+    },
+    {
+      "tag": 3,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "LE"
+    },
+    {
+      "tag": 4,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 5,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "OK"
+    },
+    {
+      "tag": 6,
+      "woche": 1,
+      "typ": "training",
+      "vorlage": "UK"
+    },
+    {
+      "tag": 7,
+      "woche": 1,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 8,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "PU"
+    },
+    {
+      "tag": 9,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "PL"
+    },
+    {
+      "tag": 10,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "LE"
+    },
+    {
+      "tag": 11,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 12,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "OK"
+    },
+    {
+      "tag": 13,
+      "woche": 2,
+      "typ": "training",
+      "vorlage": "UK"
+    },
+    {
+      "tag": 14,
+      "woche": 2,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 15,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "PU"
+    },
+    {
+      "tag": 16,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "PL"
+    },
+    {
+      "tag": 17,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "LE"
+    },
+    {
+      "tag": 18,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 19,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "OK"
+    },
+    {
+      "tag": 20,
+      "woche": 3,
+      "typ": "training",
+      "vorlage": "UK"
+    },
+    {
+      "tag": 21,
+      "woche": 3,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 22,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "PU"
+    },
+    {
+      "tag": 23,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "PL"
+    },
+    {
+      "tag": 24,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "LE"
+    },
+    {
+      "tag": 25,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 26,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "OK"
+    },
+    {
+      "tag": 27,
+      "woche": 4,
+      "typ": "training",
+      "vorlage": "UK"
+    },
+    {
+      "tag": 28,
+      "woche": 4,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 29,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "PU"
+    },
+    {
+      "tag": 30,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "PL"
+    },
+    {
+      "tag": 31,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "LE"
+    },
+    {
+      "tag": 32,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null
+    },
+    {
+      "tag": 33,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "OK"
+    },
+    {
+      "tag": 34,
+      "woche": 5,
+      "typ": "training",
+      "vorlage": "UK"
+    },
+    {
+      "tag": 35,
+      "woche": 5,
+      "typ": "ruhe",
+      "vorlage": null
+    }
+  ]
+}
