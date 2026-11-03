@@ -44,7 +44,7 @@ self.addEventListener("fetch", (e) => {
 
   // Navigation: immer erst Netz, Cache nur als Offline-Notnagel
   if (request.mode === "navigate") {
-    e.respondWith(fetch(request).catch(() => caches.match("/index.html")));
+    e.respondWith(fetch(request).catch(() => caches.match("/index.html").then((r) => r || Response.error())));
     return;
   }
 
@@ -76,6 +76,6 @@ self.addEventListener("fetch", (e) => {
         }
         return res;
       })
-      .catch(() => caches.match(request))
+      .catch(() => caches.match(request).then((r) => r || Response.error()))
   );
 });
