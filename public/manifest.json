@@ -2,13 +2,17 @@
   "name": "UNBROKEN",
   "short_name": "UNBROKEN",
   "description": "Disziplin. Kein Puder.",
-  "start_url": "/plan",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#20241C",
   "theme_color": "#20241C",
-  "categories": ["health", "fitness", "lifestyle"],
+  "categories": [
+    "health",
+    "fitness",
+    "lifestyle"
+  ],
   "icons": [
     {
       "src": "/icon-192.png",

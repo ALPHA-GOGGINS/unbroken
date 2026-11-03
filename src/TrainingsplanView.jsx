@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { supabase } from "./supabase";
 
 const P = { text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227", panel:"#2A2F22", border:"#3D4530", bg:"#20241C" };
 
@@ -108,7 +109,8 @@ function TrainingstagCard({ tag, lang }) {
 
 export default function TrainingsplanView({ lang, profile }) {
   const de = lang === "de";
-  const [equipment, setEquipment] = useState("gym");
+  const EQUIPMENT_FROM_PROFILE = { gym: "gym", home_gym: "homegym", bodyweight: "bodyweight" };
+  const [equipment, setEquipment] = useState(EQUIPMENT_FROM_PROFILE[profile?.equipment] || "gym");
   const [level, setLevel] = useState(
     profile?.training_level === "beginner" ? "anfaenger" : "fortgeschritten"
   );
@@ -121,13 +123,22 @@ export default function TrainingsplanView({ lang, profile }) {
     let cancelled = false;
     setLoading(true);
     setError(null);
-    fetch(`/content/plaene/${equipment}/${level}_${tage}tage.json`)
-      .then((r) => {
-        if (!r.ok) throw new Error("not found");
-        return r.json();
+    supabase
+      .from("training_plans")
+      .select("daten")
+      .eq("equipment", equipment)
+      .eq("level", level)
+      .eq("tage", tage)
+      .maybeSingle()
+      .then(({ data, error: err }) => {
+        if (cancelled) return;
+        if (err || !data) {
+          setPlan(null);
+          setError(de ? "Für diese Kombination gibt es noch keinen Plan." : "No plan exists for this combination yet.");
+        } else {
+          setPlan(data.daten);
+        }
       })
-      .then((data) => { if (!cancelled) setPlan(data); })
-      .catch(() => { if (!cancelled) { setPlan(null); setError(de ? "Für diese Kombination gibt es noch keinen Plan." : "No plan exists for this combination yet."); } })
       .finally(() => { if (!cancelled) setLoading(false); });
     return () => { cancelled = true; };
   }, [equipment, level, tage, de]);
