@@ -1,5 +1,6 @@
 import WaitlistForm from "../WaitlistForm";
 import TrainingsplanView from "../TrainingsplanView";
+import AdminContent from "../AdminContent";
 
 const P = { text:"#EEEAE0", dim:"#A9AD9C", accent:"#C9A227", panel:"#2A2F22", border:"#3D4530" };
 
@@ -104,14 +105,7 @@ function AdminModule({ lang, profile }) {
         </div>
 
         <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
-          <div style={{ fontFamily:"Oswald, sans-serif", fontSize:13, color:P.accent, marginBottom:8, letterSpacing:"0.06em" }}>
-            🧠 MENTAL MODULE (TIER 2+)
-          </div>
-          <div style={{ fontSize:12, color:P.dim, lineHeight:1.7 }}>
-            {de
-              ? "15 fertige Texte sind da (Content-Paket v3). Anzeige + Freischalt-Logik kommt als nächster Schritt."
-              : "15 finished texts are ready (Content package v3). Display + unlock logic is the next step."}
-          </div>
+          <AdminContent lang={lang} />
         </div>
 
         <div style={{ background:P.panel, border:`1px solid ${P.border}`, borderRadius:6, padding:20 }}>
